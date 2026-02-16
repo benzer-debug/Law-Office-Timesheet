@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Law Office Timesheet | Internal</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    
+    <style>
+        body { background-color: #f6f8fb; font-family: 'Inter', sans-serif; color: #1f2937; }
+        /* Professional navy and gold accents */
+        .legal-header { background-color: #0b3d91; color: #ffffff; padding: 1.75rem 0; border-bottom: 6px solid #ffcc00; }
+        .firm-logo { font-family: 'Playfair Display', serif; letter-spacing: 2px; text-transform: uppercase; font-size: 1.25rem; color: #fff; }
+        .card { border: none; border-radius: 6px; box-shadow: 0 6px 18px rgba(16,24,40,0.06); }
+        .table thead { background-color: #08306f; color: white; }
+        .btn-dark { background-color: #ffcc00; color: #08306f; border: none; border-radius: 6px; padding: 8px 20px; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.8px; }
+        .btn-dark:hover { filter: brightness(0.95); }
+        .total-banner { background-color: #ffffff; color: #0b2447; padding: 18px; margin-top: 20px; border-top: 6px solid #ffcc00; border-radius: 0 0 6px 6px; }
+        .total-banner .muted { color: #6b7280; font-size: 0.78rem; text-transform: uppercase; }
+        input.form-control { border-radius: 4px; border: 1px solid #e6eef8; }
+        input:focus { border-color: #0b3d91; box-shadow: 0 0 0 3px rgba(11,61,145,0.08); }
+        .legend { font-size: 0.85rem; color: #475569; margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+
+<div class="legal-header mb-5">
+    <div class="container d-flex justify-content-between align-items-center">
+        <div>
+            <div class="firm-logo">REPOL LAW OFFICE</div>
+            <small class="text-secondary uppercase">Repol Law Office — Payroll & Timekeeping</small>
+        </div>
+        <div class="text-end">
+            <span id="currentDate" class="badge bg-secondary"></span>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="card p-4 mb-4">
+        <h5 class="fw-bold mb-4 text-uppercase text-muted" style="font-size: 0.8rem;">Employee & Salary Configuration</h5>
+        <div class="row g-3">
+            <div class="col-md-3">
+                <label class="form-label small fw-bold">Employee Name</label>
+                <input type="text" id="empName" class="form-control" placeholder="Juan Dela Cruz">
+            </div>
+            <div class="col-md-2">
+                <label class="form-label small fw-bold">Daily Rate (PHP)</label>
+                <input type="number" id="dailyRate" class="form-control" value="800">
+            </div>
+            <div class="col-md-2">
+                <label class="form-label small fw-bold">OT Multiplier</label>
+                <input type="number" step="0.05" id="otMultiplier" class="form-control" value="1.25">
+            </div>
+            <div class="col-md-2">
+                <label class="form-label small fw-bold">Start Date</label>
+                <input type="date" id="startDate" class="form-control">
+            </div>
+            <div class="col-md-2">
+                <label class="form-label small fw-bold">End Date</label>
+                <input type="date" id="endDate" class="form-control">
+            </div>
+            <div class="col-md-1 d-flex align-items-end">
+                <button class="btn btn-dark w-100" onclick="generateSheet()">Go</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="sheetContainer" style="display: none;">
+        <div class="card overflow-hidden">
+            <table class="table table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th class="ps-4">Date</th>
+                        <th>Time In</th>
+                        <th>Time Out</th>
+                        <th>Break (Hr)</th>
+                        <th>Tasks / Case Notes</th>
+                        <th>Status</th>
+                        <th class="text-end pe-4">Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody id="timesheetBody">
+                    </tbody>
+            </table>
+            
+            <div class="total-banner d-flex justify-content-between align-items-center px-4">
+                <div>
+                    <div class="muted">Total Amount Payable</div>
+                    <h2 class="mb-0" id="grandTotalDisplay">₱ 0.00</h2>
+                    <div class="d-flex gap-3 mt-2">
+                        <div class="muted">Days: <strong id="daysCount">0/0</strong></div>
+                        <div class="muted">Hours: <strong id="totalHoursDisplay">0.00</strong></div>
+                        <div class="muted">OT Rate: <strong id="otRateDisplay">₱0.00</strong></div>
+                    </div>
+                    <div class="legend mt-2">Status rules: <strong>Regular Holiday</strong> = paid 100% if not worked; if worked, 200% for first 8 hrs. <strong>Special Holiday</strong> = unpaid if not worked; if worked, 130% for first 8 hrs.</div>
+                </div>
+                <button class="btn btn-dark fw-bold" onclick="exportToPDF()">Generate PDF</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.5.28/dist/jspdf.plugin.autotable.min.js"></script>
+
+
+<script>
+    // Initialize date display
+    document.getElementById('currentDate').innerText = moment().format('MMMM DD, YYYY');
+
+    // Recalculate when OT multiplier or daily rate changes
+    document.getElementById('otMultiplier').addEventListener('change', calculate);
+    document.getElementById('dailyRate').addEventListener('change', calculate);
+
+    function generateSheet() {
+        const start = document.getElementById('startDate').value;
+        const end = document.getElementById('endDate').value;
+        const rate = document.getElementById('dailyRate').value;
+
+        if (!start || !end) return alert("Please select date range");
+
+        const tbody = document.getElementById('timesheetBody');
+        tbody.innerHTML = '';
+        
+        let curr = moment(start);
+        let last = moment(end);
+
+        while (curr <= last) {
+            const row = document.createElement('tr');
+            row.className = "align-middle";
+            row.innerHTML = `
+                <td class="ps-4">
+                    <span class="fw-bold d-block">${curr.format('MMM DD, YYYY')}</span>
+                    <small class="text-muted">${curr.format('dddd')}</small>
+                </td>
+                <td><input type="time" class="form-control form-control-sm t-in" value="08:00" onchange="calculate()"></td>
+                <td><input type="time" class="form-control form-control-sm t-out" value="17:00" onchange="calculate()"></td>
+                <td><input type="number" class="form-control form-control-sm t-break" value="1" style="width: 60px" onchange="calculate()"></td>
+                <td><input type="text" class="form-control form-control-sm t-task" placeholder="e.g. Drafting pleadings"></td>
+                <td>
+                    <select class="form-select form-select-sm t-status" onchange="calculate()">
+                        <option value="Present" selected>Present</option>
+                        <option value="Absent">Absent</option>
+                        <option value="Regular Holiday">Regular Holiday</option>
+                        <option value="Special Holiday">Special Holiday</option>
+                    </select>
+                </td>
+                <td class="text-end pe-4 fw-bold row-total">₱ ${rate}.00</td>
+            `;
+            tbody.appendChild(row);
+            curr.add(1, 'days');
+        }
+
+        document.getElementById('sheetContainer').style.display = 'block';
+        calculate();
+    }
+
+    function calculate() {
+        const rows = document.querySelectorAll('#timesheetBody tr');
+        const dailyRate = parseFloat(document.getElementById('dailyRate').value) || 0;
+        const otMultiplier = parseFloat(document.getElementById('otMultiplier').value) || 1.25;
+        let grandTotal = 0;
+        let totalHours = 0;
+        let daysPresent = 0;
+
+        rows.forEach(row => {
+            const status = row.querySelector('.t-status').value;
+            let netHours = 0;
+            let amount = 0;
+
+            if (status === 'Absent') {
+                netHours = 0;
+                amount = 0;
+            } else if (status === 'Regular Holiday') {
+                // Regular holiday: not worked -> 100% of daily pay; worked -> paid at 200% for first 8 hrs
+                const timeInEl = row.querySelector('.t-in');
+                const timeOutEl = row.querySelector('.t-out');
+                const breakEl = row.querySelector('.t-break');
+                const timeIn = timeInEl ? timeInEl.value : '';
+                const timeOut = timeOutEl ? timeOutEl.value : '';
+                const breakHrs = parseFloat(breakEl ? breakEl.value : 0) || 0;
+
+                if (!timeIn || !timeOut) {
+                    netHours = 8;
+                    amount = dailyRate; // paid full day
+                } else {
+                    const start = moment(timeIn, 'HH:mm');
+                    const end = moment(timeOut, 'HH:mm');
+                    let duration = moment.duration(end.diff(start)).asHours();
+                    netHours = Math.max(0, duration - breakHrs);
+                    const hourlyRate = dailyRate / 8;
+                    const regHours = Math.min(netHours, 8);
+                    const otHours = Math.max(0, netHours - 8);
+                    amount = (regHours * hourlyRate * 2) + (otHours * hourlyRate * 2 * otMultiplier);
+                }
+            } else if (status === 'Special Holiday') {
+                // Special non-working holiday: not worked -> unpaid (company may choose otherwise)
+                const timeInEl = row.querySelector('.t-in');
+                const timeOutEl = row.querySelector('.t-out');
+                const breakEl = row.querySelector('.t-break');
+                const timeIn = timeInEl ? timeInEl.value : '';
+                const timeOut = timeOutEl ? timeOutEl.value : '';
+                const breakHrs = parseFloat(breakEl ? breakEl.value : 0) || 0;
+
+                if (!timeIn || !timeOut) {
+                    netHours = 0;
+                    amount = 0; // no pay if not worked
+                } else {
+                    const start = moment(timeIn, 'HH:mm');
+                    const end = moment(timeOut, 'HH:mm');
+                    let duration = moment.duration(end.diff(start)).asHours();
+                    netHours = Math.max(0, duration - breakHrs);
+                    const hourlyRate = dailyRate / 8;
+                    const regHours = Math.min(netHours, 8);
+                    const otHours = Math.max(0, netHours - 8);
+                    amount = (regHours * hourlyRate * 1.30) + (otHours * hourlyRate * 1.30 * otMultiplier);
+                }
+            } else {
+                const timeInEl = row.querySelector('.t-in');
+                const timeOutEl = row.querySelector('.t-out');
+                const breakEl = row.querySelector('.t-break');
+                const timeIn = timeInEl ? timeInEl.value : '';
+                const timeOut = timeOutEl ? timeOutEl.value : '';
+                const breakHrs = parseFloat(breakEl ? breakEl.value : 0) || 0;
+
+                if (timeIn && timeOut) {
+                    const start = moment(timeIn, 'HH:mm');
+                    const end = moment(timeOut, 'HH:mm');
+                    let duration = moment.duration(end.diff(start)).asHours();
+                    netHours = Math.max(0, duration - breakHrs);
+                    const hourlyRate = dailyRate / 8;
+                    const regHours = Math.min(netHours, 8);
+                    const otHours = Math.max(0, netHours - 8);
+                    amount = (regHours * hourlyRate) + (otHours * (hourlyRate * otMultiplier));
+                } else {
+                    netHours = 0;
+                    amount = 0;
+                }
+            }
+
+            row.querySelector('.row-total').innerText = `₱ ${amount.toFixed(2)}`;
+            row.dataset.amount = amount;
+            grandTotal += amount;
+            totalHours += netHours;
+            if (status !== 'Absent') daysPresent++;
+        });
+
+        const totalDays = rows.length;
+        document.getElementById('grandTotalDisplay').innerText = `₱ ${grandTotal.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
+        document.getElementById('daysCount').innerText = `${daysPresent}/${totalDays}`;
+        document.getElementById('totalHoursDisplay').innerText = `${totalHours.toFixed(2)}`;
+        const otRate = (dailyRate / 8) * otMultiplier;
+        document.getElementById('otRateDisplay').innerText = `₱ ${otRate.toFixed(2)}`;
+    }
+
+    function exportToPDF() {
+        try {
+            const rowsToExport = [];
+            const tableRows = document.querySelectorAll('#timesheetBody tr');
+
+            if (tableRows.length === 0) {
+                alert("Please generate the time slots first!");
+                return;
+            }
+
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF({orientation: 'landscape', unit: 'mm', format: 'a4'});
+            const name = document.getElementById('empName').value || "Employee";
+            // compute numeric grand total from row dataset to avoid currency symbol issues
+            const grandTotalNum = Array.from(tableRows).reduce((sum, tr) => sum + (parseFloat(tr.dataset.amount) || 0), 0);
+            const total = `PHP ${grandTotalNum.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
+
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(18);
+            doc.setTextColor(11, 94, 215);
+            doc.text("REPOL LAW OFFICE - TIMESHEET", 14, 22);
+
+            doc.setFontSize(10);
+            doc.setFont("helvetica", "normal");
+            doc.setTextColor(60);
+            doc.text(`ATTORNEY / STAFF: ${name.toUpperCase()}`, 14, 32);
+            doc.text(`PAYROLL PERIOD: ${document.getElementById('startDate').value} to ${document.getElementById('endDate').value}`, 14, 38);
+            doc.text(`TOTAL PAYABLE: ${total}`, 14, 44);
+
+            tableRows.forEach(tr => {
+                const cols = tr.querySelectorAll('td');
+                const amt = parseFloat(tr.dataset.amount || 0);
+                rowsToExport.push([
+                    cols[0].innerText.replace(/\n/g, ' '),
+                    tr.querySelector('.t-in') ? tr.querySelector('.t-in').value : '',
+                    tr.querySelector('.t-out') ? tr.querySelector('.t-out').value : '',
+                    tr.querySelector('.t-break') ? tr.querySelector('.t-break').value : '',
+                    tr.querySelector('.t-task') ? tr.querySelector('.t-task').value : '',
+                    tr.querySelector('.t-status') ? tr.querySelector('.t-status').value : '',
+                    `PHP ${amt.toLocaleString(undefined, {minimumFractionDigits: 2})}`
+                ]);
+            });
+
+            doc.autoTable({
+                startY: 55,
+                head: [['Date', 'In', 'Out', 'Brk', 'Task / Case Notes', 'Status', 'Amount']],
+                body: rowsToExport,
+                theme: 'grid',
+                headStyles: { fillColor: [8, 48, 111], fontSize: 9 },
+                styles: { fontSize: 8, cellPadding: 3, overflow: 'linebreak' },
+                tableWidth: 'auto',
+                columnStyles: {
+                    0: { cellWidth: 40 },
+                    1: { cellWidth: 18 },
+                    2: { cellWidth: 18 },
+                    3: { cellWidth: 14 },
+                    4: { cellWidth: 120 },
+                    5: { cellWidth: 30 },
+                    6: { cellWidth: 30, halign: 'right' }
+                }
+            });
+
+            const finalY = (doc.lastAutoTable && doc.lastAutoTable.finalY) ? doc.lastAutoTable.finalY + 30 : 200;
+            doc.line(14, finalY, 70, finalY);
+            doc.text("Employee Signature", 14, finalY + 5);
+            doc.line(130, finalY, 190, finalY);
+            doc.text("Managing Partner", 130, finalY + 5);
+
+            // Build a safe filename: EmployeeName_StartDate_to_EndDate.pdf
+            const startVal = document.getElementById('startDate').value || '';
+            const endVal = document.getElementById('endDate').value || '';
+            const safeName = name.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_\-]/g, '');
+            const safeStart = startVal.replace(/[^0-9\-]/g, '');
+            const safeEnd = endVal.replace(/[^0-9\-]/g, '');
+            const filename = `${safeName}_${safeStart}_to_${safeEnd}.pdf`;
+            doc.save(filename);
+        } catch (error) {
+            console.error("PDF Error:", error);
+            alert("There was an error generating the PDF. Please check the console for details.");
+        }
+    }
+</script>
+
+</body>
+</html>
