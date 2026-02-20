@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Time Tracking - Law Office</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0f1419 0%, #1a1f2e 100%);
+      min-height: 100vh;
+      color: #2c3e50;
+    }
+
+    .navbar {
+      background: linear-gradient(90deg, #1a2b4d 0%, #0f1419 100%);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      border-bottom: 3px solid #d4af37;
+      padding: 1rem 0;
+    }
+
+    .navbar-brand {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      color: #d4af37 !important;
+      font-size: 1.8rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .container {
+      max-width: 900px;
+    }
+
+    .main-container {
+      margin-top: 3rem;
+      margin-bottom: 3rem;
+    }
+
+    .card {
+      background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+      border: none;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+      border-top: 6px solid #d4af37;
+    }
+
+    .card-body {
+      padding: 3.5rem;
+    }
+
+    .card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #1a2b4d;
+      margin-bottom: 2rem;
+      text-align: center;
+      letter-spacing: 1px;
+    }
+
+    .time-display {
+      text-align: center;
+      margin-bottom: 2.5rem;
+      padding: 2.5rem;
+      background: linear-gradient(135deg, #1a2b4d 0%, #2a3f5f 100%);
+      border-radius: 16px;
+      border: 2px solid #d4af37;
+    }
+
+    .current-time {
+      font-size: 4rem;
+      font-weight: 700;
+      color: #d4af37;
+      font-family: 'Courier New', monospace;
+      letter-spacing: 3px;
+      margin: 0;
+    }
+
+    .current-date {
+      font-size: 1.1rem;
+      color: #ffffff;
+      margin-top: 1rem;
+      font-weight: 500;
+    }
+
+    .button-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .time-btn {
+      padding: 1.8rem;
+      font-size: 1.2rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      color: white;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.8rem;
+      font-family: 'Poppins', sans-serif;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .time-btn:hover:not(:disabled) {
+      transform: translateY(-4px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .time-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    #timeInButton {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    }
+
+    #timeOutButton {
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    }
+
+    .note-section {
+      margin-bottom: 2rem;
+    }
+
+    .note-section label {
+      font-weight: 700;
+      color: #1a2b4d;
+      margin-bottom: 0.75rem;
+      display: block;
+      font-size: 1rem;
+    }
+
+    #note {
+      border: 2px solid #d4af37;
+      border-radius: 10px;
+      padding: 1rem;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    #note:focus {
+      border-color: #1a2b4d;
+      outline: none;
+      box-shadow: 0 0 0 4px rgba(26, 43, 77, 0.1);
+    }
+
+    .records-section {
+      margin-bottom: 2rem;
+    }
+
+    .records-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #1a2b4d;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 3px solid #d4af37;
+    }
+
+    .record-item {
+      background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+      border-left: 5px solid #d4af37;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .record-item:hover {
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      transform: translateX(5px);
+    }
+
+    .record-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.7rem 1.2rem;
+      border-radius: 25px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      white-space: nowrap;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .badge-in {
+      background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+      color: #065f46;
+    }
+
+    .badge-out {
+      background: linear-gradient(135deg, #fed7aa 0%, #fdba74 100%);
+      color: #92400e;
+    }
+
+    .badge-complete {
+      background: linear-gradient(135deg, #bfdbfe 0%, #93c5fd 100%);
+      color: #0c4a6e;
+    }
+
+    .record-time {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #1a2b4d;
+      font-family: 'Courier New', monospace;
+      min-width: 160px;
+    }
+
+    .record-note {
+      flex: 1;
+      color: #6b7280;
+      font-size: 0.95rem;
+      font-style: italic;
+    }
+
+    .empty-message {
+      text-align: center;
+      padding: 2.5rem;
+      color: #6b7280;
+      font-size: 1rem;
+      font-style: italic;
+    }
+
+    .button-footer {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 2px solid #e5e7eb;
+    }
+
+    .btn-footer {
+      flex: 1;
+      padding: 1rem 1.5rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    #backButton {
+      background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+      color: white;
+    }
+
+    #backButton:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(107, 114, 128, 0.3);
+    }
+
+    #logoutButton {
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+      color: white;
+    }
+
+    #logoutButton:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+    }
+
+    #clearRecordsButton {
+      flex: 0.8;
+    }
+
+    #clearRecordsButton:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4);
+    }
+
+    .priority-note {
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      border-left: 5px solid #f59e0b;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+    }
+
+    .priority-note i {
+      color: #d97706;
+      font-size: 1.5rem;
+    }
+
+    .priority-note-text {
+      color: #92400e;
+      font-weight: 700;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    @media (max-width: 576px) {
+      .card-body {
+        padding: 1.5rem;
+      }
+
+      .current-time {
+        font-size: 2.5rem;
+      }
+
+      .card-title {
+        font-size: 1.5rem;
+      }
+
+      .button-group {
+        grid-template-columns: 1fr;
+      }
+
+      .button-footer {
+        flex-direction: column;
+      }
+
+      .record-item {
+        flex-wrap: wrap;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-dark">
+    <div class="container-fluid">
+      <span class="navbar-brand"><i class="fas fa-gavel"></i> Time Tracking</span>
+    </div>
+  </nav>
+
+  <div class="container main-container">
+    <div class="row">
+      <div class="col-lg-8 mx-auto">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">📋 Record Your Time</h5>
+
+            <div class="time-display">
+              <p class="current-time" id="currentTime">--:--:--</p>
+              <p class="current-date" id="currentDate"></p>
+            </div>
+
+            <div class="button-group">
+              <button id="timeInButton" class="time-btn">
+                <span>🟢</span> Time In
+              </button>
+              <button id="timeOutButton" class="time-btn">
+                <span>🔴</span> Time Out
+              </button>
+            </div>
+
+            <div class="priority-note">
+              <i class="fas fa-exclamation-circle"></i>
+              <span class="priority-note-text">⚠️ Must Time In and Time Out Today</span>
+            </div>
+
+            <div class="note-section">
+              <label for="note"><i class="fas fa-sticky-note"></i> Add Note (Optional):</label>
+              <input type="text" id="note" class="form-control" placeholder="e.g., Late start, Early leave, etc...">
+            </div>
+
+            <div class="records-section">
+              <h6 class="records-title"><i class="fas fa-history"></i> Today's Record</h6>
+              <div id="timeRecordsList"></div>
+            </div>
+
+            <div class="button-footer">
+              <button id="backButton" class="btn-footer">← Back to Timesheet</button>
+              <button id="logoutButton" class="btn-footer">🚪 Logout</button>
+              <button id="clearRecordsButton" class="btn-footer">🗑️ Clear</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+import { getFirestore, collection, query, where, getDocs, addDoc, updateDoc, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAmBi8tP4r4zpr3_6y-4Ncek0yk1oLokOs",
+  authDomain: "law-office-apps.firebaseapp.com",
+  projectId: "law-office-apps",
+  storageBucket: "law-office-apps.firebasestorage.app",
+  messagingSenderId: "2997240910",
+  appId: "1:2997240910:web:d32c1c04f947fe34436f1f",
+  measurementId: "G-R3P17HDL3G"
+};
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+setPersistence(auth, browserLocalPersistence);
+
+const mainContent = document.querySelector('.main-container');
+if (mainContent) mainContent.style.display = 'none';
+const loadingDiv = document.createElement('div');
+loadingDiv.id = 'auth-loading';
+loadingDiv.style = 'text-align:center;padding:3rem;color:#d4af37;font-size:1.2rem;';
+loadingDiv.innerHTML = '<div class="spinner-border text-warning" role="status"></div><br>Checking authentication...';
+document.body.appendChild(loadingDiv);
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    if (mainContent) mainContent.style.display = '';
+    const loading = document.getElementById('auth-loading');
+    if (loading) loading.remove();
+    loadTodayLogs();
+  } else {
+    window.location.href = 'index.html';
+  }
+});
+
+function getPHDate() {
+  const now = new Date();
+  const utcTime = now.getTime() + now.getTimezoneOffset() * 60000;
+  const phTime = new Date(utcTime + 8 * 60 * 60 * 1000);
+  return phTime.toISOString().split('T')[0];
+}
+
+function updateClock() {
+  const now = new Date();
+  const utcTime = now.getTime() + now.getTimezoneOffset() * 60000;
+  const phTime = new Date(utcTime + 8 * 60 * 60 * 1000);
+  
+  const timeStr = phTime.toLocaleTimeString('en-US', {
+    hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+  });
+  const dateStr = phTime.toLocaleDateString('en-US', {
+    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+  });
+  document.getElementById('currentTime').textContent = timeStr;
+  document.getElementById('currentDate').textContent = dateStr;
+}
+
+updateClock();
+setInterval(updateClock, 1000);
+
+async function checkAndUpdateButtonStates() {
+  const user = auth.currentUser;
+  if (!user) return;
+  const dateStr = getPHDate();
+  const logsRef = collection(db, 'daily_logs');
+  const q = query(logsRef, where('uid', '==', user.uid), where('date', '==', dateStr));
+  const snap = await getDocs(q);
+  const timeInBtn = document.getElementById('timeInButton');
+  const timeOutBtn = document.getElementById('timeOutButton');
+  
+  if (snap.empty) {
+    timeInBtn.disabled = false;
+    timeOutBtn.disabled = true;
+  } else {
+    const record = snap.docs[0].data();
+    if (record.timeIn && !record.timeOut) {
+      timeInBtn.disabled = true;
+      timeOutBtn.disabled = false;
+    } else if (record.timeIn && record.timeOut) {
+      timeInBtn.disabled = true;
+      timeOutBtn.disabled = true;
+    } else {
+      timeInBtn.disabled = false;
+      timeOutBtn.disabled = true;
+    }
+  }
+}
+
+async function loadTodayLogs() {
+  const user = auth.currentUser;
+  if (!user) return;
+  const dateStr = getPHDate();
+  const logsRef = collection(db, 'daily_logs');
+  const q = query(logsRef, where('uid', '==', user.uid), where('date', '==', dateStr));
+  const snap = await getDocs(q);
+  const records = [];
+  snap.forEach(doc => records.push(doc.data()));
+  
+  const listDiv = document.getElementById('timeRecordsList');
+  listDiv.innerHTML = '';
+  
+  if (records.length === 0) {
+    listDiv.innerHTML = '<div class="empty-message">No records for today yet. Click Time In to get started!</div>';
+  } else {
+    const record = records[0];
+    const badgeClass = record.timeOut ? 'badge-complete' : 'badge-in';
+    const badgeText = record.timeOut ? '✅ COMPLETED' : '🟢 IN PROGRESS';
+    const noteHtml = record.note ? `<span class="record-note">${record.note}</span>` : '';
+    
+    const div = document.createElement('div');
+    div.className = 'record-item';
+    div.innerHTML = `
+      <span class="record-badge ${badgeClass}">${badgeText}</span>
+      <span class="record-time">${record.timeIn}${record.timeOut ? ' → ' + record.timeOut : ' (Waiting for Time Out)'}</span>
+      ${noteHtml}
+    `;
+    listDiv.appendChild(div);
+  }
+  
+  await checkAndUpdateButtonStates();
+}
+
+document.getElementById('backButton').addEventListener('click', () => {
+  window.location.href = 'index.html';
+});
+
+document.getElementById('logoutButton').addEventListener('click', async () => {
+  try {
+    await signOut(auth);
+    window.location.href = 'index.html';
+  } catch (e) {
+    alert('Error logging out: ' + e.message);
+  }
+});
+
+document.getElementById('clearRecordsButton').addEventListener('click', async () => {
+  if (!confirm('Are you sure you want to delete ALL daily logs? This cannot be undone.')) {
+    return;
+  }
+  try {
+    const user = auth.currentUser;
+    if (!user) {
+      alert('User not authenticated');
+      return;
+    }
+    const logsRef = collection(db, 'daily_logs');
+    const q = query(logsRef, where('uid', '==', user.uid));
+    const snap = await getDocs(q);
+    
+    let deletedCount = 0;
+    for (const docSnap of snap.docs) {
+      await deleteDoc(doc(db, 'daily_logs', docSnap.id));
+      deletedCount++;
+    }
+    
+    alert(`✅ Deleted ${deletedCount} record(s)`);
+    await loadTodayLogs();
+  } catch (e) {
+    alert('Error deleting records: ' + e.message);
+  }
+});
+
+document.getElementById('timeInButton').addEventListener('click', async () => {
+  const btn = document.getElementById('timeInButton');
+  btn.disabled = true;
+  try {
+    const user = auth.currentUser;
+    if (!user) {
+      alert('User not authenticated');
+      btn.disabled = false;
+      return;
+    }
+    const now = new Date();
+    const utcTime = now.getTime() + now.getTimezoneOffset() * 60000;
+    const phTime = new Date(utcTime + 8 * 60 * 60 * 1000);
+    const timeStr = phTime.toTimeString().split(' ')[0];
+    const dateStr = getPHDate();
+    const note = document.getElementById('note').value;
+    await addDoc(collection(db, 'daily_logs'), {
+      uid: user.uid,
+      date: dateStr,
+      timeIn: timeStr,
+      timeOut: null,
+      note: note || '',
+      createdAt: new Date()
+    });
+    document.getElementById('note').value = '';
+    await loadTodayLogs();
+    alert('✅ Time in recorded at ' + timeStr.substring(0, 5));
+  } catch (e) {
+    alert('Error recording time in: ' + e.message);
+    btn.disabled = false;
+  }
+});
+
+document.getElementById('timeOutButton').addEventListener('click', async () => {
+  const btn = document.getElementById('timeOutButton');
+  btn.disabled = true;
+  try {
+    const user = auth.currentUser;
+    if (!user) {
+      alert('User not authenticated');
+      btn.disabled = false;
+      return;
+    }
+    const now = new Date();
+    const utcTime = now.getTime() + now.getTimezoneOffset() * 60000;
+    const phTime = new Date(utcTime + 8 * 60 * 60 * 1000);
+    const timeStr = phTime.toTimeString().split(' ')[0];
+    const dateStr = getPHDate();
+    const logsRef = collection(db, 'daily_logs');
+    const q = query(logsRef, where('uid', '==', user.uid), where('date', '==', dateStr));
+    const snap = await getDocs(q);
+    if (snap.empty) {
+      alert('No time in record found for today. Please time in first.');
+      btn.disabled = false;
+      return;
+    }
+    const docId = snap.docs[0].id;
+    const logDoc = doc(db, 'daily_logs', docId);
+    await updateDoc(logDoc, { timeOut: timeStr });
+    await loadTodayLogs();
+    alert('✅ Time out recorded at ' + timeStr.substring(0, 5));
+  } catch (e) {
+    alert('Error recording time out: ' + e.message);
+    btn.disabled = false;
+  }
+});
+</script>
+</body>
+</html>

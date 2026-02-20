@@ -6,45 +6,248 @@
     <title>Law Office Timesheet | Internal</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
     
     <style>
-        body { background-color: #f6f8fb; font-family: 'Inter', sans-serif; color: #1f2937; }
-        /* Professional navy and gold accents */
-        .legal-header { background-color: #0b3d91; color: #ffffff; padding: 1.75rem 0; border-bottom: 6px solid #ffcc00; }
-        .firm-logo { font-family: 'Playfair Display', serif; letter-spacing: 2px; text-transform: uppercase; font-size: 1.25rem; color: #fff; }
-        .card { border: none; border-radius: 6px; box-shadow: 0 6px 18px rgba(16,24,40,0.06); }
-        .table thead { background-color: #08306f; color: white; }
-        .btn-dark { background-color: #ffcc00; color: #08306f; border: none; border-radius: 6px; padding: 8px 20px; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.8px; }
-        .btn-dark:hover { filter: brightness(0.95); }
-        .total-banner { background-color: #ffffff; color: #0b2447; padding: 18px; margin-top: 20px; border-top: 6px solid #ffcc00; border-radius: 0 0 6px 6px; }
-        .total-banner .muted { color: #6b7280; font-size: 0.78rem; text-transform: uppercase; }
-        input.form-control { border-radius: 4px; border: 1px solid #e6eef8; }
-        input:focus { border-color: #0b3d91; box-shadow: 0 0 0 3px rgba(11,61,145,0.08); }
-        .legend { font-size: 0.85rem; color: #475569; margin-bottom: 8px; }
+        body { 
+            background: linear-gradient(135deg, #f0f4f8 0%, #e8ecf1 100%);
+            font-family: 'Poppins', sans-serif; 
+            color: #2c3e50;
+        }
+        
+        .legal-header { 
+            background: linear-gradient(90deg, #1a2b4d 0%, #0f1419 100%);
+            color: #ffffff; 
+            padding: 2rem 0; 
+            border-bottom: 4px solid #d4af37;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+        }
+        
+        .firm-logo { 
+            font-family: 'Playfair Display', serif; 
+            letter-spacing: 3px; 
+            text-transform: uppercase; 
+            font-size: 1.5rem; 
+            color: #d4af37;
+            font-weight: 700;
+        }
+        
+        .firm-tagline {
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            color: #b8aaa0;
+            text-transform: uppercase;
+        }
+        
+        .card { 
+            border: none; 
+            border-radius: 12px; 
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            border-top: 5px solid #d4af37;
+            margin-bottom: 2rem;
+        }
+        
+        .card-header {
+            background: linear-gradient(90deg, #1a2b4d 0%, #2a3f5f 100%);
+            color: #d4af37;
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border: none;
+        }
+        
+        .table { 
+            margin-bottom: 0;
+            font-size: 0.95rem;
+        }
+        
+        .table thead { 
+            background: linear-gradient(90deg, #1a2b4d 0%, #2a3f5f 100%);
+            color: #d4af37;
+            font-weight: 700;
+        }
+        
+        .btn-dark { 
+            background: linear-gradient(135deg, #d4af37 0%, #c19a3d 100%);
+            color: #1a2b4d; 
+            border: none; 
+            border-radius: 8px; 
+            padding: 10px 20px; 
+            text-transform: uppercase; 
+            font-size: 0.75rem; 
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+        
+        .btn-dark:hover { 
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.3);
+        }
+        
+        .btn-primary, .btn-outline-primary {
+            border-color: #d4af37;
+            background-color: #d4af37;
+            color: #1a2b4d;
+            font-weight: 700;
+        }
+        
+        .btn-outline-primary:hover {
+            background-color: #c19a3d;
+            border-color: #c19a3d;
+        }
+        
+        .form-control, .form-select { 
+            border-radius: 8px; 
+            border: 2px solid #e0e0e0;
+            font-size: 0.95rem;
+        }
+        
+        .form-control:focus, .form-select:focus { 
+            border-color: #d4af37;
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: #1a2b4d;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .legend { 
+            font-size: 0.85rem; 
+            color: #6b7280; 
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .section-header {
+            font-family: 'Playfair Display', serif;
+            color: #1a2b4d;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .priority-note-inline {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-left: 4px solid #f59e0b;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+            margin-left: auto;
+        }
+
+        .priority-note-inline i {
+            color: #d97706;
+            font-size: 1.1rem;
+        }
+
+        .priority-note-inline-text {
+            color: #92400e;
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
     </style>
 </head>
 <body>
 
+<div id="authContainer" class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card p-4">
+                <h3 class="text-center mb-4">Employee Login</h3>
+                <div id="loginForm">
+                    <div class="mb-3">
+                        <label for="loginUsername" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="loginUsername" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="loginPassword" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="loginPassword" required>
+                    </div>
+                    <button class="btn btn-primary w-100" onclick="login()">Login</button>
+                    <p class="text-center mt-3">
+                        Don't have an account? <a href="#" onclick="showSignup()">Sign Up</a>
+                    </p>
+                </div>
+                <div id="signupForm" style="display: none;">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="firstName" class="form-label">First Name</label>
+                            <input type="text" class="form-control" id="firstName" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="middleName" class="form-label">Middle Name</label>
+                            <input type="text" class="form-control" id="middleName">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="lastName" class="form-label">Last Name</label>
+                            <input type="text" class="form-control" id="lastName" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="phoneNumber" class="form-label">Phone Number</label>
+                        <input type="tel" class="form-control" id="phoneNumber" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="signupEmail" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="signupEmail" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="signupPassword" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="signupPassword" required>
+                    </div>
+                    <button class="btn btn-success w-100" onclick="signup()">Sign Up</button>
+                    <p class="text-center mt-3">
+                        Already have an account? <a href="#" onclick="showLogin()">Login</a>
+                    </p>
+                </div>
+                <div id="authMessage" class="mt-3 text-center text-danger"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="mainApp" style="display: none;">
+
 <div class="legal-header mb-5">
     <div class="container d-flex justify-content-between align-items-center">
         <div>
-            <div class="firm-logo">REPOL LAW OFFICE</div>
-            <small class="text-secondary uppercase">Repol Law Office — Payroll & Timekeeping</small>
+            <div class="firm-logo"><i class="fas fa-gavel"></i> Repol Law Office</div>
+            <div class="firm-tagline">Employee Timesheet & Payroll System</div>
         </div>
         <div class="text-end">
-            <span id="currentDate" class="badge bg-secondary"></span>
+            <span id="currentDate" class="badge bg-warning text-dark" style="font-weight: 700; font-size: 0.9rem;"></span>
+            <button class="btn btn-outline-light ms-2" onclick="logout()" style="border-color: #d4af37; color: #d4af37;">Logout</button>
         </div>
     </div>
 </div>
 
 <div class="container">
+
     <div class="card p-4 mb-4">
-        <h5 class="fw-bold mb-4 text-uppercase text-muted" style="font-size: 0.8rem;">Employee & Salary Configuration</h5>
+        <h5 class="section-header mb-4"><i class="fas fa-user-tie"></i> Employee & Salary Configuration</h5>
         <div class="row g-3">
             <div class="col-md-3">
                 <label class="form-label small fw-bold">Employee Name</label>
-                <input type="text" id="empName" class="form-control" placeholder="Juan Dela Cruz">
+                <input type="text" id="empName" class="form-control" placeholder="Juan Dela Cruz" readonly>
             </div>
             <div class="col-md-2">
                 <label class="form-label small fw-bold">Daily Rate (PHP)</label>
@@ -63,12 +266,44 @@
                 <input type="date" id="endDate" class="form-control">
             </div>
             <div class="col-md-1 d-flex align-items-end">
-                <button class="btn btn-dark w-100" onclick="generateSheet()">Go</button>
+                <button class="btn btn-dark w-100" onclick="generateSheet().catch(e => console.error(e))">Go</button>
             </div>
         </div>
     </div>
 
-    <div id="sheetContainer" style="display: none;">
+    <!-- Daily Logs Table Section -->
+    <div class="card p-4 mb-4">
+        <h5 class="section-header mb-4"><i class="fas fa-calendar-check"></i> Daily Logs</h5>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped mb-0" style="background-color: #fff;">
+                <thead style="background: linear-gradient(90deg, #0b3d91 0%, #ffcc00 100%); color: #fff;">
+                    <tr>
+                        <th style="min-width:120px;">Date</th>
+                        <th style="min-width:100px;">Time In</th>
+                        <th style="min-width:100px;">Time Out</th>
+                        <th style="min-width:100px;">Break Time</th>
+                        <th style="min-width:180px;">Note</th>
+                    </tr>
+                </thead>
+                <tbody id="timesheet-data-body">
+                    <!-- JS will populate rows here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+            <!-- Action bar: Load/Save/Export (kept visible above the timesheet) -->
+            <div class="d-flex gap-2 mb-3 align-items-center">
+                <button class="btn btn-outline-primary fw-bold" onclick="loadTimesheet()">Load Saved</button>
+                <button class="btn btn-primary fw-bold" onclick="saveTimesheet()">Save Timesheet</button>
+                <button class="btn btn-outline-secondary fw-bold" onclick="exportToPDF()">Generate PDF</button>
+                <a href="daily.html" class="priority-note-inline" style="text-decoration: none; display: inline-flex;">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span class="priority-note-inline-text">Daily Time-In</span>
+                </a>
+            </div>
+
+            <div id="sheetContainer" style="display: none;">
         <div class="card overflow-hidden">
             <table class="table table-hover mb-0">
                 <thead>
@@ -97,7 +332,7 @@
                     </div>
                     <div class="legend mt-2">Status rules: <strong>Regular Holiday</strong> = paid 100% if not worked; if worked, 200% for first 8 hrs. <strong>Special Holiday</strong> = unpaid if not worked; if worked, 130% for first 8 hrs. <strong>Sick Leave & Vacation Leave</strong> = paid 100%. <strong>Emergency Leave</strong> = unpaid. <strong>Work on weekends</strong> = 130% for first 8 hrs.</div>
                 </div>
-                <button class="btn btn-dark fw-bold" onclick="exportToPDF()">Generate PDF</button>
+                <button class="btn btn-outline-danger fw-bold me-2" onclick="logout()">Logout</button>
             </div>
         </div>
     </div>
@@ -109,6 +344,265 @@
 
 
 <script>
+    // Auth functions
+    function showSignup() {
+        document.getElementById('loginForm').style.display = 'none';
+        document.getElementById('signupForm').style.display = 'block';
+        document.getElementById('authMessage').innerText = '';
+    }
+
+    function showLogin() {
+        document.getElementById('signupForm').style.display = 'none';
+        document.getElementById('loginForm').style.display = 'block';
+        document.getElementById('authMessage').innerText = '';
+    }
+
+    async function login() {
+        const username = document.getElementById('loginUsername').value.trim();
+        const password = document.getElementById('loginPassword').value;
+
+        if (!username || !password) {
+            document.getElementById('authMessage').innerText = 'Please enter username and password.';
+            return;
+        }
+
+        try {
+            console.log('Attempting login for username:', username);
+            // Query Firestore for the username to get email
+            const usernameDoc = await getDoc(doc(db, 'usernames', username));
+            console.log('Username doc exists:', usernameDoc.exists());
+            if (!usernameDoc.exists()) {
+                alert('Username not found. Please check your username.');
+                document.getElementById('authMessage').innerText = 'Username not found.';
+                return;
+            }
+
+            const email = usernameDoc.data().email;
+            console.log('Found email:', email);
+
+            // Now login with email and password
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            console.log('Login successful for user:', userCredential.user.uid);
+            window.userLoggedInThisSession = true;
+            alert('Login successful! Going to timesheet...');
+            document.getElementById('authContainer').style.display = 'none';
+            document.getElementById('mainApp').style.display = 'block';
+            // Ensure previous timesheet DOM is cleared for this session
+            const sheet = document.getElementById('sheetContainer');
+            const tbody = document.getElementById('timesheetBody');
+            if (tbody) tbody.innerHTML = '';
+            if (sheet) sheet.style.display = 'none';
+            // Reset totals
+            document.getElementById('grandTotalDisplay').innerText = '₱ 0.00';
+            document.getElementById('daysCount').innerText = '0/0';
+            document.getElementById('totalHoursDisplay').innerText = '0.00';
+            document.getElementById('otRateDisplay').innerText = '₱0.00';
+            loadEmployeeData(userCredential.user.uid);
+            document.getElementById('authMessage').innerText = '';
+        } catch (error) {
+            console.error('Login error:', error);
+            let errorMessage = 'Login failed.';
+            if (error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') {
+                errorMessage = 'Invalid username or password.';
+            } else {
+                errorMessage = error.message;
+            }
+            alert('Login failed: ' + errorMessage);
+            document.getElementById('authMessage').innerText = errorMessage;
+        }
+    }
+
+    async function signup() {
+        const firstName = document.getElementById('firstName').value.trim();
+        const middleName = document.getElementById('middleName').value.trim();
+        const lastName = document.getElementById('lastName').value.trim();
+        const phoneNumber = document.getElementById('phoneNumber').value.trim();
+        const email = document.getElementById('signupEmail').value.trim();
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('signupPassword').value;
+
+        if (!firstName || !lastName || !phoneNumber || !email || !username || !password) {
+            document.getElementById('authMessage').innerText = 'Please fill in all required fields.';
+            return;
+        }
+
+        // Basic email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            document.getElementById('authMessage').innerText = 'Please enter a valid email address.';
+            return;
+        }
+
+        // Password strength check
+        if (password.length < 6) {
+            document.getElementById('authMessage').innerText = 'Password must be at least 6 characters long.';
+            return;
+        }
+
+        try {
+            document.getElementById('authMessage').innerText = 'Creating account...';
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            console.log('User created:', userCredential.user.uid);
+            // Save employee data
+            await setDoc(doc(db, 'employees', userCredential.user.uid), {
+                firstName: firstName,
+                middleName: middleName,
+                lastName: lastName,
+                fullName: `${firstName} ${middleName} ${lastName}`.trim(),
+                phoneNumber: phoneNumber,
+                email: email,
+                username: username,
+                createdAt: new Date()
+            });
+            console.log('Employee data saved');
+            // Also save username to email mapping
+            await setDoc(doc(db, 'usernames', username), {
+                email: email,
+                uid: userCredential.user.uid
+            });
+            console.log('Username mapping saved');
+            window.userLoggedInThisSession = true;
+            alert('Account created successfully! Going to timesheet...');
+            document.getElementById('authContainer').style.display = 'none';
+            document.getElementById('mainApp').style.display = 'block';
+            // Clear any previous timesheet DOM data before showing new user's view
+            const sheet2 = document.getElementById('sheetContainer');
+            const tbody2 = document.getElementById('timesheetBody');
+            if (tbody2) tbody2.innerHTML = '';
+            if (sheet2) sheet2.style.display = 'none';
+            document.getElementById('grandTotalDisplay').innerText = '₱ 0.00';
+            document.getElementById('daysCount').innerText = '0/0';
+            document.getElementById('totalHoursDisplay').innerText = '0.00';
+            document.getElementById('otRateDisplay').innerText = '₱0.00';
+            loadEmployeeData(userCredential.user.uid);
+            document.getElementById('authMessage').innerText = 'Account created successfully!';
+        } catch (error) {
+            console.error('Signup error:', error);
+            let errorMessage = 'An error occurred during signup.';
+            if (error.code === 'auth/email-already-in-use') {
+                errorMessage = 'This email is already registered.';
+            } else if (error.code === 'auth/invalid-email') {
+                errorMessage = 'Invalid email address.';
+            } else if (error.code === 'auth/weak-password') {
+                errorMessage = 'Password is too weak.';
+            } else {
+                errorMessage = error.message;
+            }
+            document.getElementById('authMessage').innerText = errorMessage;
+        }
+    }
+
+    async function logout() {
+        await signOut(auth);
+        window.userLoggedInThisSession = false;
+        // Clear login/signup fields
+        const idsToClear = ['loginUsername','loginPassword','firstName','middleName','lastName','phoneNumber','signupEmail','username','signupPassword','empName','startDate','endDate'];
+        idsToClear.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.value = '';
+        });
+        // Hide main app, show auth container
+        // Also clear timesheet DOM and totals
+        const tbody = document.getElementById('timesheetBody');
+        const sheet = document.getElementById('sheetContainer');
+        if (tbody) tbody.innerHTML = '';
+        if (sheet) sheet.style.display = 'none';
+        document.getElementById('grandTotalDisplay').innerText = '₱ 0.00';
+        document.getElementById('daysCount').innerText = '0/0';
+        document.getElementById('totalHoursDisplay').innerText = '0.00';
+        document.getElementById('otRateDisplay').innerText = '₱0.00';
+        document.getElementById('mainApp').style.display = 'none';
+        document.getElementById('authContainer').style.display = 'block';
+    }
+
+    async function loadTimesheet() {
+        const user = auth.currentUser;
+        if (!user) return;
+
+        const startDate = document.getElementById('startDate').value;
+        const endDate = document.getElementById('endDate').value;
+
+        if (!startDate || !endDate) {
+            alert('Please select start and end dates first.');
+            return;
+        }
+
+        try {
+            const docRef = doc(db, 'employees', user.uid, 'timesheets', `${startDate}_${endDate}`);
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+                const data = docSnap.data();
+                document.getElementById('empName').value = data.empName;
+                document.getElementById('dailyRate').value = data.dailyRate;
+                document.getElementById('otMultiplier').value = data.otMultiplier;
+
+                // Generate the sheet first
+                generateSheet();
+
+                // Then populate the data
+                const rows = document.querySelectorAll('#timesheetBody tr');
+                data.timesheetData.forEach((entry, index) => {
+                    if (rows[index]) {
+                        rows[index].querySelector('.t-in').value = entry.timeIn;
+                        rows[index].querySelector('.t-out').value = entry.timeOut;
+                        rows[index].querySelector('.t-break').value = entry.break;
+                        rows[index].querySelector('.t-task').value = entry.task;
+                        rows[index].querySelector('.t-status').value = entry.status;
+                    }
+                });
+
+                calculate();
+                alert('Timesheet loaded successfully!');
+            } else {
+                alert('No saved timesheet found for this period.');
+            }
+        } catch (error) {
+            console.error('Error loading timesheet:', error);
+            alert('Error loading timesheet: ' + error.message);
+        }
+    }
+
+    async function saveTimesheet() {
+        const user = auth.currentUser;
+        if (!user) return;
+
+        const empName = document.getElementById('empName').value;
+        const startDate = document.getElementById('startDate').value;
+        const endDate = document.getElementById('endDate').value;
+        const dailyRate = document.getElementById('dailyRate').value;
+        const otMultiplier = document.getElementById('otMultiplier').value;
+
+        const rows = document.querySelectorAll('#timesheetBody tr');
+        const timesheetData = Array.from(rows).map(row => ({
+            date: row.dataset.date,
+            timeIn: row.querySelector('.t-in').value,
+            timeOut: row.querySelector('.t-out').value,
+            break: row.querySelector('.t-break').value,
+            task: row.querySelector('.t-task').value,
+            status: row.querySelector('.t-status').value,
+            amount: parseFloat(row.dataset.amount) || 0
+        }));
+
+        try {
+            const docRef = doc(db, 'employees', user.uid, 'timesheets', `${startDate}_${endDate}`);
+            await setDoc(docRef, {
+                uid: user.uid,
+                empName,
+                startDate,
+                endDate,
+                dailyRate: parseFloat(dailyRate),
+                otMultiplier: parseFloat(otMultiplier),
+                timesheetData,
+                totalAmount: parseFloat(document.getElementById('grandTotalDisplay').innerText.replace('₱ ', '').replace(/,/g, '')),
+                savedAt: new Date()
+            });
+            alert('Timesheet saved successfully!');
+        } catch (error) {
+            console.error('Error saving timesheet:', error);
+            alert('Error saving timesheet: ' + error.message);
+        }
+    }
+
     // Initialize date display
     document.getElementById('currentDate').innerText = moment().format('MMMM DD, YYYY');
 
@@ -116,19 +610,8 @@
     document.getElementById('otMultiplier').addEventListener('change', calculate);
     document.getElementById('dailyRate').addEventListener('change', calculate);
 
-    function generateSheet() {
-        const empName = document.getElementById('empName').value.trim();
-        if (!empName) {
-            alert("Please enter the employee name.");
-            document.getElementById('empName').focus();
-            return;
-        }
-        if (/\d/.test(empName)) {
-            alert("Employee name cannot contain numbers.");
-            document.getElementById('empName').focus();
-            return;
-        }
-
+    async function generateSheet() {
+        // empName is now auto-populated from account and readonly
         const start = document.getElementById('startDate').value;
         const end = document.getElementById('endDate').value;
         const rate = document.getElementById('dailyRate').value;
@@ -157,17 +640,51 @@
         let curr = moment(start);
         let last = moment(end);
 
+        // Fetch time-ins from Firestore and build a map by date
+        const timeInsMap = {};
+        try {
+            const user = auth.currentUser;
+            if (user) {
+                // Fetch from daily_logs collection instead of employees/uid/timeins
+                const logsRef = collection(db, 'daily_logs');
+                const q = query(logsRef, where('uid', '==', user.uid));
+                const snapshot = await getDocs(q);
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    const date = data.date; // Format: YYYY-MM-DD
+                    if (!timeInsMap[date]) {
+                        timeInsMap[date] = { timeIn: null, timeOut: null };
+                    }
+                    if (data.timeIn) {
+                        timeInsMap[date].timeIn = data.timeIn;
+                    }
+                    if (data.timeOut) {
+                        timeInsMap[date].timeOut = data.timeOut;
+                    }
+                });
+            }
+        } catch (e) {
+            console.error('Error fetching daily logs:', e);
+        }
+
         while (curr <= last) {
             const row = document.createElement('tr');
             row.className = "align-middle";
-            row.dataset.date = curr.format('YYYY-MM-DD');
+            const dateStr = curr.format('YYYY-MM-DD');
+            row.dataset.date = dateStr;
+            
+            // Get time-in and time-out values from Firestore or defaults
+            const timesForDay = timeInsMap[dateStr] || {};
+            const timeInVal = timesForDay.timeIn || '08:00';
+            const timeOutVal = timesForDay.timeOut || '17:00';
+            
             row.innerHTML = `
                 <td class="ps-4">
                     <span class="fw-bold d-block">${curr.format('MMM DD, YYYY')}</span>
                     <small class="text-muted">${curr.format('dddd')}</small>
                 </td>
-                <td><input type="time" class="form-control form-control-sm t-in" value="08:00" onchange="calculate()"></td>
-                <td><input type="time" class="form-control form-control-sm t-out" value="17:00" onchange="calculate()"></td>
+                <td><input type="time" class="form-control form-control-sm t-in" value="${timeInVal}" onchange="calculate()"></td>
+                <td><input type="time" class="form-control form-control-sm t-out" value="${timeOutVal}" onchange="calculate()"></td>
                 <td><input type="number" class="form-control form-control-sm t-break" value="1" style="width: 60px" onchange="calculate()"></td>
                 <td><input type="text" class="form-control form-control-sm t-task" placeholder="e.g. Drafting pleadings"></td>
                 <td>
@@ -189,6 +706,9 @@
 
         document.getElementById('sheetContainer').style.display = 'block';
         calculate();
+        
+        // Refresh Daily Logs table to show records within the date range
+        await loadDailyLogs();
     }
 
     function calculate() {
@@ -382,5 +902,165 @@
     }
 </script>
 
+</div> <!-- End mainApp -->
+
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-analytics.js";
+  import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+  import { getFirestore, doc, setDoc, getDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyAmBi8tP4r4zpr3_6y-4Ncek0yk1oLokOs",
+    authDomain: "law-office-apps.firebaseapp.com",
+    projectId: "law-office-apps",
+    storageBucket: "law-office-apps.firebasestorage.app",
+    messagingSenderId: "2997240910",
+    appId: "1:2997240910:web:d32c1c04f947fe34436f1f",
+    measurementId: "G-R3P17HDL3G"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  // Make auth and db available globally
+  window.auth = auth;
+  window.db = db;
+  window.signInWithEmailAndPassword = signInWithEmailAndPassword;
+  window.createUserWithEmailAndPassword = createUserWithEmailAndPassword;
+  window.signOut = signOut;
+  window.onAuthStateChanged = onAuthStateChanged;
+  window.doc = doc;
+  window.setDoc = setDoc;
+  window.getDoc = getDoc;
+  window.collection = collection;
+  window.query = query;
+  window.where = where;
+  window.getDocs = getDocs;
+
+  window.userLoggedInThisSession = false;
+
+  // Auth state listener
+  onAuthStateChanged(auth, (user) => {
+    console.log('Auth state changed:', user ? 'logged in' : 'logged out', user ? user.uid : '');
+    if (user) {
+      // User is authenticated - show the app
+      document.getElementById('authContainer').style.display = 'none';
+      document.getElementById('mainApp').style.display = 'block';
+      loadEmployeeData(user.uid);
+    } else {
+      // No authenticated user - show login
+      document.getElementById('authContainer').style.display = 'block';
+      document.getElementById('mainApp').style.display = 'none';
+    }
+  });
+
+  // Make loadEmployeeData global
+  window.loadEmployeeData = async (uid) => {
+    const docSnap = await getDoc(doc(db, 'employees', uid));
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      document.getElementById('empName').value = data.fullName || '';
+    }
+    // Load daily logs when employee data is loaded
+    await loadDailyLogs();
+  };
+
+  // Function to load and display daily logs in the table
+  window.loadDailyLogs = async () => {
+    const user = auth.currentUser;
+    if (!user) return;
+    
+    try {
+      const startDateInput = document.getElementById('startDate').value;
+      const endDateInput = document.getElementById('endDate').value;
+      
+      // Fetch all daily_logs for the current user
+      const logsRef = collection(db, 'daily_logs');
+      const q = query(logsRef, where('uid', '==', user.uid));
+      const snap = await getDocs(q);
+      
+      let records = [];
+      snap.forEach(doc => {
+        const data = doc.data();
+        records.push(data);
+      });
+      
+      // Filter by date range if provided
+      if (startDateInput || endDateInput) {
+        records = records.filter(record => {
+          const recordDate = record.date; // Format: YYYY-MM-DD in PH timezone
+          
+          if (startDateInput && recordDate < startDateInput) return false;
+          if (endDateInput && recordDate > endDateInput) return false;
+          
+          return true;
+        });
+      }
+      
+      // Sort by date ascending
+      records.sort((a, b) => a.date.localeCompare(b.date));
+      
+      // Populate the table
+      const tbody = document.getElementById('timesheet-data-body');
+      tbody.innerHTML = '';
+      
+      if (records.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" class="text-center text-muted">No daily logs found</td></tr>';
+        return;
+      }
+      
+      records.forEach(record => {
+        const row = document.createElement('tr');
+        
+        // Format date (record.date is already in YYYY-MM-DD format in PH timezone)
+        const dateObj = new Date(record.date + 'T00:00:00');
+        const dateStr = dateObj.toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' });
+        
+        // Calculate break time (Time Out - Time In)
+        let breakTime = '';
+        if (record.timeIn && record.timeOut) {
+          const [inH, inM] = record.timeIn.split(':').map(Number);
+          const [outH, outM] = record.timeOut.split(':').map(Number);
+          const inMinutes = inH * 60 + inM;
+          const outMinutes = outH * 60 + outM;
+          const breakMinutes = outMinutes - inMinutes;
+          const hours = Math.floor(breakMinutes / 60);
+          const mins = breakMinutes % 60;
+          breakTime = breakMinutes > 0 ? `${hours}h ${mins}m` : '';
+        }
+        
+        row.innerHTML = `
+          <td>${dateStr}</td>
+          <td>${record.timeIn || '-'}</td>
+          <td>${record.timeOut || '-'}</td>
+          <td>${breakTime || '-'}</td>
+          <td>${record.note || '-'}</td>
+        `;
+        tbody.appendChild(row);
+      });
+    } catch (error) {
+      console.error('Error loading daily logs:', error);
+      const tbody = document.getElementById('timesheet-data-body');
+      tbody.innerHTML = '<tr><td colspan="5" class="text-center text-danger">Error loading logs</td></tr>';
+    }
+  };
+
+  // Add event listeners to refresh table when dates change
+  document.getElementById('startDate').addEventListener('change', () => {
+    loadDailyLogs();
+  });
+  document.getElementById('endDate').addEventListener('change', () => {
+    loadDailyLogs();
+  });
+</script>
 </body>
 </html>
