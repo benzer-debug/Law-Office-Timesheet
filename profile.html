@@ -112,6 +112,74 @@
             background: #5a6268;
         }
 
+        .password-input-group {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .password-input-group .form-control {
+            padding-right: 40px;
+        }
+
+        .password-toggle-icon {
+            position: absolute;
+            right: 12px;
+            cursor: pointer;
+            color: #1a2b4d;
+            font-size: 1.1rem;
+            transition: all 0.2s ease;
+            z-index: 10;
+            user-select: none;
+        }
+
+        .password-toggle-icon:hover {
+            color: #d4af37;
+            transform: scale(1.15);
+        }
+
+        .password-feedback {
+            font-size: 0.85rem;
+            margin-top: 0.35rem;
+            display: none;
+        }
+
+        .password-feedback.show {
+            display: block;
+        }
+
+        .password-feedback.strong {
+            color: #28a745;
+        }
+
+        .password-feedback.medium {
+            color: #ffc107;
+        }
+
+        .password-feedback.weak {
+            color: #dc3545;
+        }
+
+        .password-strength-bar {
+            height: 3px;
+            margin-top: 0.35rem;
+            border-radius: 2px;
+            display: none;
+            background: #dc3545;
+        }
+
+        .password-strength-bar.show {
+            display: block;
+        }
+
+        .password-strength-bar.strong {
+            background: #28a745;
+        }
+
+        .password-strength-bar.medium {
+            background: #ffc107;
+        }
+
         .profile-icon {
             width: 100px;
             height: 100px;
@@ -298,18 +366,30 @@
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="currentPassword" class="form-label">Current Password</label>
-                    <input type="password" class="form-control" id="currentPassword" required>
+                    <div class="password-input-group">
+                        <input type="password" class="form-control" id="currentPassword" required>
+                        <i class="fas fa-eye password-toggle-icon" onclick="togglePasswordVisibility('currentPassword')"></i>
+                    </div>
                 </div>
             </div>
 
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="newPassword" class="form-label">New Password</label>
-                    <input type="password" class="form-control" id="newPassword" required>
+                    <div class="password-input-group">
+                        <input type="password" class="form-control" id="newPassword" required oninput="validateNewPassword()">
+                        <i class="fas fa-eye password-toggle-icon" onclick="togglePasswordVisibility('newPassword')"></i>
+                    </div>
+                    <div class="password-strength-bar" id="passwordStrengthBar"></div>
+                    <div class="password-feedback" id="passwordFeedback"></div>
                 </div>
                 <div class="col-md-6">
                     <label for="confirmPassword" class="form-label">Confirm New Password</label>
-                    <input type="password" class="form-control" id="confirmPassword" required>
+                    <div class="password-input-group">
+                        <input type="password" class="form-control" id="confirmPassword" required oninput="validateConfirmPassword()">
+                        <i class="fas fa-eye password-toggle-icon" onclick="togglePasswordVisibility('confirmPassword')"></i>
+                    </div>
+                    <div class="password-feedback" id="confirmFeedback"></div>
                 </div>
             </div>
 
@@ -522,28 +602,108 @@
         }
     };
 
+    window.togglePasswordVisibility = function(fieldId) {
+        const field = document.getElementById(fieldId);
+        const icon = event.target;
+        
+        if (field.type === 'password') {
+            field.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            field.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    };
+
+    window.validatePasswordForm = function() {
+        const currentPassword = document.getElementById('currentPassword').value;
+        const newPassword = document.getElementById('newPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        const errors = [];
+
+        // Validation 1: Check if all fields are filled
+        if (!currentPassword.trim()) {
+            errors.push('Current password is required.');
+        }
+        if (!newPassword.trim()) {
+            errors.push('New password is required.');
+        }
+        if (!confirmPassword.trim()) {
+            errors.push('Confirm password is required.');
+        }
+
+        if (errors.length > 0) {
+            showAlert('❌ ' + errors.join(' '), 'danger');
+            return false;
+        }
+
+        // Validation 2: Check password length
+        if (newPassword.length < 6) {
+            showAlert('❌ New password must be at least 6 characters long.', 'danger');
+            return false;
+        }
+
+        // Validation 3: Check if new passwords match
+        if (newPassword !== confirmPassword) {
+            showAlert('❌ New password and confirm password do not match.', 'danger');
+            return false;
+        }
+
+        // Validation 4: Check if new password is different from current password
+        if (currentPassword === newPassword) {
+            showAlert('❌ New password must be different from your current password.', 'danger');
+            return false;
+        }
+
+        // Validation 5: Check password strength
+        const passwordStrength = checkPasswordStrength(newPassword);
+        if (!passwordStrength.isStrong) {
+            showAlert('❌ Password is too weak. ' + passwordStrength.message, 'danger');
+            return false;
+        }
+
+        return true;
+    };
+
+    window.checkPasswordStrength = function(password) {
+        let strength = 0;
+        const feedback = [];
+
+        if (password.length >= 8) strength++;
+        else feedback.push('Use at least 8 characters.');
+
+        if (/[a-z]/.test(password)) strength++;
+        else feedback.push('Add lowercase letters.');
+
+        if (/[A-Z]/.test(password)) strength++;
+        else feedback.push('Add uppercase letters.');
+
+        if (/[0-9]/.test(password)) strength++;
+        else feedback.push('Add numbers.');
+
+        if (/[^a-zA-Z0-9]/.test(password)) strength++;
+        else feedback.push('Add special characters.');
+
+        return {
+            isStrong: strength >= 3,
+            message: feedback.join(' '),
+            level: strength
+        };
+    };
+
     window.changePassword = async function() {
         try {
+            // First validate the form
+            if (!window.validatePasswordForm()) {
+                return;
+            }
+
             const currentPassword = document.getElementById('currentPassword').value;
             const newPassword = document.getElementById('newPassword').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
 
-            if (!currentPassword || !newPassword || !confirmPassword) {
-                showAlert('Please fill in all password fields.', 'danger');
-                return;
-            }
-
-            if (newPassword !== confirmPassword) {
-                showAlert('New passwords do not match.', 'danger');
-                return;
-            }
-
-            if (newPassword.length < 6) {
-                showAlert('New password must be at least 6 characters long.', 'danger');
-                return;
-            }
-
-            // Re-authenticate user
+            // Validate current password by reauthenticating
             const credential = EmailAuthProvider.credential(currentUser.email, currentPassword);
             await reauthenticateWithCredential(currentUser, credential);
 
@@ -555,9 +715,15 @@
         } catch (error) {
             console.error('Error changing password:', error);
             if (error.code === 'auth/wrong-password') {
-                showAlert('Current password is incorrect.', 'danger');
+                showAlert('❌ Current password is incorrect. Please try again.', 'danger');
+            } else if (error.code === 'auth/too-many-requests') {
+                showAlert('❌ Too many failed attempts. Please try again later.', 'danger');
+            } else if (error.code === 'auth/weak-password') {
+                showAlert('❌ Password is too weak. Please use a stronger password.', 'danger');
+            } else if (error.code === 'auth/requires-recent-login') {
+                showAlert('❌ Please log out and log in again for security reasons, then try changing your password.', 'danger');
             } else {
-                showAlert('Error changing password: ' + error.message, 'danger');
+                showAlert('❌ Error changing password: ' + error.message, 'danger');
             }
         }
     };
@@ -569,6 +735,71 @@
 
     window.resetPasswordForm = function() {
         document.getElementById('passwordForm').reset();
+        document.getElementById('passwordFeedback').innerHTML = '';
+        document.getElementById('passwordFeedback').classList.remove('show', 'strong', 'medium', 'weak');
+        document.getElementById('confirmFeedback').innerHTML = '';
+        document.getElementById('confirmFeedback').classList.remove('show');
+        document.getElementById('passwordStrengthBar').classList.remove('show', 'strong', 'medium');
+    };
+
+    window.validateNewPassword = function() {
+        const newPassword = document.getElementById('newPassword').value;
+        const feedbackDiv = document.getElementById('passwordFeedback');
+        const strengthBar = document.getElementById('passwordStrengthBar');
+
+        if (newPassword.length === 0) {
+            feedbackDiv.innerHTML = '';
+            feedbackDiv.classList.remove('show', 'strong', 'medium', 'weak');
+            strengthBar.classList.remove('show', 'strong', 'medium');
+            return;
+        }
+
+        const strength = checkPasswordStrength(newPassword);
+        
+        feedbackDiv.classList.add('show');
+        strengthBar.classList.add('show');
+
+        if (strength.isStrong) {
+            feedbackDiv.innerHTML = '✅ Strong password';
+            feedbackDiv.classList.remove('weak', 'medium');
+            feedbackDiv.classList.add('strong');
+            strengthBar.classList.remove('weak', 'medium');
+            strengthBar.classList.add('strong');
+        } else if (strength.level >= 2) {
+            feedbackDiv.innerHTML = '⚠️ Medium password. ' + strength.message;
+            feedbackDiv.classList.remove('weak', 'strong');
+            feedbackDiv.classList.add('medium');
+            strengthBar.classList.remove('weak', 'strong');
+            strengthBar.classList.add('medium');
+        } else {
+            feedbackDiv.innerHTML = '❌ Weak password. ' + strength.message;
+            feedbackDiv.classList.remove('medium', 'strong');
+            feedbackDiv.classList.add('weak');
+        }
+    };
+
+    window.validateConfirmPassword = function() {
+        const newPassword = document.getElementById('newPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        const feedbackDiv = document.getElementById('confirmFeedback');
+
+        if (confirmPassword.length === 0) {
+            feedbackDiv.innerHTML = '';
+            feedbackDiv.classList.remove('show');
+            return;
+        }
+
+        feedbackDiv.classList.add('show');
+
+        if (newPassword === confirmPassword) {
+            feedbackDiv.innerHTML = '✅ Passwords match';
+            feedbackDiv.classList.remove('weak');
+            feedbackDiv.classList.add('strong');
+        } else {
+            feedbackDiv.innerHTML = '❌ Passwords do not match';
+            feedbackDiv.classList.remove('strong');
+            feedbackDiv.classList.add('weak');
+        }
     };
 
     function showAlert(message, type) {

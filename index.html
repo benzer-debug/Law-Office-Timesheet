@@ -225,6 +225,35 @@
             width: 18px;
             text-align: center;
         }
+
+        .pdf-button {
+            background: linear-gradient(135deg, #d4af37 0%, #c19a3d 100%);
+            color: #1a2b4d;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
+        }
+
+        .pdf-button:hover {
+            background: linear-gradient(135deg, #c19a3d 0%, #b8903b 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4);
+            color: #1a2b4d;
+            text-decoration: none;
+        }
+
+        .pdf-button i {
+            font-size: 1.2rem;
+        }
     </style>
 </head>
 <body>
@@ -383,9 +412,8 @@
         </div>
     </div>
 
-            <!-- Action bar: Export/Monthly Records/Daily Time-In -->
+            <!-- Action bar: Monthly Records/Daily Time-In -->
             <div class="d-flex gap-2 mb-3 align-items-center">
-                <button class="btn btn-outline-secondary fw-bold" onclick="exportToPDF()">Generate PDF</button>
                 <button class="btn btn-outline-success fw-bold" onclick="openMonthlyRecordsModal()">📊 Monthly Records</button>
                 <a href="daily.html" class="priority-note-inline" style="text-decoration: none; display: inline-flex;">
                     <i class="fas fa-exclamation-circle"></i>
@@ -422,7 +450,7 @@
                     </div>
                     <div class="legend mt-2">Status rules: <strong>Regular Holiday</strong> = paid 100% if not worked; if worked, 200% for first 8 hrs. <strong>Special Holiday</strong> = unpaid if not worked; if worked, 130% for first 8 hrs. <strong>Sick Leave & Vacation Leave</strong> = paid 100%. <strong>Emergency Leave</strong> = unpaid. <strong>Work on weekends</strong> = 130% for first 8 hrs.</div>
                 </div>
-                <button class="btn btn-outline-danger fw-bold me-2" onclick="logout()">Logout</button>
+                <button class="pdf-button" onclick="exportToPDF()"><i class="fas fa-file-pdf"></i> Generate PDF</button>
             </div>
         </div>
     </div>
