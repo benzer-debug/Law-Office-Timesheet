@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Law Office</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            background: linear-gradient(135deg, #f0f4f8 0%, #e8ecf1 100%);
+            font-family: 'Poppins', sans-serif;
+            color: #2c3e50;
+        }
+
+        .legal-header {
+            background: linear-gradient(90deg, #1a2b4d 0%, #0f1419 100%);
+            color: #ffffff;
+            padding: 2rem 0;
+            border-bottom: 4px solid #d4af37;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+        }
+
+        .firm-logo {
+            font-family: 'Playfair Display', serif;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-size: 1.5rem;
+            color: #d4af37;
+            font-weight: 700;
+        }
+
+        .firm-tagline {
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            color: #b8aaa0;
+            text-transform: uppercase;
+        }
+
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            border-top: 5px solid #d4af37;
+            margin-bottom: 2rem;
+        }
+
+        .card-header {
+            background: linear-gradient(90deg, #1a2b4d 0%, #2a3f5f 100%);
+            color: #d4af37;
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border: none;
+        }
+
+        .form-label {
+            color: #1a2b4d;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control, .form-select {
+            border: 2px solid #d4af37;
+            border-radius: 8px;
+            padding: 0.75rem;
+            font-size: 0.95rem;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #d4af37;
+            box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.25);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #d4af37 0%, #c19a3d 100%);
+            color: #1a2b4d;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 30px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.3);
+            background: linear-gradient(135deg, #c19a3d 0%, #b8903b 100%);
+            color: #1a2b4d;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 30px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .profile-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #1a2b4d 0%, #2a3f5f 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #d4af37;
+            font-size: 3rem;
+            margin: 0 auto 2rem;
+            border: 3px solid #d4af37;
+        }
+
+        .section-header {
+            color: #1a2b4d;
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 1.3rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+
+        .info-box {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #d4af37;
+            margin-bottom: 1rem;
+        }
+
+        .info-label {
+            color: #6c757d;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .info-value {
+            color: #1a2b4d;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-top: 0.25rem;
+        }
+
+        .alert-custom {
+            border: none;
+            border-radius: 8px;
+            border-left: 4px solid;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .alert-success-custom {
+            background-color: #d4edda;
+            color: #155724;
+            border-color: #28a745;
+        }
+
+        .alert-danger-custom {
+            background-color: #f8d7da;
+            color: #721c24;
+            border-color: #f5c6cb;
+        }
+
+        .back-link {
+            color: #d4af37;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #c19a3d;
+            transform: translateX(-3px);
+        }
+    </style>
+</head>
+<body>
+
+<div class="legal-header mb-5">
+    <div class="container d-flex justify-content-between align-items-center">
+        <div>
+            <div class="firm-logo"><i class="fas fa-gavel"></i> Repol Law Office</div>
+            <div class="firm-tagline">Employee Profile</div>
+        </div>
+        <div class="text-end">
+            <span id="currentDate" class="badge bg-warning text-dark" style="font-weight: 700; font-size: 0.9rem;"></span>
+        </div>
+    </div>
+</div>
+
+<div class="container" id="mainContent" style="display: none;">
+    <a href="index.html" class="back-link">
+        <i class="fas fa-arrow-left"></i> Back to Timesheet
+    </a>
+
+    <!-- Alert Messages -->
+    <div id="alertContainer"></div>
+
+    <div class="card p-5">
+        <div class="profile-icon">
+            <i class="fas fa-user-circle"></i>
+        </div>
+
+        <h2 class="section-header text-center">Edit Your Profile</h2>
+
+        <!-- Read-Only Information Section -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="info-box">
+                    <div class="info-label">Email Address</div>
+                    <div class="info-value" id="emailDisplay">-</div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="info-box">
+                    <div class="info-label">Username</div>
+                    <div class="info-value" id="usernameDisplay">-</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Editable Profile Information -->
+        <form id="profileForm">
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="firstName" class="form-label">First Name</label>
+                    <input type="text" class="form-control" id="firstName" required>
+                </div>
+                <div class="col-md-4">
+                    <label for="middleName" class="form-label">Middle Name</label>
+                    <input type="text" class="form-control" id="middleName">
+                </div>
+                <div class="col-md-4">
+                    <label for="lastName" class="form-label">Last Name</label>
+                    <input type="text" class="form-control" id="lastName" required>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="phoneNumber" class="form-label">Phone Number</label>
+                    <input type="tel" class="form-control" id="phoneNumber" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="position" class="form-label">Position / Job Title</label>
+                    <input type="text" class="form-control" id="position" placeholder="e.g., Attorney, Paralegal">
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <label for="department" class="form-label">Department</label>
+                    <input type="text" class="form-control" id="department" placeholder="e.g., Litigation, Corporate">
+                </div>
+                <div class="col-md-6">
+                    <label for="dateJoined" class="form-label">Date Joined (Read-Only)</label>
+                    <input type="text" class="form-control" id="dateJoined" readonly style="background-color: #f8f9fa;">
+                </div>
+            </div>
+
+            <div class="d-flex gap-3 justify-content-center">
+                <button type="button" class="btn btn-primary" onclick="updateProfile()">
+                    <i class="fas fa-save"></i> Save Changes
+                </button>
+                <button type="button" class="btn btn-secondary" onclick="resetForm()">
+                    <i class="fas fa-undo"></i> Cancel
+                </button>
+            </div>
+        </form>
+
+        <hr class="my-5">
+
+        <!-- Change Password Section -->
+        <h4 class="section-header">Change Password</h4>
+        <form id="passwordForm">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="currentPassword" class="form-label">Current Password</label>
+                    <input type="password" class="form-control" id="currentPassword" required>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="newPassword" class="form-label">New Password</label>
+                    <input type="password" class="form-control" id="newPassword" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="confirmPassword" class="form-label">Confirm New Password</label>
+                    <input type="password" class="form-control" id="confirmPassword" required>
+                </div>
+            </div>
+
+            <div class="d-flex gap-3 justify-content-center">
+                <button type="button" class="btn btn-primary" onclick="changePassword()">
+                    <i class="fas fa-key"></i> Update Password
+                </button>
+                <button type="button" class="btn btn-secondary" onclick="resetPasswordForm()">
+                    <i class="fas fa-undo"></i> Cancel
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="authLoading" style="display: none; text-align: center; padding: 3rem; color: #d4af37; font-size: 1.2rem;">
+    <div class="spinner-border text-warning" role="status"></div>
+    <br>Checking authentication...
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, updatePassword, reauthenticateWithCredential, EmailAuthProvider } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyAmBi8tP4r4zpr3_6y-4Ncek0yk1oLokOs",
+        authDomain: "law-office-apps.firebaseapp.com",
+        projectId: "law-office-apps",
+        storageBucket: "law-office-apps.firebasestorage.app",
+        messagingSenderId: "2997240910",
+        appId: "1:2997240910:web:d32c1c04f947fe34436f1f",
+        measurementId: "G-R3P17HDL3G"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // Make global
+    window.auth = auth;
+    window.db = db;
+    window.updatePassword = updatePassword;
+    window.reauthenticateWithCredential = reauthenticateWithCredential;
+    window.EmailAuthProvider = EmailAuthProvider;
+
+    let currentUser = null;
+
+    onAuthStateChanged(auth, async (user) => {
+        document.getElementById('authLoading').style.display = 'none';
+        
+        if (user) {
+            currentUser = user;
+            document.getElementById('mainContent').style.display = 'block';
+            await loadUserProfile();
+        } else {
+            window.location.href = 'index.html';
+        }
+    });
+
+    async function loadUserProfile() {
+        try {
+            const userId = currentUser.uid;
+            
+            // Default user data structure
+            let userData = {
+                firstName: '',
+                middleName: '',
+                lastName: '',
+                phoneNumber: '',
+                position: '',
+                department: '',
+                username: '',
+                email: currentUser.email
+            };
+            
+            // FIRST: Try to load from employees collection (primary source during signup)
+            try {
+                const employeeDocRef = doc(db, 'employees', userId);
+                const employeeDocSnap = await getDoc(employeeDocRef);
+                
+                if (employeeDocSnap.exists()) {
+                    const empData = employeeDocSnap.data();
+                    userData = {
+                        firstName: empData.firstName || '',
+                        middleName: empData.middleName || '',
+                        lastName: empData.lastName || '',
+                        phoneNumber: empData.phoneNumber || '',
+                        username: empData.username || '',
+                        email: empData.email || currentUser.email,
+                        position: empData.position || '',
+                        department: empData.department || '',
+                        createdAt: empData.createdAt
+                    };
+                    console.log('✅ Loaded user data from employees collection:', userData);
+                } else {
+                    console.log('⚠️ Employee document does not exist');
+                }
+            } catch (empError) {
+                console.error('Error reading from employees collection:', empError);
+            }
+            
+            // SECOND: Merge/override with any data from users collection if it exists
+            try {
+                const userDocRef = doc(db, 'users', userId);
+                const userDocSnap = await getDoc(userDocRef);
+                
+                if (userDocSnap.exists()) {
+                    const userData2 = userDocSnap.data();
+                    // Only override if the field has a value in users collection
+                    if (userData2.position) userData.position = userData2.position;
+                    if (userData2.department) userData.department = userData2.department;
+                    console.log('✅ Merged data from users collection');
+                }
+            } catch (userError) {
+                console.error('Error reading from users collection:', userError);
+            }
+            
+            // Ensure email is always from currentUser
+            userData.email = currentUser.email;
+            
+            console.log('📋 Final userData:', userData);
+            
+            // Display email and username
+            document.getElementById('emailDisplay').textContent = userData.email;
+            document.getElementById('usernameDisplay').textContent = userData.username || 'N/A';
+
+            // Populate form fields
+            document.getElementById('firstName').value = userData.firstName || '';
+            document.getElementById('middleName').value = userData.middleName || '';
+            document.getElementById('lastName').value = userData.lastName || '';
+            document.getElementById('phoneNumber').value = userData.phoneNumber || '';
+            document.getElementById('position').value = userData.position || '';
+            document.getElementById('department').value = userData.department || '';
+
+            // Set date joined (read-only)
+            if (userData.createdAt) {
+                let dateObj;
+                if (userData.createdAt.seconds) {
+                    dateObj = new Date(userData.createdAt.seconds * 1000);
+                } else if (typeof userData.createdAt === 'string') {
+                    dateObj = new Date(userData.createdAt);
+                } else {
+                    dateObj = new Date(userData.createdAt);
+                }
+                document.getElementById('dateJoined').value = moment(dateObj).format('MMMM DD, YYYY');
+            } else {
+                document.getElementById('dateJoined').value = moment(currentUser.metadata.creationTime).format('MMMM DD, YYYY');
+            }
+
+            // Set current date
+            document.getElementById('currentDate').textContent = moment().format('MMMM DD, YYYY');
+            
+            console.log('✅ Profile page loaded successfully');
+        } catch (error) {
+            console.error('❌ Critical error in loadUserProfile:', error);
+            showAlert('Error loading profile: ' + error.message, 'danger');
+        }
+    }
+
+    window.updateProfile = async function() {
+        try {
+            const firstName = document.getElementById('firstName').value.trim();
+            const middleName = document.getElementById('middleName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+            const phoneNumber = document.getElementById('phoneNumber').value.trim();
+            const position = document.getElementById('position').value.trim();
+            const department = document.getElementById('department').value.trim();
+
+            if (!firstName || !lastName || !phoneNumber) {
+                showAlert('Please fill in all required fields.', 'danger');
+                return;
+            }
+
+            const profileData = {
+                firstName,
+                middleName,
+                lastName,
+                phoneNumber,
+                position,
+                department,
+                updatedAt: new Date()
+            };
+
+            // Update in users collection
+            const userDocRef = doc(db, 'users', currentUser.uid);
+            await setDoc(userDocRef, profileData, { merge: true });
+            console.log('✅ Profile saved to users collection');
+
+            // Also update in employees collection to keep them in sync
+            const employeeDocRef = doc(db, 'employees', currentUser.uid);
+            await setDoc(employeeDocRef, {
+                firstName,
+                middleName,
+                lastName,
+                fullName: `${firstName} ${middleName} ${lastName}`.trim(),
+                phoneNumber,
+                position,
+                department,
+                updatedAt: new Date()
+            }, { merge: true });
+            console.log('✅ Profile saved to employees collection');
+
+            showAlert('✅ Profile updated successfully!', 'success');
+        } catch (error) {
+            console.error('Error updating profile:', error);
+            showAlert('Error updating profile: ' + error.message, 'danger');
+        }
+    };
+
+    window.changePassword = async function() {
+        try {
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (!currentPassword || !newPassword || !confirmPassword) {
+                showAlert('Please fill in all password fields.', 'danger');
+                return;
+            }
+
+            if (newPassword !== confirmPassword) {
+                showAlert('New passwords do not match.', 'danger');
+                return;
+            }
+
+            if (newPassword.length < 6) {
+                showAlert('New password must be at least 6 characters long.', 'danger');
+                return;
+            }
+
+            // Re-authenticate user
+            const credential = EmailAuthProvider.credential(currentUser.email, currentPassword);
+            await reauthenticateWithCredential(currentUser, credential);
+
+            // Update password
+            await updatePassword(currentUser, newPassword);
+
+            showAlert('✅ Password changed successfully!', 'success');
+            resetPasswordForm();
+        } catch (error) {
+            console.error('Error changing password:', error);
+            if (error.code === 'auth/wrong-password') {
+                showAlert('Current password is incorrect.', 'danger');
+            } else {
+                showAlert('Error changing password: ' + error.message, 'danger');
+            }
+        }
+    };
+
+    window.resetForm = async function() {
+        await loadUserProfile();
+        showAlert('Form reset.', 'danger');
+    };
+
+    window.resetPasswordForm = function() {
+        document.getElementById('passwordForm').reset();
+    };
+
+    function showAlert(message, type) {
+        const alertContainer = document.getElementById('alertContainer');
+        const alertClass = type === 'success' ? 'alert-success-custom' : 'alert-danger-custom';
+        const alertHTML = `<div class="alert-custom ${alertClass}" role="alert">${message}</div>`;
+        alertContainer.innerHTML = alertHTML;
+        
+        setTimeout(() => {
+            alertContainer.innerHTML = '';
+        }, 5000);
+    }
+</script>
+
+</body>
+</html>

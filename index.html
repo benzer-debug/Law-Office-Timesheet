@@ -160,6 +160,71 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
+
+        /* Profile Dropdown Styles */
+        .profile-dropdown-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .profile-icon-btn {
+            background: none;
+            border: none;
+            color: #d4af37;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 0;
+        }
+
+        .profile-icon-btn:hover {
+            transform: scale(1.1);
+            color: #ffffff;
+        }
+
+        .profile-dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border: 2px solid #d4af37;
+            border-radius: 8px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            min-width: 180px;
+            z-index: 1000;
+            margin-top: 0.5rem;
+        }
+
+        .profile-dropdown-menu.show {
+            display: block !important;
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 12px 16px;
+            color: #1a2b4d;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid #f0f0f0;
+            font-weight: 600;
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-item:hover {
+            background-color: #f8f9fa;
+            color: #d4af37;
+            padding-left: 20px;
+        }
+
+        .dropdown-item i {
+            width: 18px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -233,14 +298,34 @@
             <div class="firm-logo"><i class="fas fa-gavel"></i> Repol Law Office</div>
             <div class="firm-tagline">Employee Timesheet & Payroll System</div>
         </div>
-        <div class="text-end">
+        <div class="text-end d-flex align-items-center gap-3">
             <span id="currentDate" class="badge bg-warning text-dark" style="font-weight: 700; font-size: 0.9rem;"></span>
-            <button class="btn btn-outline-light ms-2" onclick="logout()" style="border-color: #d4af37; color: #d4af37;">Logout</button>
+            
+            <!-- Profile Dropdown -->
+            <div class="profile-dropdown-container">
+                <button class="profile-icon-btn" id="profileIconBtn" title="Profile Menu" onclick="toggleProfileDropdown()">
+                    <i class="fas fa-user-circle"></i>
+                </button>
+                <div id="profileDropdown" class="profile-dropdown-menu" style="display: none;">
+                    <a href="profile.html" class="dropdown-item">
+                        <i class="fas fa-edit"></i> Edit Profile
+                    </a>
+                    <a href="#" onclick="logout()" class="dropdown-item">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 <div class="container">
+
+    <!-- Employee & Salary Configuration Section -->
+    <p style="color: #1a2b4d; font-style: italic; margin-bottom: 1.5rem; font-size: 0.95rem;">
+        <i class="fas fa-info-circle" style="color: #d4af37; margin-right: 0.5rem;"></i>
+        Set your daily rate and OT multiplier, then select a date range and click "Go" to generate your timesheet from Daily Logs records.
+    </p>
 
     <div class="card p-4 mb-4">
         <h5 class="section-header mb-4"><i class="fas fa-user-tie"></i> Employee & Salary Configuration</h5>
@@ -271,6 +356,12 @@
         </div>
     </div>
 
+    <!-- Daily Logs Information -->
+    <p style="color: #1a2b4d; font-style: italic; margin-bottom: 1.5rem; font-size: 0.95rem;">
+        <i class="fas fa-book" style="color: #1a2b4d; margin-right: 0.5rem;"></i>
+        Daily Logs show your time in/out records automatically synced from the Daily Time-In page, including date, times, break duration, and notes.
+    </p>
+
     <!-- Daily Logs Table Section -->
     <div class="card p-4 mb-4">
         <h5 class="section-header mb-4"><i class="fas fa-calendar-check"></i> Daily Logs</h5>
@@ -292,11 +383,10 @@
         </div>
     </div>
 
-            <!-- Action bar: Load/Save/Export (kept visible above the timesheet) -->
+            <!-- Action bar: Export/Monthly Records/Daily Time-In -->
             <div class="d-flex gap-2 mb-3 align-items-center">
-                <button class="btn btn-outline-primary fw-bold" onclick="loadTimesheet()">Load Saved</button>
-                <button class="btn btn-primary fw-bold" onclick="saveTimesheet()">Save Timesheet</button>
                 <button class="btn btn-outline-secondary fw-bold" onclick="exportToPDF()">Generate PDF</button>
+                <button class="btn btn-outline-success fw-bold" onclick="openMonthlyRecordsModal()">📊 Monthly Records</button>
                 <a href="daily.html" class="priority-note-inline" style="text-decoration: none; display: inline-flex;">
                     <i class="fas fa-exclamation-circle"></i>
                     <span class="priority-note-inline-text">Daily Time-In</span>
@@ -356,6 +446,31 @@
         document.getElementById('loginForm').style.display = 'block';
         document.getElementById('authMessage').innerText = '';
     }
+
+    // Profile Dropdown Toggle
+    function toggleProfileDropdown() {
+        const dropdown = document.getElementById('profileDropdown');
+        if (dropdown) {
+            dropdown.classList.toggle('show');
+            if (dropdown.classList.contains('show')) {
+                dropdown.style.display = 'block';
+            } else {
+                dropdown.style.display = 'none';
+            }
+        }
+    }
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(event) {
+        const profileContainer = document.querySelector('.profile-dropdown-container');
+        if (profileContainer && !profileContainer.contains(event.target)) {
+            const dropdown = document.getElementById('profileDropdown');
+            if (dropdown) {
+                dropdown.classList.remove('show');
+                dropdown.style.display = 'none';
+            }
+        }
+    });
 
     async function login() {
         const username = document.getElementById('loginUsername').value.trim();
@@ -455,6 +570,19 @@
                 createdAt: new Date()
             });
             console.log('Employee data saved');
+            
+            // Save user profile data
+            await setDoc(doc(db, 'users', userCredential.user.uid), {
+                firstName: firstName,
+                middleName: middleName,
+                lastName: lastName,
+                phoneNumber: phoneNumber,
+                email: email,
+                username: username,
+                createdAt: new Date()
+            });
+            console.log('User profile data saved');
+            
             // Also save username to email mapping
             await setDoc(doc(db, 'usernames', username), {
                 email: email,
@@ -645,21 +773,23 @@
         try {
             const user = auth.currentUser;
             if (user) {
-                // Fetch from daily_logs collection instead of employees/uid/timeins
+                // Fetch from daily_logs collection without where clause
                 const logsRef = collection(db, 'daily_logs');
-                const q = query(logsRef, where('uid', '==', user.uid));
-                const snapshot = await getDocs(q);
+                const snapshot = await getDocs(logsRef);
                 snapshot.forEach(doc => {
                     const data = doc.data();
-                    const date = data.date; // Format: YYYY-MM-DD
-                    if (!timeInsMap[date]) {
-                        timeInsMap[date] = { timeIn: null, timeOut: null };
-                    }
-                    if (data.timeIn) {
-                        timeInsMap[date].timeIn = data.timeIn;
-                    }
-                    if (data.timeOut) {
-                        timeInsMap[date].timeOut = data.timeOut;
+                    // Filter client-side to only user's records
+                    if (data.uid === user.uid) {
+                        const date = data.date; // Format: YYYY-MM-DD
+                        if (!timeInsMap[date]) {
+                            timeInsMap[date] = { timeIn: null, timeOut: null };
+                        }
+                        if (data.timeIn) {
+                            timeInsMap[date].timeIn = data.timeIn;
+                        }
+                        if (data.timeOut) {
+                            timeInsMap[date].timeOut = data.timeOut;
+                        }
                     }
                 });
             }
@@ -900,7 +1030,174 @@
             alert("There was an error generating the PDF. Please check the console for details.");
         }
     }
+
+    // Monthly Records Functions
+    window.openMonthlyRecordsModal = async () => {
+        const modal = document.getElementById('monthlyRecordsModal');
+        if (!modal) return;
+        modal.style.display = 'block';
+        await loadAllMonthlyRecords();
+    };
+
+    window.closeMonthlyRecordsModal = () => {
+        const modal = document.getElementById('monthlyRecordsModal');
+        if (modal) modal.style.display = 'none';
+    };
+
+    window.loadAllMonthlyRecords = async () => {
+        const user = auth.currentUser;
+        if (!user) return;
+
+        try {
+            console.log('Loading monthly records for user:', user.uid);
+            
+            // Fetch ALL monthly records without where clause to avoid permission issues
+            const recordsRef = collection(db, 'monthly_records');
+            const snap = await getDocs(recordsRef);
+            
+            console.log('Total records in collection:', snap.size);
+            
+            const records = [];
+            snap.forEach(doc => {
+                const data = doc.data();
+                // Filter client-side to only user's records
+                if (data.uid === user.uid) {
+                    records.push({ id: doc.id, ...data });
+                    console.log('Found record for user:', doc.id);
+                }
+            });
+
+            console.log('User records found:', records.length);
+
+            // Sort by year and month descending
+            records.sort((a, b) => {
+                const dateA = new Date(a.year, a.month - 1);
+                const dateB = new Date(b.year, b.month - 1);
+                return dateB - dateA;
+            });
+
+            const tbody = document.getElementById('monthlyRecordsTableBody');
+            if (!tbody) return;
+            
+            tbody.innerHTML = '';
+
+            if (records.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="text-center text-muted">No monthly records found.</td></tr>';
+                return;
+            }
+
+            const dailyRate = parseFloat(document.getElementById('dailyRate').value) || 0;
+
+            records.forEach(record => {
+                const row = document.createElement('tr');
+                const totalSalary = dailyRate > 0 ? (record.totalHours * (dailyRate / 8)).toFixed(2) : 0;
+                
+                // Handle both Firestore timestamp and regular date objects
+                let lastUpdated = 'N/A';
+                if (record.updatedAt) {
+                    if (record.updatedAt.seconds) {
+                        lastUpdated = new Date(record.updatedAt.seconds * 1000).toLocaleDateString();
+                    } else if (typeof record.updatedAt === 'string') {
+                        lastUpdated = new Date(record.updatedAt).toLocaleDateString();
+                    }
+                }
+                
+                row.innerHTML = `
+                    <td>${record.year}-${String(record.month).padStart(2, '0')}</td>
+                    <td>${record.totalHours.toFixed(2)}</td>
+                    <td>${record.daysWorked || 0}</td>
+                    <td>₱ ${totalSalary}</td>
+                    <td><small>${lastUpdated}</small></td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-warning" onclick="recalculateMonthlyRecord('${record.id}')">Recalculate</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        } catch (error) {
+            console.error('❌ Error loading monthly records:', error);
+            console.error('Error code:', error.code);
+            console.error('Error message:', error.message);
+            
+            const tbody = document.getElementById('monthlyRecordsTableBody');
+            if (tbody) {
+                tbody.innerHTML = '<tr><td colspan="6" class="text-center text-danger">Error loading records. Check console for details.</td></tr>';
+            }
+            alert('Error loading monthly records: ' + error.message);
+        }
+    };
+
+    window.recalculateMonthlyRecord = async (recordId) => {
+        const user = auth.currentUser;
+        if (!user) return;
+
+        const dailyRate = parseFloat(document.getElementById('dailyRate').value);
+        if (!dailyRate) {
+            alert('Please enter the daily rate before recalculating.');
+            document.getElementById('dailyRate').focus();
+            return;
+        }
+
+        try {
+            const recordRef = doc(db, 'monthly_records', recordId);
+            const recordSnap = await getDoc(recordRef);
+            
+            if (!recordSnap.exists()) {
+                alert('Monthly record not found.');
+                return;
+            }
+
+            const record = recordSnap.data();
+            const totalHours = record.totalHours;
+            const totalSalary = totalHours * (dailyRate / 8);
+
+            // Update the monthly record
+            await setDoc(recordRef, {
+                totalSalary: parseFloat(totalSalary.toFixed(2)),
+                dailyRate: dailyRate,
+                recalculatedAt: new Date()
+            }, { merge: true });
+
+            alert(`✅ Monthly record for ${record.year}-${String(record.month).padStart(2, '0')} recalculated.\nTotal Hours: ${totalHours.toFixed(2)}\nTotal Salary: ₱ ${totalSalary.toFixed(2)}`);
+            await loadAllMonthlyRecords();
+        } catch (error) {
+            console.error('Error recalculating monthly record:', error);
+            alert('Error recalculating: ' + error.message);
+        }
+    };
 </script>
+
+    <!-- Monthly Records Modal -->
+    <div id="monthlyRecordsModal" class="modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.4);">
+        <div class="modal-content" style="background-color: #fefefe; margin: 5% auto; padding: 20px; border: 1px solid #888; border-radius: 12px; max-width: 900px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+            <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 15px; border-bottom: 2px solid #d4af37; margin-bottom: 20px;">
+                <h2 style="color: #1a2b4d; font-family: 'Playfair Display', serif; font-size: 1.8rem; margin: 0;">📊 Monthly Records</h2>
+                <button onclick="closeMonthlyRecordsModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #999;">&times;</button>
+            </div>
+            
+            <div class="modal-body" style="max-height: 500px; overflow-y: auto;">
+                <table class="table table-hover" style="margin-bottom: 0; border-collapse: collapse;">
+                    <thead style="background: linear-gradient(90deg, #1a2b4d 0%, #2a3f5f 100%); color: #d4af37; font-weight: 700; position: sticky; top: 0;">
+                        <tr>
+                            <th>Month</th>
+                            <th>Total Hours</th>
+                            <th>Days Worked</th>
+                            <th>Total Salary</th>
+                            <th>Last Updated</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="monthlyRecordsTableBody">
+                        <tr><td colspan="6" class="text-center text-muted">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="modal-footer" style="padding-top: 20px; border-top: 1px solid #ddd; text-align: right;">
+                <button onclick="closeMonthlyRecordsModal()" class="btn btn-secondary fw-bold">Close</button>
+            </div>
+        </div>
+    </div>
 
 </div> <!-- End mainApp -->
 
@@ -983,15 +1280,17 @@
       const startDateInput = document.getElementById('startDate').value;
       const endDateInput = document.getElementById('endDate').value;
       
-      // Fetch all daily_logs for the current user
+      // Fetch all daily_logs without where clause to avoid permission issues
       const logsRef = collection(db, 'daily_logs');
-      const q = query(logsRef, where('uid', '==', user.uid));
-      const snap = await getDocs(q);
+      const snap = await getDocs(logsRef);
       
       let records = [];
       snap.forEach(doc => {
         const data = doc.data();
-        records.push(data);
+        // Filter client-side to only user's records
+        if (data.uid === user.uid) {
+          records.push(data);
+        }
       });
       
       // Filter by date range if provided

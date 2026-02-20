@@ -408,7 +408,7 @@
   <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
-import { getFirestore, collection, query, where, getDocs, addDoc, updateDoc, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+import { getFirestore, collection, query, where, getDocs, addDoc, updateDoc, doc, deleteDoc, setDoc } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAmBi8tP4r4zpr3_6y-4Ncek0yk1oLokOs",
@@ -531,6 +531,78 @@ async function loadTodayLogs() {
   await checkAndUpdateButtonStates();
 }
 
+async function saveMonthlyRecord() {
+  const user = auth.currentUser;
+  if (!user) return;
+
+  try {
+    // Get current day in Philippine Time
+    const now = new Date();
+    const utcTime = now.getTime() + now.getTimezoneOffset() * 60000;
+    const phTime = new Date(utcTime + 8 * 60 * 60 * 1000);
+    
+    // Get first and last day of current month
+    const year = phTime.getFullYear();
+    const month = String(phTime.getMonth() + 1).padStart(2, '0'); // 01-12
+    const monthKey = `${year}-${month}`; // Format: 2026-02
+    
+    const firstDay = new Date(year, phTime.getMonth(), 1);
+    const lastDay = new Date(year, phTime.getMonth() + 1, 0);
+    
+    const firstDayStr = firstDay.toISOString().split('T')[0]; // YYYY-MM-DD
+    const lastDayStr = lastDay.toISOString().split('T')[0];
+    
+    // Fetch all daily logs for the entire month
+    const logsRef = collection(db, 'daily_logs');
+    const snapshot = await getDocs(logsRef);
+    
+    let totalHours = 0;
+    const monthLogs = [];
+    
+    snapshot.forEach(doc => {
+      const data = doc.data();
+      // Filter logs within the current month and for the current user
+      if (data.uid === user.uid && data.date >= firstDayStr && data.date <= lastDayStr && data.timeIn && data.timeOut) {
+        monthLogs.push(data);
+        // Calculate hours for this day
+        const timeIn = data.timeIn; // HH:MM:SS
+        const timeOut = data.timeOut;
+        const breakHours = 1; // Default 1 hour break (can be enhanced)
+        
+        const [hIn, mIn] = timeIn.split(':').map(Number);
+        const [hOut, mOut] = timeOut.split(':').map(Number);
+        const inMinutes = hIn * 60 + mIn;
+        const outMinutes = hOut * 60 + mOut;
+        const durationMinutes = outMinutes - inMinutes;
+        const durationHours = durationMinutes / 60;
+        const netHours = Math.max(0, durationHours - breakHours);
+        
+        totalHours += netHours;
+      }
+    });
+    
+    // Save monthly record to monthly_records collection
+    const monthlyDocId = `${user.uid}_${monthKey}`; // Format: userid_2026-02
+    const monthlyRecordRef = doc(db, 'monthly_records', monthlyDocId);
+    
+    await setDoc(monthlyRecordRef, {
+      uid: user.uid,
+      month: month,
+      year: year,
+      monthKey: monthKey,
+      totalHours: parseFloat(totalHours.toFixed(2)),
+      totalSalary: 0, // To be calculated in UI with daily rate
+      daysWorked: monthLogs.length,
+      updatedAt: new Date(),
+      lastAutoSave: new Date()
+    }, { merge: true }); // merge: true to update if exists
+    
+    console.log(`✅ Monthly record saved for ${monthKey}: ${totalHours.toFixed(2)} hours`);
+  } catch (e) {
+    console.error('Error saving monthly record:', e);
+  }
+}
+
 document.getElementById('backButton').addEventListener('click', () => {
   window.location.href = 'index.html';
 });
@@ -631,6 +703,7 @@ document.getElementById('timeOutButton').addEventListener('click', async () => {
     const logDoc = doc(db, 'daily_logs', docId);
     await updateDoc(logDoc, { timeOut: timeStr });
     await loadTodayLogs();
+    await saveMonthlyRecord(); // Auto-save monthly record
     alert('✅ Time out recorded at ' + timeStr.substring(0, 5));
   } catch (e) {
     alert('Error recording time out: ' + e.message);
