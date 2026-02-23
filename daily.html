@@ -138,10 +138,6 @@
       background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
     }
 
-    .note-section {
-      margin-bottom: 2rem;
-    }
-
     .note-section label {
       font-weight: 700;
       color: #1a2b4d;
@@ -567,7 +563,6 @@ async function saveMonthlyRecord() {
         // Calculate hours for this day
         const timeIn = data.timeIn; // HH:MM:SS
         const timeOut = data.timeOut;
-        const breakHours = 1; // Default 1 hour break (can be enhanced)
         
         const [hIn, mIn] = timeIn.split(':').map(Number);
         const [hOut, mOut] = timeOut.split(':').map(Number);
@@ -575,7 +570,8 @@ async function saveMonthlyRecord() {
         const outMinutes = hOut * 60 + mOut;
         const durationMinutes = outMinutes - inMinutes;
         const durationHours = durationMinutes / 60;
-        const netHours = Math.max(0, durationHours - breakHours);
+        // Auto-deduct 1 hour if duration exceeds 5 hours
+        const netHours = Math.max(0, durationHours > 5 ? durationHours - 1 : durationHours);
         
         totalHours += netHours;
       }

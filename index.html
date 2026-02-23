@@ -254,9 +254,406 @@
         .pdf-button i {
             font-size: 1.2rem;
         }
+
+        /* Professional Notification System */
+        .notification-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            display: none;
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .notification-overlay.show {
+            display: flex;
+        }
+
+        .notification-modal {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 420px;
+            width: 90%;
+            padding: 0;
+            overflow: hidden;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .notification-header {
+            padding: 20px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .notification-header.success {
+            background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+            color: white;
+            border-bottom: none;
+        }
+
+        .notification-header.error {
+            background: linear-gradient(90deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            border-bottom: none;
+        }
+
+        .notification-header.info {
+            background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+            border-bottom: none;
+        }
+
+        .notification-header.warning {
+            background: linear-gradient(90deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+            border-bottom: none;
+        }
+
+        .notification-icon {
+            font-size: 24px;
+            width: 24px;
+            text-align: center;
+        }
+
+        .notification-title {
+            font-weight: 700;
+            font-size: 16px;
+            letter-spacing: 0.3px;
+        }
+
+        .notification-body {
+            padding: 20px;
+            color: #4b5563;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .notification-footer {
+            padding: 16px 20px;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            background-color: #f8f9fa;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .notification-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .notification-btn-primary {
+            background: linear-gradient(90deg, #1a2b4d 0%, #0f1419 100%);
+            color: #d4af37;
+            border: 2px solid #d4af37;
+        }
+
+        .notification-btn-primary:hover {
+            background: linear-gradient(90deg, #0f1419 0%, #0a0d10 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+        }
+
+        .notification-btn-secondary {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        .notification-btn-secondary:hover {
+            background: #d1d5db;
+        }
+
+        /* Password Toggle Icon Styles */
+        .password-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .password-input-wrapper input {
+            width: 100%;
+            padding-right: 40px;
+        }
+
+        .password-toggle-btn {
+            position: absolute;
+            right: 12px;
+            background: none;
+            border: none;
+            color: #6b7280;
+            cursor: pointer;
+            font-size: 1.1rem;
+            padding: 5px;
+            transition: color 0.2s ease;
+            z-index: 10;
+        }
+
+        .password-toggle-btn:hover {
+            color: #d4af37;
+        }
+
+        /* Manager Dashboard Styles */
+        .manager-section {
+            background: linear-gradient(135deg, #1a2b4d 0%, #2a3f5f 100%);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            color: #ffffff;
+            box-shadow: 0 8px 24px rgba(26, 43, 77, 0.2);
+        }
+
+        .manager-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #d4af37;
+            padding-bottom: 1rem;
+        }
+
+        .manager-header i {
+            font-size: 2rem;
+            color: #d4af37;
+        }
+
+        .manager-header h2 {
+            font-size: 1.8rem;
+            margin: 0;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .employee-list-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 3px solid #d4af37;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .employee-list-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+        }
+
+        .employee-info {
+            flex-grow: 1;
+        }
+
+        .employee-name {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .employee-email {
+            font-size: 0.9rem;
+            color: #b8aaa0;
+            margin-bottom: 0.25rem;
+        }
+
+        .employee-role {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .role-employee {
+            background: #60a5fa;
+            color: #ffffff;
+        }
+
+        .role-manager {
+            background: #f59e0b;
+            color: #ffffff;
+        }
+
+        .role-admin {
+            background: #ef4444;
+            color: #ffffff;
+        }
+
+        .employee-actions {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .role-select {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid #d4af37;
+            color: #ffffff;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .role-select:hover {
+            background: rgba(212, 175, 55, 0.2);
+        }
+
+        .role-select option {
+            background: #1a2b4d;
+            color: #ffffff;
+        }
+
+        .update-role-btn {
+            background: #d4af37;
+            color: #1a2b4d;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+        }
+
+        .update-role-btn:hover {
+            background: #c19a3d;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+        }
+
+        .no-employees {
+            text-align: center;
+            padding: 2rem;
+            color: #b8aaa0;
+            font-style: italic;
+        }
+
+        /* Employee Records Modal */
+        .employee-records-modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            overflow-y: auto;
+        }
+
+        .employee-records-modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .employee-records-content {
+            background: white;
+            border-radius: 12px;
+            max-width: 1200px;
+            width: 95%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .employee-records-header {
+            background: linear-gradient(90deg, #1a2b4d 0%, #2a3f5f 100%);
+            color: #d4af37;
+            padding: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #d4af37;
+        }
+
+        .employee-records-header h2 {
+            margin: 0;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+        }
+
+        .close-records-btn {
+            background: #d4af37;
+            color: #1a2b4d;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .close-records-btn:hover {
+            background: #c19a3d;
+            transform: translateY(-2px);
+        }
+
+        .employee-records-body {
+            padding: 2rem;
+        }
+
+        .readonly-input {
+            background-color: #f5f5f5;
+            color: #666;
+            border: 1px solid #ddd;
+            cursor: not-allowed;
+        }
+
+        .readonly-input:focus {
+            border-color: #ddd;
+            box-shadow: none;
+        }
     </style>
 </head>
 <body>
+
+<!-- Professional Notification Modal -->
+<div id="notificationOverlay" class="notification-overlay">
+    <div class="notification-modal">
+        <div id="notificationHeader" class="notification-header">
+            <i id="notificationIcon" class="fas fa-info-circle notification-icon"></i>
+            <span id="notificationTitle" class="notification-title">Notification</span>
+        </div>
+        <div id="notificationBody" class="notification-body">
+            Notification message will appear here.
+        </div>
+        <div class="notification-footer">
+            <button class="notification-btn notification-btn-secondary" onclick="closeNotification()">Close</button>
+            <button id="notificationActionBtn" class="notification-btn notification-btn-primary" onclick="handleNotificationAction()" style="display: none;">Proceed</button>
+        </div>
+    </div>
+</div>
 
 <div id="authContainer" class="container mt-5">
     <div class="row justify-content-center">
@@ -270,7 +667,12 @@
                     </div>
                     <div class="mb-3">
                         <label for="loginPassword" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="loginPassword" required>
+                        <div class="password-input-wrapper">
+                            <input type="password" class="form-control" id="loginPassword" required>
+                            <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('loginPassword')" title="Show/Hide Password">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
                     </div>
                     <button class="btn btn-primary w-100" onclick="login()">Login</button>
                     <p class="text-center mt-3">
@@ -306,7 +708,12 @@
                     </div>
                     <div class="mb-3">
                         <label for="signupPassword" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="signupPassword" required>
+                        <div class="password-input-wrapper">
+                            <input type="password" class="form-control" id="signupPassword" required>
+                            <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('signupPassword')" title="Show/Hide Password">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
                     </div>
                     <button class="btn btn-success w-100" onclick="signup()">Sign Up</button>
                     <p class="text-center mt-3">
@@ -350,14 +757,47 @@
 
 <div class="container">
 
-    <!-- Employee & Salary Configuration Section -->
-    <p style="color: #1a2b4d; font-style: italic; margin-bottom: 1.5rem; font-size: 0.95rem;">
-        <i class="fas fa-info-circle" style="color: #d4af37; margin-right: 0.5rem;"></i>
-        Set your daily rate and OT multiplier, then select a date range and click "Go" to generate your timesheet from Daily Logs records.
-    </p>
+    <!-- Manager Dashboard Section (Hidden for non-managers) -->
+    <div id="managerDashboard" style="display: none;">
+        <div class="manager-section">
+            <div class="manager-header">
+                <i class="fas fa-users-cog"></i>
+                <div>
+                    <h2>Team Management</h2>
+                    <p style="margin: 0; font-size: 0.9rem; color: #b8aaa0;">View and manage your team members</p>
+                </div>
+            </div>
+            
+            <div style="margin-bottom: 1.5rem;">
+                <button class="pdf-button" onclick="loadTeamMembers()" style="background: #d4af37; color: #1a2b4d;">
+                    <i class="fas fa-sync-alt"></i> Refresh Team Members
+                </button>
+            </div>
 
+            <div id="teamMembersContainer">
+                <div class="no-employees">Loading team members...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Employee Timesheet Section (Hidden for Managers) -->
+    <div id="employeeSection">
+        <!-- Employee & Salary Configuration Section Info Note - Hidden for Managers -->
+        <div id="employeeInfoNote">
+            <p style="color: #1a2b4d; font-style: italic; margin-bottom: 1.5rem; font-size: 0.95rem;">
+                <i class="fas fa-info-circle" style="color: #d4af37; margin-right: 0.5rem;"></i>
+                Set your daily rate and OT multiplier, then select a date range and click "Go" to generate your timesheet from Daily Logs records.
+            </p>
+        </div>
+
+    <!-- Employee Timesheet Section - Hidden for managers/admins -->
+    <div id="employeeTimesheetSection">
     <div class="card p-4 mb-4">
         <h5 class="section-header mb-4"><i class="fas fa-user-tie"></i> Employee & Salary Configuration</h5>
+        <p style="color: #d4af37; font-style: italic; margin-bottom: 1.5rem; font-size: 0.9rem; padding: 10px; background-color: #f8f4e6; border-left: 3px solid #d4af37; border-radius: 4px;">
+            <i class="fas fa-exclamation-triangle" style="margin-right: 0.5rem;"></i>
+            <strong>Note:</strong> This section must be used when generating PDF sending it to gmail.
+        </p>
         <div class="row g-3">
             <div class="col-md-3">
                 <label class="form-label small fw-bold">Employee Name</label>
@@ -365,7 +805,7 @@
             </div>
             <div class="col-md-2">
                 <label class="form-label small fw-bold">Daily Rate (PHP)</label>
-                <input type="number" id="dailyRate" class="form-control" value="800">
+                <input type="number" id="dailyRate" class="form-control" value="800" onchange="calculate()">
             </div>
             <div class="col-md-2">
                 <label class="form-label small fw-bold">OT Multiplier</label>
@@ -392,8 +832,17 @@
     </p>
 
     <!-- Daily Logs Table Section -->
-    <div class="card p-4 mb-4">
+    <div class="card p-4 mb-4" style="margin-bottom: 2rem;">
         <h5 class="section-header mb-4"><i class="fas fa-calendar-check"></i> Daily Logs</h5>
+        
+        <div style="background-color: #f8f9fa; border-left: 4px solid #d4af37; padding: 1rem; border-radius: 6px; margin-bottom: 1.5rem;">
+            <h6 style="color: #1a2b4d; font-weight: 700; margin-bottom: 0.5rem;">Break Time Calculation Rule:</h6>
+            <p style="color: #666; margin: 0; font-size: 0.9rem;">
+                <i class="fas fa-info-circle" style="color: #d4af37; margin-right: 0.5rem;"></i>
+                If <strong>Total Hours > 5 hours</strong>, <strong>Break Time = 1 hour</strong> automatically deducted from rendered hours. Otherwise, Break Time = 0 hours.
+            </p>
+        </div>
+
         <div class="table-responsive">
             <table class="table table-bordered table-striped mb-0" style="background-color: #fff;">
                 <thead style="background: linear-gradient(90deg, #0b3d91 0%, #ffcc00 100%); color: #fff;">
@@ -401,7 +850,9 @@
                         <th style="min-width:120px;">Date</th>
                         <th style="min-width:100px;">Time In</th>
                         <th style="min-width:100px;">Time Out</th>
-                        <th style="min-width:100px;">Break Time</th>
+                        <th style="min-width:100px;">Total Hours</th>
+                        <th style="min-width:100px;">Break Time (hrs)</th>
+                        <th style="min-width:100px;">Hours Rendered</th>
                         <th style="min-width:180px;">Note</th>
                     </tr>
                 </thead>
@@ -411,9 +862,10 @@
             </table>
         </div>
     </div>
+    </div><!-- End employeeTimesheetSection -->
 
-            <!-- Action bar: Monthly Records/Daily Time-In -->
-            <div class="d-flex gap-2 mb-3 align-items-center">
+            <!-- Action bar: Monthly Records/Daily Time-In - Hidden for Managers -->
+            <div id="employeeActionBar" class="d-flex gap-2 mb-3 align-items-center" style="display: none !important;">
                 <button class="btn btn-outline-success fw-bold" onclick="openMonthlyRecordsModal()">📊 Monthly Records</button>
                 <a href="daily.html" class="priority-note-inline" style="text-decoration: none; display: inline-flex;">
                     <i class="fas fa-exclamation-circle"></i>
@@ -421,36 +873,64 @@
                 </a>
             </div>
 
-            <div id="sheetContainer" style="display: none;">
-        <div class="card overflow-hidden">
-            <table class="table table-hover mb-0">
-                <thead>
-                    <tr>
-                        <th class="ps-4">Date</th>
-                        <th>Time In</th>
-                        <th>Time Out</th>
-                        <th>Break (Hr)</th>
-                        <th>Tasks / Case Notes</th>
-                        <th>Status</th>
-                        <th class="text-end pe-4">Subtotal</th>
-                    </tr>
-                </thead>
-                <tbody id="timesheetBody">
-                    </tbody>
-            </table>
+    </div><!-- End employeeSection -->
+    
+    <!-- Timesheet Modal -->
+    <div id="timesheetModal" class="modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.4);">
+        <div class="modal-content" style="background-color: #fefefe; margin: 3% auto; padding: 0; border-radius: 12px; max-width: 1100px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); overflow: hidden;">
+            <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; padding: 20px; background: linear-gradient(90deg, #1a2b4d 0%, #2a3f5f 100%); border-bottom: 2px solid #d4af37;">
+                <h2 style="color: #d4af37; font-family: 'Playfair Display', serif; font-size: 1.8rem; margin: 0;">📋 Generated Timesheet</h2>
+                <button onclick="closeTimesheetModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #d4af37;">&times;</button>
+            </div>
             
-            <div class="total-banner d-flex justify-content-between align-items-center px-4">
-                <div>
-                    <div class="muted">Total Amount Payable</div>
-                    <h2 class="mb-0" id="grandTotalDisplay">₱ 0.00</h2>
-                    <div class="d-flex gap-3 mt-2">
-                        <div class="muted">Days: <strong id="daysCount">0/0</strong></div>
-                        <div class="muted">Hours: <strong id="totalHoursDisplay">0.00</strong></div>
-                        <div class="muted">OT Rate: <strong id="otRateDisplay">₱0.00</strong></div>
+            <div class="modal-body" style="padding: 20px; max-height: 600px; overflow-y: auto;">
+                <table class="table table-hover mb-0">
+                    <thead style="background: linear-gradient(90deg, #1a2b4d 0%, #2a3f5f 100%); color: #d4af37; font-weight: 700; position: sticky; top: 0;">
+                        <tr>
+                            <th class="ps-4">Date</th>
+                            <th>Time In</th>
+                            <th>Time Out</th>
+                            <th>Total Hours</th>
+                            <th>Tasks / Case Notes</th>
+                            <th>Status</th>
+                            <th class="text-end pe-4">Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody id="timesheetBody">
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="modal-footer" style="padding: 20px; border-top: 2px solid #d4af37; background-color: #f8f9fa;">
+                <div class="w-100">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <div>
+                            <div style="color: #666; font-size: 0.9rem; margin-bottom: 5px;">Total Amount Payable</div>
+                            <h3 style="color: #1a2b4d; margin: 0;" id="grandTotalDisplay">₱ 0.00</h3>
+                        </div>
+                        <div style="display: flex; gap: 30px; text-align: center;">
+                            <div>
+                                <div style="color: #666; font-size: 0.85rem;">Days</div>
+                                <div style="color: #1a2b4d; font-weight: 700; font-size: 1.1rem;" id="daysCount">0/0</div>
+                            </div>
+                            <div>
+                                <div style="color: #666; font-size: 0.85rem;">Total Hours</div>
+                                <div style="color: #1a2b4d; font-weight: 700; font-size: 1.1rem;" id="totalHoursDisplay">0.00</div>
+                            </div>
+                            <div>
+                                <div style="color: #666; font-size: 0.85rem;">OT Rate</div>
+                                <div style="color: #1a2b4d; font-weight: 700; font-size: 1.1rem;" id="otRateDisplay">₱0.00</div>
+                            </div>
+                        </div>
+                        <button class="pdf-button" onclick="openEmailModal()" style="margin: 0;"><i class="fas fa-envelope"></i> Send PDF</button>
                     </div>
-                    <div class="legend mt-2">Status rules: <strong>Regular Holiday</strong> = paid 100% if not worked; if worked, 200% for first 8 hrs. <strong>Special Holiday</strong> = unpaid if not worked; if worked, 130% for first 8 hrs. <strong>Sick Leave & Vacation Leave</strong> = paid 100%. <strong>Emergency Leave</strong> = unpaid. <strong>Work on weekends</strong> = 130% for first 8 hrs.</div>
+                    <div style="background-color: #fff3cd; border-left: 4px solid #ffc107; padding: 12px; border-radius: 4px; font-size: 0.85rem; color: #856404; margin-bottom: 15px;">
+                        <strong>Status Rules:</strong> Regular Holiday = 100% if not worked, 200% if worked (first 8 hrs). Special Holiday = unpaid if not worked, 130% if worked (first 8 hrs). Sick/Vacation Leave = 100% paid. Emergency Leave = unpaid. Weekend work = 130% (first 8 hrs).
+                    </div>
                 </div>
-                <button class="pdf-button" onclick="exportToPDF()"><i class="fas fa-file-pdf"></i> Generate PDF</button>
+                <div style="text-align: right;">
+                    <button onclick="closeTimesheetModal()" class="btn btn-secondary fw-bold">Close</button>
+                </div>
             </div>
         </div>
     </div>
@@ -459,9 +939,95 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.5.28/dist/jspdf.plugin.autotable.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
 
 <script>
+    // Professional Notification System
+    let notificationCallback = null;
+
+    /**
+     * Show professional notification modal
+     * @param {Object} options - Notification options
+     * @param {string} options.type - 'success', 'error', 'warning', 'info'
+     * @param {string} options.title - Notification title
+     * @param {string} options.message - Notification message
+     * @param {boolean} options.showAction - Show action button (default: false)
+     * @param {string} options.actionText - Action button text (default: 'Proceed')
+     * @param {Function} options.onAction - Callback for action button
+     */
+    function showNotification(options) {
+        const overlay = document.getElementById('notificationOverlay');
+        const header = document.getElementById('notificationHeader');
+        const icon = document.getElementById('notificationIcon');
+        const title = document.getElementById('notificationTitle');
+        const body = document.getElementById('notificationBody');
+        const actionBtn = document.getElementById('notificationActionBtn');
+
+        // Set type-specific styling
+        const types = ['success', 'error', 'warning', 'info'];
+        types.forEach(t => header.classList.remove(t));
+        
+        const type = options.type || 'info';
+        header.classList.add(type);
+
+        // Set icons based on type
+        const icons = {
+            success: 'fa-check-circle',
+            error: 'fa-exclamation-circle',
+            warning: 'fa-exclamation-triangle',
+            info: 'fa-info-circle'
+        };
+        icon.className = `fas ${icons[type]} notification-icon`;
+
+        // Set title and message
+        title.textContent = options.title || 'Notification';
+        body.innerHTML = options.message || 'No message provided.';
+
+        // Handle action button
+        if (options.showAction) {
+            actionBtn.style.display = 'block';
+            actionBtn.textContent = options.actionText || 'Proceed';
+            notificationCallback = options.onAction || null;
+        } else {
+            actionBtn.style.display = 'none';
+            notificationCallback = null;
+        }
+
+        // Show overlay
+        overlay.classList.add('show');
+    }
+
+    function closeNotification() {
+        const overlay = document.getElementById('notificationOverlay');
+        overlay.classList.remove('show');
+        notificationCallback = null;
+    }
+
+    function handleNotificationAction() {
+        if (typeof notificationCallback === 'function') {
+            notificationCallback();
+        }
+        closeNotification();
+    }
+
+    // Password visibility toggle function
+    function togglePasswordVisibility(fieldId) {
+        const field = document.getElementById(fieldId);
+        const button = event.target.closest('.password-toggle-btn');
+        const icon = button.querySelector('i');
+        
+        if (field.type === 'password') {
+            field.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            field.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    }
+
     // Auth functions
     function showSignup() {
         document.getElementById('loginForm').style.display = 'none';
@@ -505,7 +1071,11 @@
         const password = document.getElementById('loginPassword').value;
 
         if (!username || !password) {
-            document.getElementById('authMessage').innerText = 'Please enter username and password.';
+            showNotification({
+                type: 'warning',
+                title: 'Missing Credentials',
+                message: 'Please enter both your username and password to log in.'
+            });
             return;
         }
 
@@ -515,8 +1085,11 @@
             const usernameDoc = await getDoc(doc(db, 'usernames', username));
             console.log('Username doc exists:', usernameDoc.exists());
             if (!usernameDoc.exists()) {
-                alert('Username not found. Please check your username.');
-                document.getElementById('authMessage').innerText = 'Username not found.';
+                showNotification({
+                    type: 'error',
+                    title: 'Login Failed',
+                    message: 'The username you entered was not found. Please check your username and try again.'
+                });
                 return;
             }
 
@@ -527,11 +1100,16 @@
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             console.log('Login successful for user:', userCredential.user.uid);
             window.userLoggedInThisSession = true;
-            alert('Login successful! Going to timesheet...');
-            document.getElementById('authContainer').style.display = 'none';
+            showNotification({
+                type: 'success',
+                title: 'Welcome Back',
+                message: 'You have successfully logged in. Redirecting to your timesheet...'
+            });
+            setTimeout(() => {
+                document.getElementById('authContainer').style.display = 'none';
             document.getElementById('mainApp').style.display = 'block';
             // Ensure previous timesheet DOM is cleared for this session
-            const sheet = document.getElementById('sheetContainer');
+            const sheet = document.getElementById('timesheetModal');
             const tbody = document.getElementById('timesheetBody');
             if (tbody) tbody.innerHTML = '';
             if (sheet) sheet.style.display = 'none';
@@ -542,16 +1120,31 @@
             document.getElementById('otRateDisplay').innerText = '₱0.00';
             loadEmployeeData(userCredential.user.uid);
             document.getElementById('authMessage').innerText = '';
+            }, 1200);
         } catch (error) {
             console.error('Login error:', error);
             let errorMessage = 'Login failed.';
-            if (error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') {
-                errorMessage = 'Invalid username or password.';
+            if (error.code === 'auth/invalid-credential') {
+                errorMessage = 'Invalid username or password. Please verify your credentials and try again.';
+            } else if (error.code === 'auth/wrong-password') {
+                errorMessage = 'Incorrect password. Please try again or reset your password.';
+            } else if (error.code === 'auth/user-not-found') {
+                errorMessage = 'User not found. Please check your credentials.';
+            } else if (error.code === 'auth/too-many-requests') {
+                errorMessage = 'Too many failed login attempts. Please try again later.';
+            } else if (error.code === 'auth/network-request-failed') {
+                errorMessage = 'Network error. Please check your internet connection.';
+            } else if (error.code === 'auth/invalid-email') {
+                errorMessage = 'Invalid email format. Please check your credentials.';
             } else {
-                errorMessage = error.message;
+                errorMessage = `Error: ${error.message}`;
             }
-            alert('Login failed: ' + errorMessage);
-            document.getElementById('authMessage').innerText = errorMessage;
+            console.error('Login error details:', error);
+            showNotification({
+                type: 'error',
+                title: 'Login Error',
+                message: errorMessage
+            });
         }
     }
 
@@ -565,25 +1158,65 @@
         const password = document.getElementById('signupPassword').value;
 
         if (!firstName || !lastName || !phoneNumber || !email || !username || !password) {
-            document.getElementById('authMessage').innerText = 'Please fill in all required fields.';
+            showNotification({
+                type: 'warning',
+                title: 'Missing Information',
+                message: 'Please fill in all required fields to create your account.'
+            });
             return;
         }
 
         // Basic email validation
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
-            document.getElementById('authMessage').innerText = 'Please enter a valid email address.';
+            showNotification({
+                type: 'warning',
+                title: 'Invalid Email',
+                message: 'Please enter a valid email address (e.g., name@example.com).'
+            });
             return;
         }
 
-        // Password strength check
-        if (password.length < 6) {
-            document.getElementById('authMessage').innerText = 'Password must be at least 6 characters long.';
+        // Enhanced password strength check
+        if (password.length < 8) {
+            showNotification({
+                type: 'warning',
+                title: 'Weak Password',
+                message: 'Password must be at least 8 characters long.'
+            });
+            return;
+        }
+        if (!/[A-Z]/.test(password)) {
+            showNotification({
+                type: 'warning',
+                title: 'Weak Password',
+                message: 'Password must contain at least one uppercase letter (A-Z).'
+            });
+            return;
+        }
+        if (!/[a-z]/.test(password)) {
+            showNotification({
+                type: 'warning',
+                title: 'Weak Password',
+                message: 'Password must contain at least one lowercase letter (a-z).'
+            });
+            return;
+        }
+        if (!/[0-9]/.test(password)) {
+            showNotification({
+                type: 'warning',
+                title: 'Weak Password',
+                message: 'Password must contain at least one number (0-9).'
+            });
             return;
         }
 
         try {
-            document.getElementById('authMessage').innerText = 'Creating account...';
+            showNotification({
+                type: 'info',
+                title: 'Creating Account',
+                message: 'Please wait while we process your account creation...'
+            });
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             console.log('User created:', userCredential.user.uid);
             // Save employee data
@@ -595,6 +1228,7 @@
                 phoneNumber: phoneNumber,
                 email: email,
                 username: username,
+                role: 'employee',  // Default role for new signups
                 createdAt: new Date()
             });
             console.log('Employee data saved');
@@ -607,6 +1241,7 @@
                 phoneNumber: phoneNumber,
                 email: email,
                 username: username,
+                role: 'employee',  // Default role for new signups
                 createdAt: new Date()
             });
             console.log('User profile data saved');
@@ -618,11 +1253,16 @@
             });
             console.log('Username mapping saved');
             window.userLoggedInThisSession = true;
-            alert('Account created successfully! Going to timesheet...');
-            document.getElementById('authContainer').style.display = 'none';
+            showNotification({
+                type: 'success',
+                title: 'Account Created',
+                message: 'Your account has been successfully created. Redirecting to your timesheet...'
+            });
+            setTimeout(() => {
+                document.getElementById('authContainer').style.display = 'none';
             document.getElementById('mainApp').style.display = 'block';
             // Clear any previous timesheet DOM data before showing new user's view
-            const sheet2 = document.getElementById('sheetContainer');
+            const sheet2 = document.getElementById('timesheetModal');
             const tbody2 = document.getElementById('timesheetBody');
             if (tbody2) tbody2.innerHTML = '';
             if (sheet2) sheet2.style.display = 'none';
@@ -631,20 +1271,29 @@
             document.getElementById('totalHoursDisplay').innerText = '0.00';
             document.getElementById('otRateDisplay').innerText = '₱0.00';
             loadEmployeeData(userCredential.user.uid);
-            document.getElementById('authMessage').innerText = 'Account created successfully!';
+            }, 1200);
         } catch (error) {
             console.error('Signup error:', error);
-            let errorMessage = 'An error occurred during signup.';
-            if (error.code === 'auth/email-already-in-use') {
-                errorMessage = 'This email is already registered.';
+            let errorMessage = 'An error occurred during account creation. Please try again.';
+            if (error.code === 'auth/invalid-credential') {
+                errorMessage = 'The credentials provided are invalid. Please check your email and password and try again.';
+            } else if (error.code === 'auth/email-already-in-use') {
+                errorMessage = 'This email address is already registered. Please log in or use a different email.';
             } else if (error.code === 'auth/invalid-email') {
-                errorMessage = 'Invalid email address.';
+                errorMessage = 'The email address you entered is invalid. Please check and try again.';
             } else if (error.code === 'auth/weak-password') {
-                errorMessage = 'Password is too weak.';
-            } else {
-                errorMessage = error.message;
+                errorMessage = 'The password you chose is too weak. Use at least 8 characters with uppercase, lowercase, and numbers.';
+            } else if (error.code === 'auth/operation-not-allowed') {
+                errorMessage = 'Account creation is currently disabled. Please contact support for assistance.';
+            } else if (error.code === 'auth/network-request-failed') {
+                errorMessage = 'Network error occurred. Please check your internet connection and try again.';
             }
-            document.getElementById('authMessage').innerText = errorMessage;
+            console.error('Signup error details:', error);
+            showNotification({
+                type: 'error',
+                title: 'Account Creation Failed',
+                message: errorMessage
+            });
         }
     }
 
@@ -660,7 +1309,7 @@
         // Hide main app, show auth container
         // Also clear timesheet DOM and totals
         const tbody = document.getElementById('timesheetBody');
-        const sheet = document.getElementById('sheetContainer');
+        const sheet = document.getElementById('timesheetModal');
         if (tbody) tbody.innerHTML = '';
         if (sheet) sheet.style.display = 'none';
         document.getElementById('grandTotalDisplay').innerText = '₱ 0.00';
@@ -701,7 +1350,6 @@
                     if (rows[index]) {
                         rows[index].querySelector('.t-in').value = entry.timeIn;
                         rows[index].querySelector('.t-out').value = entry.timeOut;
-                        rows[index].querySelector('.t-break').value = entry.break;
                         rows[index].querySelector('.t-task').value = entry.task;
                         rows[index].querySelector('.t-status').value = entry.status;
                     }
@@ -733,7 +1381,6 @@
             date: row.dataset.date,
             timeIn: row.querySelector('.t-in').value,
             timeOut: row.querySelector('.t-out').value,
-            break: row.querySelector('.t-break').value,
             task: row.querySelector('.t-task').value,
             status: row.querySelector('.t-status').value,
             amount: parseFloat(row.dataset.amount) || 0
@@ -760,11 +1407,51 @@
     }
 
     // Initialize date display
-    document.getElementById('currentDate').innerText = moment().format('MMMM DD, YYYY');
+    try {
+        document.getElementById('currentDate').innerText = moment().format('MMMM DD, YYYY');
+    } catch(er) {
+        console.warn('Could not set current date:', er);
+    }
 
     // Recalculate when OT multiplier or daily rate changes
-    document.getElementById('otMultiplier').addEventListener('change', calculate);
-    document.getElementById('dailyRate').addEventListener('change', calculate);
+    try {
+        const otEl = document.getElementById('otMultiplier');
+        const drEl = document.getElementById('dailyRate');
+        if (otEl) otEl.addEventListener('change', calculate);
+        if (drEl) drEl.addEventListener('change', calculate);
+    } catch(er) {
+        console.warn('Could not set up event listeners:', er);
+    }
+
+
+
+    // Update row editability based on status
+    function updateRowEditability(statusSelect) {
+        const row = statusSelect.closest('tr');
+        const timeInInput = row.querySelector('.t-in');
+        const timeOutInput = row.querySelector('.t-out');
+        const taskInput = row.querySelector('.t-task');
+        const status = statusSelect.value;
+
+        // Enable fields for statuses that might involve time entry
+        const editableStatuses = ['Present', 'Weekend', 'Regular Holiday', 'Special Holiday'];
+        const isEditable = editableStatuses.includes(status);
+
+        timeInInput.disabled = !isEditable;
+        timeOutInput.disabled = !isEditable;
+        taskInput.disabled = !isEditable;
+
+        // Apply styling
+        if (!isEditable) {
+            timeInInput.classList.add('readonly-input');
+            timeOutInput.classList.add('readonly-input');
+            taskInput.classList.add('readonly-input');
+        } else {
+            timeInInput.classList.remove('readonly-input');
+            timeOutInput.classList.remove('readonly-input');
+            taskInput.classList.remove('readonly-input');
+        }
+    }
 
     async function generateSheet() {
         // empName is now auto-populated from account and readonly
@@ -774,19 +1461,31 @@
         const otMultiplier = document.getElementById('otMultiplier').value;
 
         if (!rate) {
-            alert("Please enter the daily rate.");
+            showNotification({
+                type: 'warning',
+                title: 'Missing Daily Rate',
+                message: 'Please enter the daily rate.'
+            });
             document.getElementById('dailyRate').focus();
             return;
         }
 
         if (!otMultiplier) {
-            alert("Please enter the OT multiplier.");
+            showNotification({
+                type: 'warning',
+                title: 'Missing OT Multiplier',
+                message: 'Please enter the OT multiplier.'
+            });
             document.getElementById('otMultiplier').focus();
             return;
         }
 
         if (!start || !end) {
-            alert("Please select date range");
+            showNotification({
+                type: 'warning',
+                title: 'Missing Dates',
+                message: 'Please select start and end dates first.'
+            });
             return;
         }
 
@@ -833,8 +1532,14 @@
             
             // Get time-in and time-out values from Firestore or defaults
             const timesForDay = timeInsMap[dateStr] || {};
-            const timeInVal = timesForDay.timeIn || '08:00';
-            const timeOutVal = timesForDay.timeOut || '17:00';
+            const hasLogEntry = dateStr in timeInsMap;
+            const timeInVal = timesForDay.timeIn || '';
+            const timeOutVal = timesForDay.timeOut || '';
+            
+            // Detect if it's a weekend and set default status
+            const dayOfWeek = curr.day(); // 0 = Sunday, 6 = Saturday
+            const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+            const defaultStatus = isWeekend ? 'Weekend' : (hasLogEntry ? 'Present' : 'Absent');
             
             row.innerHTML = `
                 <td class="ps-4">
@@ -843,35 +1548,39 @@
                 </td>
                 <td><input type="time" class="form-control form-control-sm t-in" value="${timeInVal}" onchange="calculate()"></td>
                 <td><input type="time" class="form-control form-control-sm t-out" value="${timeOutVal}" onchange="calculate()"></td>
-                <td><input type="number" class="form-control form-control-sm t-break" value="1" style="width: 60px" onchange="calculate()"></td>
+                <td><span class="t-total-hours fw-bold">0.00</span></td>
                 <td><input type="text" class="form-control form-control-sm t-task" placeholder="e.g. Drafting pleadings"></td>
                 <td>
-                    <select class="form-select form-select-sm t-status" onchange="calculate()">
-                        <option value="Present" selected>Present</option>
-                        <option value="Absent">Absent</option>
-                        <option value="Sick Leave">Sick Leave</option>
-                        <option value="Vacation Leave">Vacation Leave</option>
-                        <option value="Emergency Leave">Emergency Leave</option>
-                        <option value="Regular Holiday">Regular Holiday</option>
-                        <option value="Special Holiday">Special Holiday</option>
+                    <select class="form-select form-select-sm t-status" onchange="updateRowEditability(this); calculate()">
+                        <option value="Present" ${defaultStatus === 'Present' ? 'selected' : ''}>Present</option>
+                        <option value="Weekend" ${defaultStatus === 'Weekend' ? 'selected' : ''}>Weekend</option>
+                        <option value="Absent" ${defaultStatus === 'Absent' ? 'selected' : ''}>Absent</option>
+                        <option value="Sick Leave" ${defaultStatus === 'Sick Leave' ? 'selected' : ''}>Sick Leave</option>
+                        <option value="Vacation Leave" ${defaultStatus === 'Vacation Leave' ? 'selected' : ''}>Vacation Leave</option>
+                        <option value="Emergency Leave" ${defaultStatus === 'Emergency Leave' ? 'selected' : ''}>Emergency Leave</option>
+                        <option value="Regular Holiday" ${defaultStatus === 'Regular Holiday' ? 'selected' : ''}>Regular Holiday</option>
+                        <option value="Special Holiday" ${defaultStatus === 'Special Holiday' ? 'selected' : ''}>Special Holiday</option>
                     </select>
                 </td>
-                <td class="text-end pe-4 fw-bold row-total">₱ ${rate}.00</td>
+                <td class="text-end pe-4 fw-bold row-total">₱ ${isWeekend ? (dailyRate * 1.30).toFixed(2) : rate}.00</td>
             `;
             tbody.appendChild(row);
+            
+            // Apply editability rules based on initial status
+            const statusSelect = row.querySelector('.t-status');
+            updateRowEditability(statusSelect);
+            
             curr.add(1, 'days');
         }
 
-        document.getElementById('sheetContainer').style.display = 'block';
+        openTimesheetModal();
         calculate();
-        
-        // Refresh Daily Logs table to show records within the date range
-        await loadDailyLogs();
     }
 
     function calculate() {
         const rows = document.querySelectorAll('#timesheetBody tr');
         const dailyRate = parseFloat(document.getElementById('dailyRate').value) || 0;
+        const weekendRate = dailyRate * 1.30;
         const otMultiplier = parseFloat(document.getElementById('otMultiplier').value) || 1.25;
         let grandTotal = 0;
         let totalHours = 0;
@@ -891,10 +1600,8 @@
                 // Regular holiday: not worked -> 100% of daily pay; worked -> paid at 200% for first 8 hrs
                 const timeInEl = row.querySelector('.t-in');
                 const timeOutEl = row.querySelector('.t-out');
-                const breakEl = row.querySelector('.t-break');
                 const timeIn = timeInEl ? timeInEl.value : '';
                 const timeOut = timeOutEl ? timeOutEl.value : '';
-                const breakHrs = parseFloat(breakEl ? breakEl.value : 0) || 0;
 
                 if (!timeIn || !timeOut) {
                     netHours = 8;
@@ -903,20 +1610,39 @@
                     const start = moment(timeIn, 'HH:mm');
                     const end = moment(timeOut, 'HH:mm');
                     let duration = moment.duration(end.diff(start)).asHours();
-                    netHours = Math.max(0, duration - breakHrs);
+                    netHours = Math.max(0, duration > 5 ? duration - 1 : duration);
                     const hourlyRate = dailyRate / 8;
                     const regHours = Math.min(netHours, 8);
                     const otHours = Math.max(0, netHours - 8);
                     amount = (regHours * hourlyRate * 2) + (otHours * hourlyRate * 2 * otMultiplier);
                 }
+            } else if (status === 'Weekend') {
+                // Weekend: not worked -> unpaid; worked -> paid at weekend rate (already 130% of daily rate)
+                const timeInEl = row.querySelector('.t-in');
+                const timeOutEl = row.querySelector('.t-out');
+                const timeIn = timeInEl ? timeInEl.value : '';
+                const timeOut = timeOutEl ? timeOutEl.value : '';
+
+                if (!timeIn || !timeOut) {
+                    netHours = 0;
+                    amount = 0; // no pay if not worked on weekend
+                } else {
+                    const start = moment(timeIn, 'HH:mm');
+                    const end = moment(timeOut, 'HH:mm');
+                    let duration = moment.duration(end.diff(start)).asHours();
+                    netHours = Math.max(0, duration > 5 ? duration - 1 : duration);
+                    const hourlyRate = weekendRate / 8;
+                    const regHours = Math.min(netHours, 8);
+                    const otHours = Math.max(0, netHours - 8);
+                    // Weekend rate is already 130% of daily rate, so calculate normally
+                    amount = (regHours * hourlyRate) + (otHours * hourlyRate * otMultiplier);
+                }
             } else if (status === 'Special Holiday') {
                 // Special non-working holiday: not worked -> unpaid (company may choose otherwise)
                 const timeInEl = row.querySelector('.t-in');
                 const timeOutEl = row.querySelector('.t-out');
-                const breakEl = row.querySelector('.t-break');
                 const timeIn = timeInEl ? timeInEl.value : '';
                 const timeOut = timeOutEl ? timeOutEl.value : '';
-                const breakHrs = parseFloat(breakEl ? breakEl.value : 0) || 0;
 
                 if (!timeIn || !timeOut) {
                     netHours = 0;
@@ -925,7 +1651,7 @@
                     const start = moment(timeIn, 'HH:mm');
                     const end = moment(timeOut, 'HH:mm');
                     let duration = moment.duration(end.diff(start)).asHours();
-                    netHours = Math.max(0, duration - breakHrs);
+                    netHours = Math.max(0, duration > 5 ? duration - 1 : duration);
                     const hourlyRate = dailyRate / 8;
                     const regHours = Math.min(netHours, 8);
                     const otHours = Math.max(0, netHours - 8);
@@ -940,16 +1666,14 @@
             } else { // Present
                 const timeInEl = row.querySelector('.t-in');
                 const timeOutEl = row.querySelector('.t-out');
-                const breakEl = row.querySelector('.t-break');
                 const timeIn = timeInEl ? timeInEl.value : '';
                 const timeOut = timeOutEl ? timeOutEl.value : '';
-                const breakHrs = parseFloat(breakEl ? breakEl.value : 0) || 0;
 
                 if (timeIn && timeOut) {
                     const start = moment(timeIn, 'HH:mm');
                     const end = moment(timeOut, 'HH:mm');
                     let duration = moment.duration(end.diff(start)).asHours();
-                    netHours = Math.max(0, duration - breakHrs);
+                    netHours = Math.max(0, duration > 5 ? duration - 1 : duration);
                     const hourlyRate = dailyRate / 8;
                     const regHours = Math.min(netHours, 8);
                     const otHours = Math.max(0, netHours - 8);
@@ -963,6 +1687,7 @@
             }
 
             row.querySelector('.row-total').innerText = `₱ ${amount.toFixed(2)}`;
+            row.querySelector('.t-total-hours').innerText = `${netHours.toFixed(2)}`;
             row.dataset.amount = amount;
             grandTotal += amount;
             totalHours += netHours;
@@ -977,20 +1702,24 @@
         document.getElementById('otRateDisplay').innerText = `₱ ${otRate.toFixed(2)}`;
     }
 
-    function exportToPDF() {
+    // Generate PDF and return as base64
+    function generatePDFBase64() {
         try {
             const rowsToExport = [];
             const tableRows = document.querySelectorAll('#timesheetBody tr');
 
             if (tableRows.length === 0) {
-                alert("Please generate the time slots first!");
-                return;
+                showNotification({
+                    type: 'warning',
+                    title: 'No Data',
+                    message: 'Please generate the time slots first before sending.'
+                });
+                return null;
             }
 
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF({orientation: 'landscape', unit: 'mm', format: 'a4'});
             const name = document.getElementById('empName').value || "Employee";
-            // compute numeric grand total from row dataset to avoid currency symbol issues
             const grandTotalNum = Array.from(tableRows).reduce((sum, tr) => sum + (parseFloat(tr.dataset.amount) || 0), 0);
             const total = `PHP ${grandTotalNum.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
 
@@ -1013,7 +1742,7 @@
                     cols[0].innerText.replace(/\n/g, ' '),
                     tr.querySelector('.t-in') ? tr.querySelector('.t-in').value : '',
                     tr.querySelector('.t-out') ? tr.querySelector('.t-out').value : '',
-                    tr.querySelector('.t-break') ? tr.querySelector('.t-break').value : '',
+                    tr.querySelector('.t-total-hours') ? tr.querySelector('.t-total-hours').innerText : '',
                     tr.querySelector('.t-task') ? tr.querySelector('.t-task').value : '',
                     tr.querySelector('.t-status') ? tr.querySelector('.t-status').value : '',
                     `PHP ${amt.toLocaleString(undefined, {minimumFractionDigits: 2})}`
@@ -1022,7 +1751,7 @@
 
             doc.autoTable({
                 startY: 55,
-                head: [['Date', 'In', 'Out', 'Brk', 'Task / Case Notes', 'Status', 'Amount']],
+                head: [['Date', 'In', 'Out', 'Hrs', 'Task / Case Notes', 'Status', 'Amount']],
                 body: rowsToExport,
                 theme: 'grid',
                 headStyles: { fillColor: [8, 48, 111], fontSize: 9 },
@@ -1045,18 +1774,216 @@
             doc.line(130, finalY, 190, finalY);
             doc.text("Managing Partner", 130, finalY + 5);
 
-            // Build a safe filename: EmployeeName_StartDate_to_EndDate.pdf
+            return doc.output('dataurlstring');
+        } catch (error) {
+            console.error("PDF Error:", error);
+            showNotification({
+                type: 'error',
+                title: 'PDF Generation Failed',
+                message: 'There was an error generating the PDF. Please check the console for details.'
+            });
+            return null;
+        }
+    }
+
+    // Open email modal
+    function openEmailModal() {
+        const tableRows = document.querySelectorAll('#timesheetBody tr');
+        if (tableRows.length === 0) {
+            showNotification({
+                type: 'warning',
+                title: 'No Data',
+                message: 'Please generate the time slots first before sending.'
+            });
+            return;
+        }
+        document.getElementById('emailModal').style.display = 'block';
+    }
+
+    function closeEmailModal() {
+        document.getElementById('emailModal').style.display = 'none';
+    }
+
+    // Send PDF via email using Google Apps Script
+    async function sendPDFViaEmail() {
+        // Get your Google Apps Script deployment URL from:
+        // https://script.google.com → Deploy → New Deployment → Select Type: Web App
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx5_1WlJSYOZh5nllXP3nPgl0qkqdeZSRvb9T00d_jvkisKGz9U4MFzuUXMhsDqj_inHA/exec';
+        
+        if (!SCRIPT_URL || SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL') {
+            showNotification({
+                type: 'error',
+                title: 'Google Apps Script Not Configured',
+                message: 'Please set up Google Apps Script. See GOOGLE_APPS_SCRIPT_SETUP.md'
+            });
+            return;
+        }
+
+        const recipientEmail = document.getElementById('recipientEmail').value.trim();
+        const subject = document.getElementById('emailSubject').value.trim() || 'Timesheet Report';
+        const message = document.getElementById('emailMessage').value.trim() || 'Please find the attached timesheet report.';
+
+        if (!recipientEmail) {
+            showNotification({
+                type: 'warning',
+                title: 'Missing Recipient',
+                message: 'Please enter the recipient email address.'
+            });
+            return;
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(recipientEmail)) {
+            showNotification({
+                type: 'warning',
+                title: 'Invalid Email',
+                message: 'Please enter a valid email address.'
+            });
+            return;
+        }
+
+        showNotification({
+            type: 'info',
+            title: 'Sending Email',
+            message: 'Generating PDF and sending email...'
+        });
+
+        try {
+            // Generate PDF
+            const pdfDataUrl = generatePDFBase64();
+            if (!pdfDataUrl) {
+                throw new Error('Failed to generate PDF');
+            }
+
+            // Extract base64 from data URL
+            const base64Data = pdfDataUrl.split(',')[1];
+
+            // Get employee name and dates
+            const name = document.getElementById('empName').value || "Employee";
+            const startVal = document.getElementById('startDate').value || '';
+            const endVal = document.getElementById('endDate').value || '';
+
+            // Send to Google Apps Script with proper headers
+            const response = await fetch(SCRIPT_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({
+                    payload: JSON.stringify({
+                        recipientEmail: recipientEmail,
+                        subject: subject,
+                        message: message,
+                        pdfBase64: base64Data,
+                        employeeName: name,
+                        startDate: startVal,
+                        endDate: endVal,
+                        filename: `${name.replace(/\s+/g, '_')}_${startVal}_to_${endVal}.pdf`
+                    })
+                })
+            });
+
+            const responseText = await response.text();
+            let result;
+            try {
+                result = JSON.parse(responseText);
+            } catch (e) {
+                console.error('Failed to parse response:', responseText);
+                throw new Error('Invalid response from server');
+            }
+
+            if (result.success) {
+                closeEmailModal();
+                document.getElementById('recipientEmail').value = '';
+                document.getElementById('emailSubject').value = '';
+                document.getElementById('emailMessage').value = '';
+                
+                showNotification({
+                    type: 'success',
+                    title: 'Email Sent Successfully',
+                    message: `Timesheet PDF sent to ${recipientEmail} with attachment!`
+                });
+            } else {
+                throw new Error(result.error || 'Failed to send email');
+            }
+        } catch (error) {
+            console.error('Email error:', error);
+            showNotification({
+                type: 'error',
+                title: 'Email Send Failed',
+                message: error.message || 'Failed to send email. Check console.'
+            });
+        }
+    }
+
+    // Backup: Allow download if email fails
+    function exportToPDF() {
+        try {
+            const rowsToExport = [];
+            const tableRows = document.querySelectorAll('#timesheetBody tr');
+
+            if (tableRows.length === 0) {
+                showNotification({
+                    type: 'warning',
+                    title: 'No Data',
+                    message: 'Please generate the time slots first.'
+                });
+                return;
+            }
+
+            const pdfDataUrl = generatePDFBase64();
+            if (!pdfDataUrl) return;
+
+            const name = document.getElementById('empName').value || "Employee";
             const startVal = document.getElementById('startDate').value || '';
             const endVal = document.getElementById('endDate').value || '';
             const safeName = name.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_\-]/g, '');
             const safeStart = startVal.replace(/[^0-9\-]/g, '');
             const safeEnd = endVal.replace(/[^0-9\-]/g, '');
             const filename = `${safeName}_${safeStart}_to_${safeEnd}.pdf`;
-            doc.save(filename);
+
+            // Create download link
+            const link = document.createElement('a');
+            link.href = pdfDataUrl;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            showNotification({
+                type: 'success',
+                title: 'PDF Downloaded',
+                message: 'Your timesheet has been downloaded successfully.'
+            });
         } catch (error) {
             console.error("PDF Error:", error);
-            alert("There was an error generating the PDF. Please check the console for details.");
+            showNotification({
+                type: 'error',
+                title: 'Download Failed',
+                message: 'Failed to download the PDF.'
+            });
         }
+    }
+
+    // Timesheet Modal Functions
+    function openTimesheetModal() {
+        document.getElementById('timesheetModal').style.display = 'block';
+    }
+
+    function closeTimesheetModal() {
+        document.getElementById('timesheetModal').style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+        const monthlyModal = document.getElementById('monthlyRecordsModal');
+        const timesheetModal = document.getElementById('timesheetModal');
+        const emailModal = document.getElementById('emailModal');
+        const notificationModal = document.getElementById('notificationModal');
+        
+        if (event.target === monthlyModal) monthlyModal.style.display = 'none';
+        if (event.target === timesheetModal) timesheetModal.style.display = 'none';
+        if (event.target === emailModal) emailModal.style.display = 'none';
+        if (event.target === notificationModal) notificationModal.style.display = 'none';
     }
 
     // Monthly Records Functions
@@ -1193,7 +2120,439 @@
             alert('Error recalculating: ' + error.message);
         }
     };
+
+    // Manager Functions
+    window.loadTeamMembers = async () => {
+        const user = auth.currentUser;
+        if (!user) return;
+
+        try {
+            console.log('Loading team members...');
+            const userDoc = await getDoc(doc(db, 'employees', user.uid));
+            const userRole = userDoc.data()?.role || 'employee';
+
+            // Fetch all users/employees
+            const employeesRef = collection(db, 'employees');
+            const snapshot = await getDocs(employeesRef);
+            
+            let teamMembers = [];
+            snapshot.forEach(doc => {
+                const data = doc.data();
+                if (doc.id !== user.uid) { // Don't show yourself
+                    teamMembers.push({
+                        uid: doc.id,
+                        ...data
+                    });
+                }
+            });
+
+            // Sort by name
+            teamMembers.sort((a, b) => (a.fullName || '').localeCompare(b.fullName || ''));
+
+            const container = document.getElementById('teamMembersContainer');
+            if (teamMembers.length === 0) {
+                container.innerHTML = '<div class="no-employees">No team members found</div>';
+                return;
+            }
+
+            container.innerHTML = '';
+            teamMembers.forEach(member => {
+                const roleClass = `role-${member.role || 'employee'}`;
+                const managerBadge = member.role === 'manager' || member.role === 'admin' ? '<span class="badge bg-warning text-dark fw-bold" style="margin-left: 8px;"><i class="fas fa-star" style="margin-right: 4px;"></i>Manager</span>' : '';
+                const html = `
+                    <div class="employee-list-item">
+                        <div class="employee-info">
+                            <div class="employee-name">${member.fullName || 'N/A'}${managerBadge}</div>
+                            <div class="employee-email">${member.email || 'N/A'}</div>
+                            <span class="employee-role ${roleClass}">${member.role || 'employee'}</span>
+                        </div>
+                        <div class="employee-actions">
+                            <button class="update-role-btn" onclick="viewEmployeeRecords('${member.uid}', '${member.fullName || 'N/A'}')">
+                                <i class="fas fa-eye"></i> View Records
+                            </button>
+                            <select class="role-select" id="role-${member.uid}" onchange="this.dataset.changed = true">
+                                <option value="employee" ${(member.role || 'employee') === 'employee' ? 'selected' : ''}>Employee</option>
+                                <option value="manager" ${member.role === 'manager' ? 'selected' : ''}>Manager</option>
+                                <option value="admin" ${member.role === 'admin' ? 'selected' : ''}>Admin</option>
+                            </select>
+                            <button class="update-role-btn" onclick="updateUserRole('${member.uid}', document.getElementById('role-${member.uid}').value)">
+                                <i class="fas fa-save"></i> Update
+                            </button>
+                            <button class="update-role-btn" style="background-color: #dc3545; border-color: #dc3545;" onclick="deleteEmployeeAccount('${member.uid}', '${member.fullName || 'N/A'}')">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += html;
+            });
+
+            console.log('Team members loaded:', teamMembers.length);
+        } catch (error) {
+            console.error('Error loading team members:', error);
+            document.getElementById('teamMembersContainer').innerHTML = `<div class="no-employees">Error loading team members: ${error.message}</div>`;
+        }
+    };
+
+    // Delete Employee Account
+    window.deleteEmployeeAccount = async (targetUserId, employeeName) => {
+        const user = auth.currentUser;
+        if (!user) {
+            showNotification({
+                type: 'error',
+                title: 'Error',
+                message: 'You must be logged in to delete accounts.'
+            });
+            return;
+        }
+
+        try {
+            // Check user's role - only managers/admins can delete
+            const userDoc = await getDoc(doc(db, 'employees', user.uid));
+            const userRole = userDoc.data()?.role || 'employee';
+
+            if (userRole !== 'manager' && userRole !== 'admin') {
+                showNotification({
+                    type: 'error',
+                    title: 'Permission Denied',
+                    message: 'Only managers and admins can delete employee accounts.'
+                });
+                return;
+            }
+
+            // Confirmation dialog
+            showNotification({
+                type: 'warning',
+                title: 'Confirm Delete',
+                message: `Are you sure you want to permanently delete ${employeeName}'s account? This action cannot be undone.`,
+                showAction: true,
+                actionText: 'Delete Account',
+                onAction: async () => {
+                    try {
+                        // Delete from employees collection
+                        await deleteDoc(doc(db, 'employees', targetUserId));
+
+                        // Delete from users collection if it exists
+                        try {
+                            await deleteDoc(doc(db, 'users', targetUserId));
+                        } catch (e) {
+                            console.warn('Could not delete from users collection:', e);
+                        }
+
+                        // Delete from usernames collection
+                        try {
+                            const usernamesSnap = await getDocs(collection(db, 'usernames'));
+                            usernamesSnap.forEach(async (doc) => {
+                                if (doc.data().uid === targetUserId) {
+                                    await deleteDoc(doc.ref);
+                                }
+                            });
+                        } catch (e) {
+                            console.warn('Could not delete from usernames collection:', e);
+                        }
+
+                        // Delete daily logs for this employee
+                        try {
+                            const logsSnap = await getDocs(collection(db, 'daily_logs'));
+                            logsSnap.forEach(async (doc) => {
+                                if (doc.data().uid === targetUserId) {
+                                    await deleteDoc(doc.ref);
+                                }
+                            });
+                        } catch (e) {
+                            console.warn('Could not delete daily logs:', e);
+                        }
+
+                        // Delete monthly records for this employee
+                        try {
+                            const monthlySnap = await getDocs(collection(db, 'monthly_records'));
+                            monthlySnap.forEach(async (doc) => {
+                                if (doc.data().uid === targetUserId) {
+                                    await deleteDoc(doc.ref);
+                                }
+                            });
+                        } catch (e) {
+                            console.warn('Could not delete monthly records:', e);
+                        }
+
+                        showNotification({
+                            type: 'success',
+                            title: 'Account Deleted',
+                            message: `${employeeName}'s account and all associated records have been permanently deleted.`
+                        });
+
+                        // Reload team members
+                        setTimeout(async () => {
+                            await loadTeamMembers();
+                        }, 1000);
+                    } catch (error) {
+                        console.error('Error during deletion:', error);
+                        showNotification({
+                            type: 'error',
+                            title: 'Deletion Failed',
+                            message: `Failed to delete account: ${error.message}`
+                        });
+                    }
+                }
+            });
+        } catch (error) {
+            console.error('Error in deleteEmployeeAccount:', error);
+            showNotification({
+                type: 'error',
+                title: 'Error',
+                message: `Error: ${error.message}`
+            });
+        }
+    };
+
+    window.updateUserRole = async (targetUserId, newRole) => {
+        const user = auth.currentUser;
+        if (!user) {
+            showNotification({
+                type: 'error',
+                title: 'Error',
+                message: 'You must be logged in to update roles.'
+            });
+            return;
+        }
+
+        try {
+            // Check user's role - only managers/admins can update
+            const userDoc = await getDoc(doc(db, 'employees', user.uid));
+            const userRole = userDoc.data()?.role || 'employee';
+
+            if (userRole !== 'manager' && userRole !== 'admin') {
+                showNotification({
+                    type: 'error',
+                    title: 'Permission Denied',
+                    message: 'Only managers and admins can update user roles.'
+                });
+                return;
+            }
+
+            showNotification({
+                type: 'info',
+                title: 'Updating Role',
+                message: 'Please wait while we update the user role...'
+            });
+
+            // Update in employees collection
+            await setDoc(doc(db, 'employees', targetUserId), {
+                role: newRole
+            }, { merge: true });
+
+            // Also update in users collection if it exists
+            try {
+                await setDoc(doc(db, 'users', targetUserId), {
+                    role: newRole
+                }, { merge: true });
+            } catch (e) {
+                console.warn('Could not update users collection:', e);
+            }
+
+            showNotification({
+                type: 'success',
+                title: 'Role Updated',
+                message: `User role has been successfully updated to ${newRole}.`
+            });
+
+            // Wait for Firestore to sync, then reload team members
+            setTimeout(async () => {
+                await loadTeamMembers();
+            }, 1500);
+        } catch (error) {
+            console.error('Error updating user role:', error);
+            showNotification({
+                type: 'error',
+                title: 'Update Failed',
+                message: `Failed to update role: ${error.message}`
+            });
+        }
+    };
+
+    // View Employee Records Function
+    window.viewEmployeeRecords = async (employeeUid, employeeName) => {
+        try {
+            showNotification({
+                type: 'info',
+                title: 'Loading Records',
+                message: 'Please wait while we fetch the employee records...'
+            });
+
+            // Fetch employee's daily logs
+            const logsRef = collection(db, 'daily_logs');
+            const snapshot = await getDocs(logsRef);
+            
+            let employeeLogs = [];
+            snapshot.forEach(doc => {
+                const data = doc.data();
+                if (data.uid === employeeUid) {
+                    employeeLogs.push({
+                        date: data.date,
+                        timeIn: data.timeIn,
+                        timeOut: data.timeOut,
+                        breakDuration: data.breakDuration || 0,
+                        notes: data.notes || ''
+                    });
+                }
+            });
+
+            // Sort by date
+            employeeLogs.sort((a, b) => a.date.localeCompare(b.date));
+
+            closeNotification();
+            displayEmployeeRecordsModal(employeeName, employeeLogs);
+        } catch (error) {
+            console.error('Error loading employee records:', error);
+            showNotification({
+                type: 'error',
+                title: 'Error Loading Records',
+                message: error.message
+            });
+        }
+    };
+
+    window.displayEmployeeRecordsModal = (employeeName, logs) => {
+        const modal = document.getElementById('employeeRecordsModal');
+        const body = document.getElementById('employeeRecordsBody');
+
+        // Set employee name in header
+        document.getElementById('recordsEmployeeName').textContent = employeeName;
+
+        // Function to calculate total hours (without break deduction)
+        const calculateTotalHours = (timeIn, timeOut) => {
+            if (!timeIn || !timeOut) return 0;
+            
+            // Parse time strings (format: HH:MM)
+            const [inHour, inMin] = timeIn.split(':').map(Number);
+            const [outHour, outMin] = timeOut.split(':').map(Number);
+            
+            // Convert to minutes
+            const inTotalMin = inHour * 60 + inMin;
+            const outTotalMin = outHour * 60 + outMin;
+            
+            // Calculate difference in hours
+            const hoursWorked = (outTotalMin - inTotalMin) / 60;
+            
+            return Math.max(0, hoursWorked);
+        };
+
+        // Function to calculate break time
+        const calculateBreakTime = (totalHours) => {
+            if (totalHours > 5) {
+                return 1; // 1 hour break
+            }
+            return 0; // No break
+        };
+
+        // Function to calculate hours rendered (after break deduction)
+        const calculateHoursRendered = (timeIn, timeOut) => {
+            const totalHours = calculateTotalHours(timeIn, timeOut);
+            const breakTime = calculateBreakTime(totalHours);
+            const hoursRendered = totalHours - breakTime;
+            return Math.max(0, hoursRendered).toFixed(2);
+        };
+
+        // Function to get break time for display
+        const getBreakTimeDisplay = (timeIn, timeOut) => {
+            const totalHours = calculateTotalHours(timeIn, timeOut);
+            const breakTime = calculateBreakTime(totalHours);
+            return breakTime;
+        };
+
+        // Create records HTML
+        let recordsHTML = `
+            <div class="card p-4">
+                <div style="background-color: #f8f9fa; border-left: 4px solid #d4af37; padding: 1rem; border-radius: 6px; margin-bottom: 1.5rem;">
+                    <h6 style="color: #1a2b4d; font-weight: 700; margin-bottom: 0.5rem;">Break Time Calculation Rule:</h6>
+                    <p style="color: #666; margin: 0; font-size: 0.9rem;">
+                        <i class="fas fa-info-circle" style="color: #d4af37; margin-right: 0.5rem;"></i>
+                        If <strong>Total Hours Rendered > 5 hours</strong>, <strong>Break Time = 1 hour</strong> automatically deducted from rendered hours. Otherwise, Break Time = 0 hours.
+                    </p>
+                </div>
+
+                <h5 class="section-header mb-4"><i class="fas fa-calendar-check"></i> Daily Time Records</h5>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped">
+                        <thead style="background: linear-gradient(90deg, #0b3d91 0%, #ffcc00 100%); color: #fff;">
+                            <tr>
+                                <th>Date</th>
+                                <th>Time In</th>
+                                <th>Time Out</th>
+                                <th>Total Hours</th>
+                                <th>Break Time (hrs)</th>
+                                <th>Hours Rendered</th>
+                                <th>Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+        `;
+
+        if (logs.length === 0) {
+            recordsHTML += '<tr><td colspan="7" class="text-center text-muted">No time records found</td></tr>';
+        } else {
+            logs.forEach(log => {
+                const totalHours = calculateTotalHours(log.timeIn, log.timeOut);
+                const breakTime = getBreakTimeDisplay(log.timeIn, log.timeOut);
+                const hoursRendered = calculateHoursRendered(log.timeIn, log.timeOut);
+                
+                recordsHTML += `
+                    <tr>
+                        <td>${log.date}</td>
+                        <td>${log.timeIn || 'N/A'}</td>
+                        <td>${log.timeOut || 'N/A'}</td>
+                        <td><strong>${totalHours.toFixed(2)}</strong></td>
+                        <td style="background-color: #fff3cd;"><strong>${breakTime}</strong></td>
+                        <td style="background-color: #d4f1d4;"><strong>${hoursRendered}</strong></td>
+                        <td>${log.notes || '-'}</td>
+                    </tr>
+                `;
+            });
+        }
+
+        recordsHTML += `
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        `;
+
+        body.innerHTML = recordsHTML;
+        modal.classList.add('show');
+    };
+
+    window.closeEmployeeRecordsModal = () => {
+        const modal = document.getElementById('employeeRecordsModal');
+        modal.classList.remove('show');
+    };
+
+    // Employee Records Modal Close on Outside Click
+    document.addEventListener('click', function(event) {
+        const modal = document.getElementById('employeeRecordsModal');
+        if (event.target === modal) {
+            closeEmployeeRecordsModal();
+        }
+    });
+
 </script>
+
+    <!-- Employee Records Modal -->
+    <div id="employeeRecordsModal" class="employee-records-modal">
+        <div class="employee-records-content">
+            <div class="employee-records-header">
+                <div>
+                    <h2><i class="fas fa-briefcase"></i> Employee Records</h2>
+                    <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; color: #b8aaa0;">Employee: <span id="recordsEmployeeName">-</span></p>
+                </div>
+                <button class="close-records-btn" onclick="closeEmployeeRecordsModal()">
+                    <i class="fas fa-times"></i> Close
+                </button>
+            </div>
+            <div class="employee-records-body" id="employeeRecordsBody">
+                <!-- Records will be loaded here -->
+            </div>
+        </div>
+    </div>
 
     <!-- Monthly Records Modal -->
     <div id="monthlyRecordsModal" class="modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.4);">
@@ -1227,6 +2586,34 @@
         </div>
     </div>
 
+    <!-- Email Modal -->
+    <div id="emailModal" style="display: none; position: fixed; z-index: 2001; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5);">
+        <div style="background-color: #fefefe; margin: 10% auto; padding: 0; border-radius: 12px; max-width: 450px; box-shadow: 0 8px 32px rgba(0,0,0,0.3); overflow: hidden;">
+            <div style="background: linear-gradient(90deg, #1a2b4d 0%, #0f1419 100%); color: #d4af37; padding: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <h2 style="margin: 0; font-family: 'Playfair Display', serif; font-size: 1.5rem;">📧 Send Timesheet</h2>
+                <button onclick="closeEmailModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #d4af37;">&times;</button>
+            </div>
+            <div style="padding: 25px;">
+                <div style="margin-bottom: 18px;">
+                    <label style="display: block; font-weight: 700; color: #1a2b4d; font-size: 0.9rem; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">Recipient Email Address</label>
+                    <input type="email" id="recipientEmail" placeholder="manager@repolawoffice.com" style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 0.95rem; box-sizing: border-box; transition: border-color 0.3s ease;">
+                </div>
+                <div style="margin-bottom: 18px;">
+                    <label style="display: block; font-weight: 700; color: #1a2b4d; font-size: 0.9rem; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">Email Subject</label>
+                    <input type="text" id="emailSubject" placeholder="Timesheet Report" style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 0.95rem; box-sizing: border-box; transition: border-color 0.3s ease;">
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; font-weight: 700; color: #1a2b4d; font-size: 0.9rem; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">Message</label>
+                    <textarea id="emailMessage" placeholder="Please find the attached timesheet report." style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 0.95rem; box-sizing: border-box; resize: vertical; min-height: 100px; font-family: 'Poppins', sans-serif; transition: border-color 0.3s ease;"></textarea>
+                </div>
+            </div>
+            <div style="padding: 16px 25px; background-color: #f8f9fa; border-top: 1px solid #e0e0e0; display: flex; gap: 10px; justify-content: flex-end;">
+                <button onclick="closeEmailModal()" style="padding: 10px 20px; background-color: #e5e7eb; color: #374151; border: none; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; transition: all 0.2s ease;">Cancel</button>
+                <button onclick="sendPDFViaEmail()" style="padding: 10px 20px; background: linear-gradient(90deg, #10b981 0%, #059669 100%); color: white; border: none; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; transition: all 0.2s ease;">Send Email</button>
+            </div>
+        </div>
+    </div>
+
 </div> <!-- End mainApp -->
 
 <script type="module">
@@ -1234,20 +2621,21 @@
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
   import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-analytics.js";
   import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
-  import { getFirestore, doc, setDoc, getDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+  import { getFirestore, doc, setDoc, getDoc, collection, query, where, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
   // TODO: Add SDKs for Firebase products that you want to use
   // https://firebase.google.com/docs/web/setup#available-libraries
 
   // Your web app's Firebase configuration
   // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  // SECURITY: Move sensitive keys to environment variables via .env file
   const firebaseConfig = {
-    apiKey: "AIzaSyAmBi8tP4r4zpr3_6y-4Ncek0yk1oLokOs",
-    authDomain: "law-office-apps.firebaseapp.com",
-    projectId: "law-office-apps",
-    storageBucket: "law-office-apps.firebasestorage.app",
-    messagingSenderId: "2997240910",
-    appId: "1:2997240910:web:d32c1c04f947fe34436f1f",
-    measurementId: "G-R3P17HDL3G"
+    apiKey: window.FIREBASE_CONFIG?.apiKey || "AIzaSyAmBi8tP4r4zpr3_6y-4Ncek0yk1oLokOs",
+    authDomain: window.FIREBASE_CONFIG?.authDomain || "law-office-apps.firebaseapp.com",
+    projectId: window.FIREBASE_CONFIG?.projectId || "law-office-apps",
+    storageBucket: window.FIREBASE_CONFIG?.storageBucket || "law-office-apps.firebasestorage.app",
+    messagingSenderId: window.FIREBASE_CONFIG?.messagingSenderId || "2997240910",
+    appId: window.FIREBASE_CONFIG?.appId || "1:2997240910:web:d32c1c04f947fe34436f1f",
+    measurementId: window.FIREBASE_CONFIG?.measurementId || "G-R3P17HDL3G"
   };
 
   // Initialize Firebase
@@ -1270,6 +2658,7 @@
   window.query = query;
   window.where = where;
   window.getDocs = getDocs;
+  window.deleteDoc = deleteDoc;
 
   window.userLoggedInThisSession = false;
 
@@ -1294,6 +2683,28 @@
     if (docSnap.exists()) {
       const data = docSnap.data();
       document.getElementById('empName').value = data.fullName || '';
+      
+      // Check user role and show/hide sections based on role
+      const userRole = data.role || 'employee';
+      console.log('User role:', userRole);
+      
+      if (userRole === 'manager' || userRole === 'admin') {
+        // Manager/Admin - show manager dashboard, hide employee timesheet sections
+        document.getElementById('managerDashboard').style.display = 'block';
+        document.getElementById('employeeSection').style.display = 'block';
+        document.getElementById('employeeTimesheetSection').style.display = 'none';
+        document.getElementById('employeeInfoNote').style.display = 'none';
+        document.getElementById('employeeActionBar').style.display = 'none !important';
+        // Load team members for managers/admins
+        await loadTeamMembers();
+      } else {
+        // Employee - show only their timesheet, hide manager dashboard
+        document.getElementById('managerDashboard').style.display = 'none';
+        document.getElementById('employeeSection').style.display = 'block';
+        document.getElementById('employeeTimesheetSection').style.display = 'block';
+        document.getElementById('employeeInfoNote').style.display = 'block';
+        document.getElementById('employeeActionBar').style.display = 'flex';
+      }
     }
     // Load daily logs when employee data is loaded
     await loadDailyLogs();
@@ -1341,10 +2752,32 @@
       tbody.innerHTML = '';
       
       if (records.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="5" class="text-center text-muted">No daily logs found</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="7" class="text-center text-muted">No daily logs found</td></tr>';
         return;
       }
-      
+
+      // Helper functions for calculations
+      const calculateTotalHours = (timeIn, timeOut) => {
+        if (!timeIn || !timeOut) return 0;
+        const [inH, inM] = timeIn.split(':').map(Number);
+        const [outH, outM] = timeOut.split(':').map(Number);
+        const inMinutes = inH * 60 + inM;
+        const outMinutes = outH * 60 + outM;
+        const totalMinutes = outMinutes - inMinutes;
+        return totalMinutes / 60;
+      };
+
+      const calculateBreakTime = (totalHours) => {
+        if (totalHours > 5) {
+          return 1; // 1 hour break
+        }
+        return 0; // No break
+      };
+
+      const calculateHoursRendered = (totalHours, breakTime) => {
+        return Math.max(0, totalHours - breakTime);
+      };
+
       records.forEach(record => {
         const row = document.createElement('tr');
         
@@ -1352,24 +2785,18 @@
         const dateObj = new Date(record.date + 'T00:00:00');
         const dateStr = dateObj.toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' });
         
-        // Calculate break time (Time Out - Time In)
-        let breakTime = '';
-        if (record.timeIn && record.timeOut) {
-          const [inH, inM] = record.timeIn.split(':').map(Number);
-          const [outH, outM] = record.timeOut.split(':').map(Number);
-          const inMinutes = inH * 60 + inM;
-          const outMinutes = outH * 60 + outM;
-          const breakMinutes = outMinutes - inMinutes;
-          const hours = Math.floor(breakMinutes / 60);
-          const mins = breakMinutes % 60;
-          breakTime = breakMinutes > 0 ? `${hours}h ${mins}m` : '';
-        }
+        // Calculate total hours, break time, and hours rendered
+        const totalHours = calculateTotalHours(record.timeIn, record.timeOut);
+        const breakTime = calculateBreakTime(totalHours);
+        const hoursRendered = calculateHoursRendered(totalHours, breakTime);
         
         row.innerHTML = `
           <td>${dateStr}</td>
           <td>${record.timeIn || '-'}</td>
           <td>${record.timeOut || '-'}</td>
-          <td>${breakTime || '-'}</td>
+          <td><strong>${totalHours.toFixed(2)}</strong></td>
+          <td style="background-color: #fff3cd;"><strong>${breakTime}</strong></td>
+          <td style="background-color: #d4f1d4;"><strong>${hoursRendered.toFixed(2)}</strong></td>
           <td>${record.note || '-'}</td>
         `;
         tbody.appendChild(row);
