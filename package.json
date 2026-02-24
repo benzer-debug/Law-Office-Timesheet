@@ -10,9 +10,10 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
-    "build": "firebase deploy",
+    "build": "mkdir -p public && cp -r index.html daily.html profile.html firebaseConfig.js rbac.js validation.js public/ 2>/dev/null || true",
     "serve": "firebase serve",
-    "start": "firebase serve"
+    "start": "firebase serve",
+    "deploy:firebase": "firebase deploy --token $FIREBASE_TOKEN"
   },
   "keywords": [
     "law-office",
