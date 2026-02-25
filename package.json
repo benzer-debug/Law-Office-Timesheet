@@ -10,7 +10,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
-    "build": "mkdir -p public && cp -r index.html daily.html profile.html firebaseConfig.js rbac.js validation.js public/ 2>/dev/null || true",
+    "build": "mkdir -p public && cp -r index.html daily.html profile.html firebaseConfig.js rbac.js validation.js sessionTimeout.js public/ 2>/dev/null || true",
     "serve": "firebase serve",
     "start": "firebase serve",
     "deploy:firebase": "firebase deploy --token $FIREBASE_TOKEN"

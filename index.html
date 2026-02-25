@@ -726,6 +726,37 @@
     </div>
 </div>
 
+<!-- Inactivity Warning Modal -->
+<div id="inactivityWarningModal" class="modal" style="display: none; background-color: rgba(0, 0, 0, 0.5); position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; align-items: center; justify-content: center;">
+    <div class="modal-dialog" style="width: 100%; max-width: 400px;">
+        <div class="modal-content">
+            <div class="modal-header" style="background: linear-gradient(90deg, #d4af37 0%, #c19a3d 100%); color: #1a2b4d; border: none;">
+                <h5 class="modal-title"><i class="fas fa-exclamation-triangle"></i> Session Timeout Warning</h5>
+                <button type="button" class="btn-close btn-close-white" onclick="document.getElementById('inactivityWarningModal').style.display='none'" style="background-color: transparent; opacity: 0.7;"></button>
+            </div>
+            <div class="modal-body" style="padding: 1.5rem;">
+                <p style="color: #2c3e50; font-size: 1rem; margin-bottom: 1rem;">
+                    <strong>Your session will expire in 30 seconds</strong> due to inactivity.
+                </p>
+                <p style="color: #666; font-size: 0.9rem; margin-bottom: 1.5rem;">
+                    Click <strong>"Continue Session"</strong> to stay logged in, or you will be automatically logged out.
+                </p>
+                <div class="alert alert-warning" style="margin: 1rem 0; padding: 0.75rem; background-color: #fff3cd; border: 1px solid #ffc107; border-radius: 4px; color: #856404; font-size: 0.9rem;">
+                    <i class="fas fa-info-circle"></i> Any unsaved work will be lost.
+                </div>
+            </div>
+            <div class="modal-footer" style="border-top: 1px solid #e0e0e0; padding: 1rem;">
+                <button type="button" class="btn" onclick="sessionTimeoutManager.logout()" style="background-color: #dc3545; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer;">
+                    <i class="fas fa-sign-out-alt"></i> Logout Now
+                </button>
+                <button type="button" class="btn btn-primary" onclick="sessionTimeoutManager.resetTimer(); document.getElementById('inactivityWarningModal').style.display='none'" style="background-color: #d4af37; color: #1a2b4d; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; font-weight: 600;">
+                    <i class="fas fa-sync-alt"></i> Continue Session
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div id="mainApp" style="display: none;">
 
 <div class="legal-header mb-5">
@@ -1298,6 +1329,17 @@
     }
 
     async function logout() {
+        // Destroy session timeout manager
+        if (window.sessionTimeoutManager) {
+            window.sessionTimeoutManager.destroy();
+            window.sessionTimeoutManager = null;
+        }
+        // Dismiss warning modal if visible
+        const warningModal = document.getElementById('inactivityWarningModal');
+        if (warningModal) {
+            warningModal.style.display = 'none';
+        }
+        
         await signOut(auth);
         window.userLoggedInThisSession = false;
         // Clear login/signup fields
@@ -2616,6 +2658,7 @@
 
 </div> <!-- End mainApp -->
 
+<script src="sessionTimeout.js"></script>
 <script type="module">
   // Import the functions you need from the SDKs you need
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
@@ -2670,6 +2713,24 @@
       document.getElementById('authContainer').style.display = 'none';
       document.getElementById('mainApp').style.display = 'block';
       loadEmployeeData(user.uid);
+      
+      // Initialize session timeout manager (3 minutes of inactivity)
+      if (typeof SessionTimeoutManager !== 'undefined') {
+        if (window.sessionTimeoutManager) {
+          window.sessionTimeoutManager.destroy();
+        }
+        window.sessionTimeoutManager = new SessionTimeoutManager(3);
+        window.sessionTimeoutManager.init(
+          () => {
+            // Logout callback
+            logout();
+          },
+          () => {
+            // Warning callback - show modal
+            document.getElementById('inactivityWarningModal').style.display = 'flex';
+          }
+        );
+      }
     } else {
       // No authenticated user - show login
       document.getElementById('authContainer').style.display = 'block';
