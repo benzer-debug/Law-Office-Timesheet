@@ -74,7 +74,12 @@ export function canAccessUserData(
  */
 export async function getUserRole(db, userId) {
   try {
-    const { doc, getDoc } = await import('https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js');
+    const {
+      doc,
+      getDoc
+    } = await import(
+      'https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js'
+    );
     const userDoc = await getDoc(doc(db, 'users', userId));
     return userDoc.exists() ? (userDoc.data().role || ROLES.EMPLOYEE) : ROLES.EMPLOYEE;
   } catch (error) {

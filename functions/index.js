@@ -86,8 +86,8 @@ Sent by: ${senderEmail}
 
     // Send the email
     const info = await transporter.sendMail(mailOptions);
-        
-    console.log('Email sent:', info.messageId);
+    // Note: email sent successfully
+    console.warn('Email sent:', info.messageId);
 
     return {
       success: true,
@@ -107,7 +107,7 @@ Sent by: ${senderEmail}
 /**
  * Test endpoint to verify Cloud Function is working
  */
-exports.testFunction = functions.https.onCall(async (data, context) => {
+exports.testFunction = functions.https.onCall(async (_data, _context) => {
   return {
     status: 'Cloud Function is working',
     timestamp: new Date().toISOString()
