@@ -1,32 +1,16 @@
 // Jest setup file
 // Add any global test configuration here
 
-// Mock Firebase
-jest.mock('https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js', () => ({
-  initializeApp: jest.fn(() => ({
-    name: 'DEFAULT'
-  }))
-}));
+// Mock DOM APIs for testing
+global.localStorage = {
+  getItem: jest.fn(),
+  setItem: jest.fn(),
+  removeItem: jest.fn(),
+  clear: jest.fn()
+};
 
-jest.mock('https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js', () => ({
-  getAuth: jest.fn(),
-  signInWithEmailAndPassword: jest.fn(),
-  createUserWithEmailAndPassword: jest.fn(),
-  signOut: jest.fn(),
-  onAuthStateChanged: jest.fn()
-}));
-
-jest.mock('https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js', () => ({
-  getFirestore: jest.fn(),
-  doc: jest.fn(),
-  getDoc: jest.fn(),
-  setDoc: jest.fn(),
-  updateDoc: jest.fn(),
-  collection: jest.fn(),
-  query: jest.fn(),
-  where: jest.fn(),
-  getDocs: jest.fn()
-}));
+// Note: Firebase is loaded from CDN in browser context, not available in Node.js tests
+// Individual test files can mock Firebase features as needed
 
 // Suppress console errors in tests (optional)
 global.console.error = jest.fn();

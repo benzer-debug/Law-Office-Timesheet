@@ -25,7 +25,7 @@ function doPost(e) {
     // Validate input
     if (!data.recipientEmail || !data.pdfBase64) {
       return ContentService.createTextOutput(
-        JSON.stringify({success: false, error: 'Missing recipientEmail or pdfBase64'})
+        JSON.stringify({ success: false, error: 'Missing recipientEmail or pdfBase64' })
       ).setMimeType(ContentService.MimeType.JSON);
     }
 
@@ -66,7 +66,7 @@ Sent from: Law Office Timesheet App
   } catch (error) {
     Logger.log('Error:', error.toString());
     return ContentService.createTextOutput(
-      JSON.stringify({success: false, error: error.toString()})
+      JSON.stringify({ success: false, error: error.toString() })
     ).setMimeType(ContentService.MimeType.JSON);
   }
 }
