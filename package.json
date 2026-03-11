@@ -5,6 +5,7 @@
   "main": "index.html",
   "scripts": {
     "test": "jest",
+    "test:rules": "firebase emulators:exec --only firestore \"jest __tests__/firestore.rules.test.js --runInBand\"",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "lint": "eslint .",
@@ -27,6 +28,7 @@
     "@babel/core": "^7.24.0",
     "@babel/preset-env": "^7.24.0",
     "@eslint/js": "^9.0.0",
+    "@firebase/rules-unit-testing": "^5.0.0",
     "@firebase/testing": "^0.20.11",
     "babel-jest": "^30.0.0",
     "eslint": "^9.0.0",

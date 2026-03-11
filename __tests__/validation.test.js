@@ -23,6 +23,12 @@ describe('Validation Module', () => {
       expect(isValidEmail('invalid@')).toBe(false);
       expect(isValidEmail('@example.com')).toBe(false);
     });
+
+    test('should reject non-string and empty inputs', () => {
+      expect(isValidEmail(null)).toBe(false);
+      expect(isValidEmail(undefined)).toBe(false);
+      expect(isValidEmail('   ')).toBe(false);
+    });
   });
 
   describe('validatePassword', () => {
@@ -61,6 +67,12 @@ describe('Validation Module', () => {
       expect(result.isValid).toBe(false);
       expect(result.errors).toContain('Password must be at least 8 characters long');
     });
+
+    test('should reject missing password input', () => {
+      const result = validatePassword(null);
+      expect(result.isValid).toBe(false);
+      expect(result.errors).toContain('Password is required');
+    });
   });
 
   describe('isValidPhoneNumber', () => {
@@ -73,6 +85,12 @@ describe('Validation Module', () => {
     test('should reject invalid phone numbers', () => {
       expect(isValidPhoneNumber('123')).toBe(false);
       expect(isValidPhoneNumber('abc')).toBe(false);
+    });
+
+    test('should reject non-string phone input', () => {
+      expect(isValidPhoneNumber(null)).toBe(false);
+      expect(isValidPhoneNumber(undefined)).toBe(false);
+      expect(isValidPhoneNumber(1234567890)).toBe(false);
     });
   });
 
@@ -87,6 +105,11 @@ describe('Validation Module', () => {
     test('should preserve safe text', () => {
       const input = 'Hello World';
       expect(sanitizeInput(input)).toBe('Hello World');
+    });
+
+    test('should handle nullish input safely', () => {
+      expect(sanitizeInput(null)).toBe('');
+      expect(sanitizeInput(undefined)).toBe('');
     });
   });
 
@@ -121,6 +144,34 @@ describe('Validation Module', () => {
       const result = validateTimesheetData(data);
       expect(result.isValid).toBe(false);
     });
+
+    test('should reject invalid date string', () => {
+      const data = {
+        date: '2026-02-30',
+        startTime: '09:00',
+        endTime: '17:00'
+      };
+      const result = validateTimesheetData(data);
+      expect(result.isValid).toBe(false);
+      expect(result.errors).toContain('Date must be in YYYY-MM-DD format and valid');
+    });
+
+    test('should reject invalid time format', () => {
+      const data = {
+        date: '2026-02-23',
+        startTime: '9 AM',
+        endTime: '17:00'
+      };
+      const result = validateTimesheetData(data);
+      expect(result.isValid).toBe(false);
+      expect(result.errors).toContain('Time must be in HH:MM or HH:MM:SS format');
+    });
+
+    test('should reject non-object payload', () => {
+      const result = validateTimesheetData(null);
+      expect(result.isValid).toBe(false);
+      expect(result.errors).toContain('Invalid timesheet payload');
+    });
   });
 
   describe('getErrorMessage', () => {
@@ -136,6 +187,11 @@ describe('Validation Module', () => {
     test('should handle unknown errors gracefully', () => {
       const error = { message: 'Unknown error' };
       expect(getErrorMessage(error)).toBe('Unknown error');
+    });
+
+    test('should handle invalid error payload', () => {
+      expect(getErrorMessage(null)).toBe('An unexpected error occurred.');
+      expect(getErrorMessage(undefined)).toBe('An unexpected error occurred.');
     });
   });
 });

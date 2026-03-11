@@ -1,16 +1,22 @@
 service cloud.firestore {
   match /databases/{database}/documents {
     // Helper functions for role-based access
+    function isAuthenticated() {
+      return request.auth != null && request.auth.uid != null;
+    }
+
     function isAdmin() {
-      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+      return isAuthenticated() &&
+             get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
     }
     
     function isManager() {
-      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'manager';
+      return isAuthenticated() &&
+             get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'manager';
     }
     
     function isEmployee() {
-      return request.auth.uid != null;
+      return isAuthenticated();
     }
     
     function isOwner(userId) {
@@ -25,6 +31,42 @@ service cloud.firestore {
       let userDoc = get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
       return userDoc.teamId != null && 
              get(/databases/$(database)/documents/users/$(userId)).data.teamId == userDoc.teamId;
+    }
+
+    function isOwnerFromField(data) {
+      return isAuthenticated() &&
+             (data.userId == request.auth.uid || data.uid == request.auth.uid);
+    }
+
+    function validDate(value) {
+      return value is string && value.matches('^\\d{4}-\\d{2}-\\d{2}$');
+    }
+
+    function validTime(value) {
+      return value is string && value.matches('^([01]\\d|2[0-3]):([0-5]\\d)(:[0-5]\\d)?$');
+    }
+
+    function validDailyLogPayload(data) {
+      return data.keys().hasAll(['uid', 'date', 'timeIn']) &&
+             data.uid is string &&
+             data.uid == request.auth.uid &&
+             validDate(data.date) &&
+             validTime(data.timeIn) &&
+             (!('timeOut' in data) || data.timeOut == null || validTime(data.timeOut)) &&
+             (!('note' in data) || (data.note is string && data.note.size() <= 250)) &&
+             (!('userId' in data) || data.userId == request.auth.uid);
+    }
+
+    function validMonthlyRecordPayload(data) {
+      return data.keys().hasAll(['uid', 'month', 'year', 'monthKey', 'totalHours', 'daysWorked']) &&
+             data.uid is string &&
+             data.uid == request.auth.uid &&
+             data.month is string && data.month.matches('^(0[1-9]|1[0-2])$') &&
+             data.year is int && data.year >= 2000 && data.year <= 2100 &&
+             data.monthKey is string && data.monthKey.matches('^\\d{4}-(0[1-9]|1[0-2])$') &&
+             data.totalHours is number && data.totalHours >= 0 &&
+             data.daysWorked is int && data.daysWorked >= 0 && data.daysWorked <= 31 &&
+             (!('userId' in data) || data.userId == request.auth.uid);
     }
 
     // Users collection - roles defined here
@@ -75,20 +117,22 @@ service cloud.firestore {
 
     // Daily logs collection
     match /daily_logs/{logId} {
-      allow read: if isAdmin() || isManager() || 
-                      (isEmployee() && resource.data.userId == request.auth.uid);
-      allow create: if isEmployee() && request.resource.data.userId == request.auth.uid;
-      allow update: if isAdmin() || isOwner(resource.data.userId);
-      allow delete: if isAdmin() || isOwner(resource.data.userId);
+      allow read: if isAdmin() || isManager() ||
+                      (isEmployee() && isOwnerFromField(resource.data));
+      allow create: if isEmployee() && validDailyLogPayload(request.resource.data);
+      allow update: if (isAdmin() || isOwnerFromField(resource.data)) &&
+                       validDailyLogPayload(request.resource.data);
+      allow delete: if isAdmin() || isOwnerFromField(resource.data);
     }
 
     // Monthly records collection
     match /monthly_records/{recordId} {
-      allow read: if isAdmin() || isManager() || 
-                      (isEmployee() && resource.data.userId == request.auth.uid);
-      allow create: if isAdmin();
-      allow update: if isAdmin();
-      allow delete: if isAdmin();
+      allow read: if isAdmin() || isManager() ||
+                      (isEmployee() && isOwnerFromField(resource.data));
+      allow create: if isEmployee() && validMonthlyRecordPayload(request.resource.data);
+      allow update: if (isAdmin() || isOwnerFromField(resource.data)) &&
+                       validMonthlyRecordPayload(request.resource.data);
+      allow delete: if isAdmin() || isOwnerFromField(resource.data);
     }
   }
 }

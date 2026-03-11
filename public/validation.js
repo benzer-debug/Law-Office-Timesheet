@@ -2,14 +2,54 @@
  * Input Validation and Security Utilities
  */
 
+const DATE_REGEX = /^\d{4}-\d{2}-\d{2}$/;
+const TIME_REGEX = /^([01]\d|2[0-3]):([0-5]\d)(:[0-5]\d)?$/;
+
+function toSafeString(value) {
+  return typeof value === 'string' ? value.trim() : '';
+}
+
+function isValidDateString(dateValue) {
+  if (!DATE_REGEX.test(dateValue)) {
+    return false;
+  }
+
+  const [year, month, day] = dateValue.split('-').map(Number);
+  const parsedDate = new Date(Date.UTC(year, month - 1, day));
+
+  return (
+    parsedDate.getUTCFullYear() === year &&
+    parsedDate.getUTCMonth() === month - 1 &&
+    parsedDate.getUTCDate() === day
+  );
+}
+
+function parseTimeToMinutes(timeValue) {
+  if (!TIME_REGEX.test(timeValue)) {
+    return null;
+  }
+
+  const [hours, minutes] = timeValue.split(':').map(Number);
+  return hours * 60 + minutes;
+}
+
 /**
  * Validate email format
  * @param {string} email
  * @returns {boolean}
  */
 export function isValidEmail(email) {
+  if (typeof email !== 'string') {
+    return false;
+  }
+
+  const normalizedEmail = email.trim();
+  if (!normalizedEmail || normalizedEmail.length > 254) {
+    return false;
+  }
+
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
+  return emailRegex.test(normalizedEmail);
 }
 
 /**
@@ -20,16 +60,26 @@ export function isValidEmail(email) {
 export function validatePassword(password) {
   const errors = [];
 
-  if (password.length < 8) {
+  if (typeof password !== 'string') {
+    errors.push('Password is required');
+    return {
+      isValid: false,
+      errors: errors
+    };
+  }
+
+  const normalizedPassword = password.trim();
+
+  if (normalizedPassword.length < 8) {
     errors.push('Password must be at least 8 characters long');
   }
-  if (!/[A-Z]/.test(password)) {
+  if (!/[A-Z]/.test(normalizedPassword)) {
     errors.push('Password must contain at least one uppercase letter');
   }
-  if (!/[a-z]/.test(password)) {
+  if (!/[a-z]/.test(normalizedPassword)) {
     errors.push('Password must contain at least one lowercase letter');
   }
-  if (!/[0-9]/.test(password)) {
+  if (!/[0-9]/.test(normalizedPassword)) {
     errors.push('Password must contain at least one number');
   }
 
@@ -45,9 +95,19 @@ export function validatePassword(password) {
  * @returns {boolean}
  */
 export function isValidPhoneNumber(phone) {
+  if (typeof phone !== 'string') {
+    return false;
+  }
+
+  const normalizedPhone = phone.trim();
+  if (!normalizedPhone) {
+    return false;
+  }
+
   // Accept various phone formats
   const phoneRegex = /^[\d\s\-+()]+$/;
-  return phoneRegex.test(phone) && phone.replace(/\D/g, '').length >= 10;
+  const digitCount = normalizedPhone.replace(/\D/g, '').length;
+  return phoneRegex.test(normalizedPhone) && digitCount >= 10 && digitCount <= 15;
 }
 
 /**
@@ -56,8 +116,19 @@ export function isValidPhoneNumber(phone) {
  * @returns {string}
  */
 export function sanitizeInput(input) {
+  const safeInput = input == null ? '' : String(input);
+
+  if (typeof document === 'undefined') {
+    return safeInput
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
   const div = document.createElement('div');
-  div.textContent = input;
+  div.textContent = safeInput;
   return div.innerHTML;
 }
 
@@ -69,24 +140,42 @@ export function sanitizeInput(input) {
 export function validateTimesheetData(data) {
   const errors = [];
 
-  if (!data.date) {
-    errors.push('Date is required');
+  if (!data || typeof data !== 'object') {
+    return {
+      isValid: false,
+      errors: ['Invalid timesheet payload']
+    };
   }
 
-  if (!data.startTime || !data.endTime) {
+  const date = toSafeString(data.date);
+  const startTime = toSafeString(data.startTime);
+  const endTime = toSafeString(data.endTime);
+  const description = typeof data.description === 'string' ? data.description.trim() : '';
+
+  if (!date) {
+    errors.push('Date is required');
+  } else if (!isValidDateString(date)) {
+    errors.push('Date must be in YYYY-MM-DD format and valid');
+  }
+
+  if (!startTime || !endTime) {
     errors.push('Start and end times are required');
   }
 
-  if (data.startTime && data.endTime) {
-    const start = new Date(`2000-01-01 ${data.startTime}`);
-    const end = new Date(`2000-01-01 ${data.endTime}`);
+  if (startTime && endTime) {
+    const startMinutes = parseTimeToMinutes(startTime);
+    const endMinutes = parseTimeToMinutes(endTime);
 
-    if (start >= end) {
+    if (startMinutes === null || endMinutes === null) {
+      errors.push('Time must be in HH:MM or HH:MM:SS format');
+    } else if (startMinutes >= endMinutes) {
       errors.push('End time must be after start time');
+    } else if (endMinutes - startMinutes > 24 * 60) {
+      errors.push('Shift duration cannot exceed 24 hours');
     }
   }
 
-  if (data.description && data.description.length > 500) {
+  if (description.length > 500) {
     errors.push('Description cannot exceed 500 characters');
   }
 
@@ -104,6 +193,10 @@ export function validateTimesheetData(data) {
 export function getErrorMessage(error) {
   if (typeof error === 'string') {
     return error;
+  }
+
+  if (!error || typeof error !== 'object') {
+    return 'An unexpected error occurred.';
   }
 
   if (error.code && error.code.startsWith('auth/')) {

@@ -382,7 +382,7 @@
 
             <div class="note-section">
               <label for="note"><i class="fas fa-sticky-note"></i> Add Note (Optional):</label>
-              <input type="text" id="note" class="form-control" placeholder="e.g., Late start, Early leave, etc...">
+              <input type="text" id="note" class="form-control" maxlength="250" placeholder="e.g., Late start, Early leave, etc...">
             </div>
 
             <div class="records-section">
@@ -447,6 +447,28 @@ function getPHDate() {
   return phTime.toISOString().split('T')[0];
 }
 
+function escapeHtml(value) {
+  return String(value || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+}
+
+function sanitizeNote(note) {
+  return String(note || '').trim().slice(0, 250);
+}
+
+function parseTimeToMinutes(timeValue) {
+  if (typeof timeValue !== 'string' || !/^([01]\d|2[0-3]):([0-5]\d)(:[0-5]\d)?$/.test(timeValue)) {
+    return null;
+  }
+
+  const [hours, minutes] = timeValue.split(':').map(Number);
+  return hours * 60 + minutes;
+}
+
 function updateClock() {
   const now = new Date();
   const utcTime = now.getTime() + now.getTimezoneOffset() * 60000;
@@ -479,7 +501,12 @@ async function checkAndUpdateButtonStates() {
     timeInBtn.disabled = false;
     timeOutBtn.disabled = true;
   } else {
-    const record = snap.docs[0].data();
+    const openRecord = snap.docs.find((docSnap) => {
+      const entry = docSnap.data();
+      return entry.timeIn && !entry.timeOut;
+    });
+    const record = openRecord ? openRecord.data() : snap.docs[0].data();
+
     if (record.timeIn && !record.timeOut) {
       timeInBtn.disabled = true;
       timeOutBtn.disabled = false;
@@ -501,7 +528,7 @@ async function loadTodayLogs() {
   const q = query(logsRef, where('uid', '==', user.uid), where('date', '==', dateStr));
   const snap = await getDocs(q);
   const records = [];
-  snap.forEach(doc => records.push(doc.data()));
+  snap.forEach(docSnap => records.push({ id: docSnap.id, ...docSnap.data() }));
   
   const listDiv = document.getElementById('timeRecordsList');
   listDiv.innerHTML = '';
@@ -509,10 +536,11 @@ async function loadTodayLogs() {
   if (records.length === 0) {
     listDiv.innerHTML = '<div class="empty-message">No records for today yet. Click Time In to get started!</div>';
   } else {
-    const record = records[0];
+    const record = records.find((entry) => entry.timeIn && !entry.timeOut) || records[0];
     const badgeClass = record.timeOut ? 'badge-complete' : 'badge-in';
     const badgeText = record.timeOut ? '✅ COMPLETED' : '🟢 IN PROGRESS';
-    const noteHtml = record.note ? `<span class="record-note">${record.note}</span>` : '';
+    const safeNote = sanitizeNote(record.note);
+    const noteHtml = safeNote ? `<span class="record-note">${escapeHtml(safeNote)}</span>` : '';
     
     const div = document.createElement('div');
     div.className = 'record-item';
@@ -559,15 +587,14 @@ async function saveMonthlyRecord() {
       const data = doc.data();
       // Filter logs within the current month and for the current user
       if (data.uid === user.uid && data.date >= firstDayStr && data.date <= lastDayStr && data.timeIn && data.timeOut) {
+        const inMinutes = parseTimeToMinutes(data.timeIn);
+        const outMinutes = parseTimeToMinutes(data.timeOut);
+        if (inMinutes === null || outMinutes === null || outMinutes <= inMinutes) {
+          return;
+        }
+
         monthLogs.push(data);
         // Calculate hours for this day
-        const timeIn = data.timeIn; // HH:MM:SS
-        const timeOut = data.timeOut;
-        
-        const [hIn, mIn] = timeIn.split(':').map(Number);
-        const [hOut, mOut] = timeOut.split(':').map(Number);
-        const inMinutes = hIn * 60 + mIn;
-        const outMinutes = hOut * 60 + mOut;
         const durationMinutes = outMinutes - inMinutes;
         const durationHours = durationMinutes / 60;
         // Auto-deduct 1 hour if duration exceeds 5 hours
@@ -583,6 +610,7 @@ async function saveMonthlyRecord() {
     
     await setDoc(monthlyRecordRef, {
       uid: user.uid,
+      userId: user.uid,
       month: month,
       year: year,
       monthKey: monthKey,
@@ -654,9 +682,15 @@ document.getElementById('timeInButton').addEventListener('click', async () => {
     const phTime = new Date(utcTime + 8 * 60 * 60 * 1000);
     const timeStr = phTime.toTimeString().split(' ')[0];
     const dateStr = getPHDate();
-    const note = document.getElementById('note').value;
+    const note = sanitizeNote(document.getElementById('note').value);
+
+    if (parseTimeToMinutes(timeStr) === null) {
+      throw new Error('Generated time format is invalid. Please try again.');
+    }
+
     await addDoc(collection(db, 'daily_logs'), {
       uid: user.uid,
+      userId: user.uid,
       date: dateStr,
       timeIn: timeStr,
       timeOut: null,
@@ -695,7 +729,23 @@ document.getElementById('timeOutButton').addEventListener('click', async () => {
       btn.disabled = false;
       return;
     }
-    const docId = snap.docs[0].id;
+
+    const openLog = snap.docs.find((docSnap) => {
+      const data = docSnap.data();
+      return data.timeIn && !data.timeOut;
+    });
+
+    if (!openLog) {
+      alert('No active time in record found for today.');
+      btn.disabled = false;
+      return;
+    }
+
+    if (parseTimeToMinutes(timeStr) === null) {
+      throw new Error('Generated time format is invalid. Please try again.');
+    }
+
+    const docId = openLog.id;
     const logDoc = doc(db, 'daily_logs', docId);
     await updateDoc(logDoc, { timeOut: timeStr });
     await loadTodayLogs();

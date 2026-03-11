@@ -924,6 +924,7 @@
                             <th>Total Hours</th>
                             <th>Tasks / Case Notes</th>
                             <th>Status</th>
+                            <th>Log Edit</th>
                             <th class="text-end pe-4">Subtotal</th>
                         </tr>
                     </thead>
@@ -1495,6 +1496,99 @@
         }
     }
 
+    function computeWorkedHoursWithStandards(timeIn, timeOut) {
+        const STANDARD_TIME_IN = '08:00';
+        const LUNCH_BREAK_HOURS = 1;
+        const STANDARD_WORK_HOURS = 8;
+        const LUNCH_START = '12:00';
+        const LUNCH_END = '13:00';
+
+        if (!timeIn || !timeOut) {
+            return {
+                totalComputedHours: 0,
+                requiresOvertimeApproval: false,
+                overtimeHours: 0,
+                adjustedTimeIn: '',
+                adjustedTimeOut: ''
+            };
+        }
+
+        const actualStart = moment(timeIn, 'HH:mm', true);
+        const actualEnd = moment(timeOut, 'HH:mm', true);
+        const standardStart = moment(STANDARD_TIME_IN, 'HH:mm', true);
+        const lunchStart = moment(LUNCH_START, 'HH:mm', true);
+        const lunchEnd = moment(LUNCH_END, 'HH:mm', true);
+
+        if (!actualStart.isValid() || !actualEnd.isValid() || !actualEnd.isAfter(actualStart)) {
+            return {
+                totalComputedHours: 0,
+                requiresOvertimeApproval: false,
+                overtimeHours: 0,
+                adjustedTimeIn: '',
+                adjustedTimeOut: ''
+            };
+        }
+
+        const adjustedStart = actualStart.isBefore(standardStart) ? standardStart : actualStart;
+        const grossHours = moment.duration(actualEnd.diff(adjustedStart)).asHours();
+        const shouldDeductLunch =
+            (adjustedStart.isBefore(lunchStart) || adjustedStart.isSame(lunchStart)) &&
+            (actualEnd.isAfter(lunchEnd) || actualEnd.isSame(lunchEnd));
+        const lunchDeductionHours = shouldDeductLunch ? LUNCH_BREAK_HOURS : 0;
+        const netHours = Math.max(0, grossHours - lunchDeductionHours);
+        const overtimeHours = Math.max(0, netHours - STANDARD_WORK_HOURS);
+
+        return {
+            totalComputedHours: parseFloat(netHours.toFixed(2)),
+            requiresOvertimeApproval: overtimeHours > 0,
+            overtimeHours: parseFloat(overtimeHours.toFixed(2)),
+            deductedLunchHours: lunchDeductionHours,
+            adjustedTimeIn: adjustedStart.format('HH:mm'),
+            adjustedTimeOut: actualEnd.format('HH:mm')
+        };
+    }
+
+    function updateOvertimeFlagUI(row, requiresApproval, overtimeHours, isApproved) {
+        const taskCell = row.querySelector('.t-task')?.closest('td');
+        if (!taskCell) return;
+
+        let flagEl = taskCell.querySelector('.ot-approval-flag');
+
+        if (!requiresApproval) {
+            if (flagEl) flagEl.remove();
+            return;
+        }
+
+        if (!flagEl) {
+            flagEl = document.createElement('div');
+            flagEl.className = 'ot-approval-flag';
+            flagEl.style.fontSize = '0.75rem';
+            flagEl.style.fontWeight = '700';
+            flagEl.style.marginTop = '6px';
+            taskCell.appendChild(flagEl);
+        }
+
+        if (isApproved) {
+            flagEl.style.color = '#198754';
+            flagEl.textContent = `✅ Overtime Approved (${overtimeHours.toFixed(2)} hrs)`;
+        } else {
+            flagEl.style.color = '#dc3545';
+            flagEl.textContent = `⚠ Overtime Approval Required (${overtimeHours.toFixed(2)} hrs)`;
+        }
+    }
+
+    function handleTimeFieldChange(inputEl) {
+        const row = inputEl.closest('tr');
+        if (row) {
+            row.dataset.overtimePrompted = 'false';
+            row.dataset.overtimeApproved = 'false';
+            row.dataset.overtimeSignature = '';
+        }
+        calculate();
+    }
+
+    window.computeWorkedHoursWithStandards = computeWorkedHoursWithStandards;
+
     async function generateSheet() {
         // empName is now auto-populated from account and readonly
         const start = document.getElementById('startDate').value;
@@ -1566,6 +1660,11 @@
             console.error('Error fetching daily logs:', e);
         }
 
+        const latestLogDate = Object.keys(timeInsMap)
+            .filter((dateKey) => Boolean(timeInsMap[dateKey]?.timeIn))
+            .sort()
+            .pop() || null;
+
         while (curr <= last) {
             const row = document.createElement('tr');
             row.className = "align-middle";
@@ -1588,8 +1687,8 @@
                     <span class="fw-bold d-block">${curr.format('MMM DD, YYYY')}</span>
                     <small class="text-muted">${curr.format('dddd')}</small>
                 </td>
-                <td><input type="time" class="form-control form-control-sm t-in" value="${timeInVal}" onchange="calculate()"></td>
-                <td><input type="time" class="form-control form-control-sm t-out" value="${timeOutVal}" onchange="calculate()"></td>
+                <td><input type="time" class="form-control form-control-sm t-in" value="${timeInVal}" onchange="handleTimeFieldChange(this)"></td>
+                <td><input type="time" class="form-control form-control-sm t-out" value="${timeOutVal}" onchange="handleTimeFieldChange(this)"></td>
                 <td><span class="t-total-hours fw-bold">0.00</span></td>
                 <td><input type="text" class="form-control form-control-sm t-task" placeholder="e.g. Drafting pleadings"></td>
                 <td>
@@ -1603,6 +1702,11 @@
                         <option value="Regular Holiday" ${defaultStatus === 'Regular Holiday' ? 'selected' : ''}>Regular Holiday</option>
                         <option value="Special Holiday" ${defaultStatus === 'Special Holiday' ? 'selected' : ''}>Special Holiday</option>
                     </select>
+                </td>
+                <td>
+                    ${dateStr === latestLogDate ?
+                      `<button class="btn btn-sm btn-outline-primary fw-bold" onclick="editTimesheetDailyLog('${dateStr}')">Edit</button>` :
+                      `<span class="text-muted" style="font-size:0.75rem;">—</span>`}
                 </td>
                 <td class="text-end pe-4 fw-bold row-total">₱ ${isWeekend ? (dailyRate * 1.30).toFixed(2) : rate}.00</td>
             `;
@@ -1619,6 +1723,127 @@
         calculate();
     }
 
+    window.editTimesheetDailyLog = async (dateStr) => {
+        const user = auth.currentUser;
+        if (!user) {
+            showNotification({
+                type: 'error',
+                title: 'Not Authenticated',
+                message: 'Please log in first.'
+            });
+            return;
+        }
+
+        const row = document.querySelector(`#timesheetBody tr[data-date="${dateStr}"]`);
+        if (!row) {
+            showNotification({
+                type: 'error',
+                title: 'Record Not Found',
+                message: 'Unable to locate the selected date row.'
+            });
+            return;
+        }
+
+        const currentTimeIn = row.querySelector('.t-in')?.value || '';
+        const currentTimeOut = row.querySelector('.t-out')?.value || '';
+        const currentTask = row.querySelector('.t-task')?.value || '';
+
+        const newTimeInRaw = prompt(`Edit Time In for ${dateStr} (HH:MM)`, currentTimeIn);
+        if (newTimeInRaw === null) return;
+        const newTimeIn = newTimeInRaw.trim();
+
+        const newTimeOutRaw = prompt(`Edit Time Out for ${dateStr} (HH:MM, optional)`, currentTimeOut);
+        if (newTimeOutRaw === null) return;
+        const newTimeOut = newTimeOutRaw.trim();
+
+        const newTaskRaw = prompt(`Edit note/task for ${dateStr} (optional)`, currentTask);
+        if (newTaskRaw === null) return;
+        const newTask = newTaskRaw.trim().slice(0, 250);
+
+        const timeRegex = /^([01]\d|2[0-3]):([0-5]\d)$/;
+        if (!newTimeIn || !timeRegex.test(newTimeIn)) {
+            showNotification({
+                type: 'warning',
+                title: 'Invalid Time In',
+                message: 'Time In is required and must be in HH:MM format.'
+            });
+            return;
+        }
+
+        if (newTimeOut && !timeRegex.test(newTimeOut)) {
+            showNotification({
+                type: 'warning',
+                title: 'Invalid Time Out',
+                message: 'Time Out must be in HH:MM format.'
+            });
+            return;
+        }
+
+        if (newTimeOut) {
+            const inMoment = moment(newTimeIn, 'HH:mm', true);
+            const outMoment = moment(newTimeOut, 'HH:mm', true);
+            if (!outMoment.isAfter(inMoment)) {
+                showNotification({
+                    type: 'warning',
+                    title: 'Invalid Time Range',
+                    message: 'Time Out must be later than Time In.'
+                });
+                return;
+            }
+        }
+
+        try {
+            const logsRef = collection(db, 'daily_logs');
+            const existingQuery = query(logsRef, where('uid', '==', user.uid), where('date', '==', dateStr));
+            const existingSnap = await getDocs(existingQuery);
+
+            const payload = {
+                uid: user.uid,
+                userId: user.uid,
+                date: dateStr,
+                timeIn: newTimeIn,
+                timeOut: newTimeOut || null,
+                note: newTask,
+                updatedAt: new Date()
+            };
+
+            if (existingSnap.empty) {
+                const newLogRef = doc(collection(db, 'daily_logs'));
+                await setDoc(newLogRef, {
+                    ...payload,
+                    createdAt: new Date()
+                });
+            } else {
+                const targetLog = existingSnap.docs[0];
+                await setDoc(doc(db, 'daily_logs', targetLog.id), payload, { merge: true });
+            }
+
+            row.querySelector('.t-in').value = newTimeIn;
+            row.querySelector('.t-out').value = newTimeOut;
+            row.querySelector('.t-task').value = newTask;
+
+            if (newTimeIn && row.querySelector('.t-status').value === 'Absent') {
+                row.querySelector('.t-status').value = 'Present';
+                updateRowEditability(row.querySelector('.t-status'));
+            }
+
+            calculate();
+
+            showNotification({
+                type: 'success',
+                title: 'Daily Log Updated',
+                message: `Daily log for ${dateStr} has been updated successfully.`
+            });
+        } catch (error) {
+            console.error('Error updating daily log from timesheet:', error);
+            showNotification({
+                type: 'error',
+                title: 'Update Failed',
+                message: error.message || 'Failed to update daily log.'
+            });
+        }
+    };
+
     function calculate() {
         const rows = document.querySelectorAll('#timesheetBody tr');
         const dailyRate = parseFloat(document.getElementById('dailyRate').value) || 0;
@@ -1634,10 +1859,16 @@
             const isWeekend = date.day() === 0 || date.day() === 6; // Sunday or Saturday
             let netHours = 0;
             let amount = 0;
+            let requiresOvertimeApproval = false;
+            let overtimeHours = 0;
 
             if (status === 'Absent') {
                 netHours = 0;
                 amount = 0;
+                row.dataset.overtimePrompted = 'false';
+                row.dataset.overtimeApproved = 'false';
+                row.dataset.overtimeSignature = '';
+                updateOvertimeFlagUI(row, false, 0, false);
             } else if (status === 'Regular Holiday') {
                 // Regular holiday: not worked -> 100% of daily pay; worked -> paid at 200% for first 8 hrs
                 const timeInEl = row.querySelector('.t-in');
@@ -1649,14 +1880,35 @@
                     netHours = 8;
                     amount = dailyRate; // paid full day
                 } else {
-                    const start = moment(timeIn, 'HH:mm');
-                    const end = moment(timeOut, 'HH:mm');
-                    let duration = moment.duration(end.diff(start)).asHours();
-                    netHours = Math.max(0, duration > 5 ? duration - 1 : duration);
+                    const hoursResult = computeWorkedHoursWithStandards(timeIn, timeOut);
+                    netHours = hoursResult.totalComputedHours;
+                    requiresOvertimeApproval = hoursResult.requiresOvertimeApproval;
+                    overtimeHours = hoursResult.overtimeHours;
                     const hourlyRate = dailyRate / 8;
                     const regHours = Math.min(netHours, 8);
                     const otHours = Math.max(0, netHours - 8);
-                    amount = (regHours * hourlyRate * 2) + (otHours * hourlyRate * 2 * otMultiplier);
+
+                    const signature = `${timeIn}-${timeOut}`;
+                    if (row.dataset.overtimeSignature !== signature) {
+                        row.dataset.overtimeSignature = signature;
+                        row.dataset.overtimePrompted = 'false';
+                        row.dataset.overtimeApproved = 'false';
+                    }
+
+                    let overtimeApproved = row.dataset.overtimeApproved === 'true';
+                    if (requiresOvertimeApproval && row.dataset.overtimePrompted !== 'true') {
+                        overtimeApproved = window.confirm(
+                            `Overtime detected (${overtimeHours.toFixed(2)} hours) on ${date.format('MMM DD, YYYY')}. Approve overtime for pay calculation?`
+                        );
+                        row.dataset.overtimeApproved = overtimeApproved ? 'true' : 'false';
+                        row.dataset.overtimePrompted = 'true';
+                    }
+
+                    amount = (regHours * hourlyRate * 2);
+                    if (overtimeApproved) {
+                        amount += (otHours * hourlyRate * 2 * otMultiplier);
+                    }
+                    updateOvertimeFlagUI(row, requiresOvertimeApproval, overtimeHours, overtimeApproved);
                 }
             } else if (status === 'Weekend') {
                 // Weekend: not worked -> unpaid; worked -> paid at weekend rate (already 130% of daily rate)
@@ -1669,15 +1921,35 @@
                     netHours = 0;
                     amount = 0; // no pay if not worked on weekend
                 } else {
-                    const start = moment(timeIn, 'HH:mm');
-                    const end = moment(timeOut, 'HH:mm');
-                    let duration = moment.duration(end.diff(start)).asHours();
-                    netHours = Math.max(0, duration > 5 ? duration - 1 : duration);
+                    const hoursResult = computeWorkedHoursWithStandards(timeIn, timeOut);
+                    netHours = hoursResult.totalComputedHours;
+                    requiresOvertimeApproval = hoursResult.requiresOvertimeApproval;
+                    overtimeHours = hoursResult.overtimeHours;
                     const hourlyRate = weekendRate / 8;
                     const regHours = Math.min(netHours, 8);
                     const otHours = Math.max(0, netHours - 8);
-                    // Weekend rate is already 130% of daily rate, so calculate normally
-                    amount = (regHours * hourlyRate) + (otHours * hourlyRate * otMultiplier);
+
+                    const signature = `${timeIn}-${timeOut}`;
+                    if (row.dataset.overtimeSignature !== signature) {
+                        row.dataset.overtimeSignature = signature;
+                        row.dataset.overtimePrompted = 'false';
+                        row.dataset.overtimeApproved = 'false';
+                    }
+
+                    let overtimeApproved = row.dataset.overtimeApproved === 'true';
+                    if (requiresOvertimeApproval && row.dataset.overtimePrompted !== 'true') {
+                        overtimeApproved = window.confirm(
+                            `Overtime detected (${overtimeHours.toFixed(2)} hours) on ${date.format('MMM DD, YYYY')}. Approve overtime for pay calculation?`
+                        );
+                        row.dataset.overtimeApproved = overtimeApproved ? 'true' : 'false';
+                        row.dataset.overtimePrompted = 'true';
+                    }
+
+                    amount = (regHours * hourlyRate);
+                    if (overtimeApproved) {
+                        amount += (otHours * hourlyRate * otMultiplier);
+                    }
+                    updateOvertimeFlagUI(row, requiresOvertimeApproval, overtimeHours, overtimeApproved);
                 }
             } else if (status === 'Special Holiday') {
                 // Special non-working holiday: not worked -> unpaid (company may choose otherwise)
@@ -1690,21 +1962,50 @@
                     netHours = 0;
                     amount = 0; // no pay if not worked
                 } else {
-                    const start = moment(timeIn, 'HH:mm');
-                    const end = moment(timeOut, 'HH:mm');
-                    let duration = moment.duration(end.diff(start)).asHours();
-                    netHours = Math.max(0, duration > 5 ? duration - 1 : duration);
+                    const hoursResult = computeWorkedHoursWithStandards(timeIn, timeOut);
+                    netHours = hoursResult.totalComputedHours;
+                    requiresOvertimeApproval = hoursResult.requiresOvertimeApproval;
+                    overtimeHours = hoursResult.overtimeHours;
                     const hourlyRate = dailyRate / 8;
                     const regHours = Math.min(netHours, 8);
                     const otHours = Math.max(0, netHours - 8);
-                    amount = (regHours * hourlyRate * 1.30) + (otHours * hourlyRate * 1.30 * otMultiplier);
+
+                    const signature = `${timeIn}-${timeOut}`;
+                    if (row.dataset.overtimeSignature !== signature) {
+                        row.dataset.overtimeSignature = signature;
+                        row.dataset.overtimePrompted = 'false';
+                        row.dataset.overtimeApproved = 'false';
+                    }
+
+                    let overtimeApproved = row.dataset.overtimeApproved === 'true';
+                    if (requiresOvertimeApproval && row.dataset.overtimePrompted !== 'true') {
+                        overtimeApproved = window.confirm(
+                            `Overtime detected (${overtimeHours.toFixed(2)} hours) on ${date.format('MMM DD, YYYY')}. Approve overtime for pay calculation?`
+                        );
+                        row.dataset.overtimeApproved = overtimeApproved ? 'true' : 'false';
+                        row.dataset.overtimePrompted = 'true';
+                    }
+
+                    amount = (regHours * hourlyRate * 1.30);
+                    if (overtimeApproved) {
+                        amount += (otHours * hourlyRate * 1.30 * otMultiplier);
+                    }
+                    updateOvertimeFlagUI(row, requiresOvertimeApproval, overtimeHours, overtimeApproved);
                 }
             } else if (status === 'Sick Leave' || status === 'Vacation Leave') {
                 netHours = 8;
                 amount = dailyRate;
+                row.dataset.overtimePrompted = 'false';
+                row.dataset.overtimeApproved = 'false';
+                row.dataset.overtimeSignature = '';
+                updateOvertimeFlagUI(row, false, 0, false);
             } else if (status === 'Emergency Leave') {
                 netHours = 8;
                 amount = 0;
+                row.dataset.overtimePrompted = 'false';
+                row.dataset.overtimeApproved = 'false';
+                row.dataset.overtimeSignature = '';
+                updateOvertimeFlagUI(row, false, 0, false);
             } else { // Present
                 const timeInEl = row.querySelector('.t-in');
                 const timeOutEl = row.querySelector('.t-out');
@@ -1712,19 +2013,44 @@
                 const timeOut = timeOutEl ? timeOutEl.value : '';
 
                 if (timeIn && timeOut) {
-                    const start = moment(timeIn, 'HH:mm');
-                    const end = moment(timeOut, 'HH:mm');
-                    let duration = moment.duration(end.diff(start)).asHours();
-                    netHours = Math.max(0, duration > 5 ? duration - 1 : duration);
+                    const hoursResult = computeWorkedHoursWithStandards(timeIn, timeOut);
+                    netHours = hoursResult.totalComputedHours;
+                    requiresOvertimeApproval = hoursResult.requiresOvertimeApproval;
+                    overtimeHours = hoursResult.overtimeHours;
                     const hourlyRate = dailyRate / 8;
                     const regHours = Math.min(netHours, 8);
                     const otHours = Math.max(0, netHours - 8);
                     let multiplier = 1;
                     if (isWeekend) multiplier = 1.3;
-                    amount = (regHours * hourlyRate * multiplier) + (otHours * hourlyRate * multiplier * otMultiplier);
+
+                    const signature = `${timeIn}-${timeOut}`;
+                    if (row.dataset.overtimeSignature !== signature) {
+                        row.dataset.overtimeSignature = signature;
+                        row.dataset.overtimePrompted = 'false';
+                        row.dataset.overtimeApproved = 'false';
+                    }
+
+                    let overtimeApproved = row.dataset.overtimeApproved === 'true';
+                    if (requiresOvertimeApproval && row.dataset.overtimePrompted !== 'true') {
+                        overtimeApproved = window.confirm(
+                            `Overtime detected (${overtimeHours.toFixed(2)} hours) on ${date.format('MMM DD, YYYY')}. Approve overtime for pay calculation?`
+                        );
+                        row.dataset.overtimeApproved = overtimeApproved ? 'true' : 'false';
+                        row.dataset.overtimePrompted = 'true';
+                    }
+
+                    amount = (regHours * hourlyRate * multiplier);
+                    if (overtimeApproved) {
+                        amount += (otHours * hourlyRate * multiplier * otMultiplier);
+                    }
+                    updateOvertimeFlagUI(row, requiresOvertimeApproval, overtimeHours, overtimeApproved);
                 } else {
                     netHours = 0;
                     amount = 0;
+                    row.dataset.overtimePrompted = 'false';
+                    row.dataset.overtimeApproved = 'false';
+                    row.dataset.overtimeSignature = '';
+                    updateOvertimeFlagUI(row, false, 0, false);
                 }
             }
 
@@ -1744,10 +2070,38 @@
         document.getElementById('otRateDisplay').innerText = `₱ ${otRate.toFixed(2)}`;
     }
 
+    function normalizePresentRowsWithEmptyTime() {
+        const rows = document.querySelectorAll('#timesheetBody tr');
+        let updatedRows = 0;
+
+        rows.forEach(row => {
+            const statusEl = row.querySelector('.t-status');
+            const timeInEl = row.querySelector('.t-in');
+            const timeOutEl = row.querySelector('.t-out');
+
+            if (!statusEl || !timeInEl || !timeOutEl) return;
+
+            const status = statusEl.value;
+            const timeIn = timeInEl.value;
+            const timeOut = timeOutEl.value;
+
+            if (status === 'Present' && (!timeIn || !timeOut)) {
+                statusEl.value = 'Absent';
+                updateRowEditability(statusEl);
+                updatedRows++;
+            }
+        });
+
+        if (updatedRows > 0) {
+            calculate();
+        }
+
+        return updatedRows;
+    }
+
     // Generate PDF and return as base64
     function generatePDFBase64() {
         try {
-            const rowsToExport = [];
             const tableRows = document.querySelectorAll('#timesheetBody tr');
 
             if (tableRows.length === 0) {
@@ -1760,26 +2114,152 @@
             }
 
             const { jsPDF } = window.jspdf;
-            const doc = new jsPDF({orientation: 'landscape', unit: 'mm', format: 'a4'});
-            const name = document.getElementById('empName').value || "Employee";
+            const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
+
+            const PAGE_WIDTH = doc.internal.pageSize.getWidth();
+            const PAGE_HEIGHT = doc.internal.pageSize.getHeight();
+            const brandBlue = [19, 37, 74];
+            const accentGold = [212, 175, 55];
+            const slate = [71, 85, 105];
+            const lightGray = [245, 247, 250];
+
+            const rowsToExport = [];
+            const name = document.getElementById('empName').value || 'Employee';
+            const startDateVal = document.getElementById('startDate').value || '';
+            const endDateVal = document.getElementById('endDate').value || '';
+            const dailyRateVal = parseFloat(document.getElementById('dailyRate').value) || 0;
+            const otMultiplierVal = parseFloat(document.getElementById('otMultiplier').value) || 1.25;
             const grandTotalNum = Array.from(tableRows).reduce((sum, tr) => sum + (parseFloat(tr.dataset.amount) || 0), 0);
             const total = `PHP ${grandTotalNum.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
 
-            doc.setFont("helvetica", "bold");
-            doc.setFontSize(18);
-            doc.setTextColor(11, 94, 215);
-            doc.text("REPOL LAW OFFICE - TIMESHEET", 14, 22);
+            const totalHoursNum = Array.from(tableRows).reduce((sum, tr) => {
+                const hrs = parseFloat(tr.querySelector('.t-total-hours')?.innerText || 0);
+                return sum + (Number.isFinite(hrs) ? hrs : 0);
+            }, 0);
 
+            const daysWorked = Array.from(tableRows).reduce((count, tr) => {
+                const status = tr.querySelector('.t-status')?.value || '';
+                return (status !== 'Absent' && status !== 'Emergency Leave') ? count + 1 : count;
+            }, 0);
+
+            let approvedOvertimeHours = 0;
+            let pendingOvertimeEntries = 0;
+
+            tableRows.forEach((tr) => {
+                const status = tr.querySelector('.t-status')?.value || '';
+                const timeIn = tr.querySelector('.t-in')?.value || '';
+                const timeOut = tr.querySelector('.t-out')?.value || '';
+
+                if (!timeIn || !timeOut || status === 'Absent') {
+                    return;
+                }
+
+                const computed = computeWorkedHoursWithStandards(timeIn, timeOut);
+                if (!computed.requiresOvertimeApproval) {
+                    return;
+                }
+
+                if (tr.dataset.overtimeApproved === 'true') {
+                    approvedOvertimeHours += computed.overtimeHours;
+                } else {
+                    pendingOvertimeEntries += 1;
+                }
+            });
+
+            const generatedAt = moment().format('MMM DD, YYYY hh:mm A');
+            const generatedStamp = moment().format('YYYYMMDD-HHmm');
+            const documentNo = `TS-${generatedStamp}`;
+            const formatMoney = (value) => `PHP ${value.toLocaleString(undefined, { minimumFractionDigits: 2 })}`;
+
+            doc.setFillColor(...brandBlue);
+            doc.rect(0, 0, PAGE_WIDTH, 24, 'F');
+            doc.setFillColor(...accentGold);
+            doc.rect(0, 24, PAGE_WIDTH, 1.8, 'F');
+
+            doc.setFillColor(255, 255, 255);
+            doc.roundedRect(14, 5.2, 14, 14, 2, 2, 'F');
+            doc.setTextColor(...brandBlue);
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(10.5);
+            doc.text('RL', 21, 14, { align: 'center' });
+
+            doc.setTextColor(255, 255, 255);
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(16);
+            doc.text('REPOL LAW OFFICE', 32, 11);
+            doc.setFont('helvetica', 'normal');
             doc.setFontSize(10);
-            doc.setFont("helvetica", "normal");
-            doc.setTextColor(60);
-            doc.text(`ATTORNEY / STAFF: ${name.toUpperCase()}`, 14, 32);
-            doc.text(`PAYROLL PERIOD: ${document.getElementById('startDate').value} to ${document.getElementById('endDate').value}`, 14, 38);
-            doc.text(`TOTAL PAYABLE: ${total}`, 14, 44);
+            doc.text('Employee Timesheet and Payroll Report', 32, 17);
+
+            doc.setTextColor(...slate);
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(9.5);
+            doc.text(`Generated: ${generatedAt}`, PAGE_WIDTH - 14, 11, { align: 'right' });
+            doc.text(`Document No: ${documentNo}`, PAGE_WIDTH - 14, 17, { align: 'right' });
+
+            doc.setDrawColor(226, 232, 240);
+            doc.setLineWidth(0.3);
+            doc.setFillColor(...lightGray);
+            doc.roundedRect(14, 31, 132, 24, 2, 2, 'FD');
+            doc.roundedRect(151, 31, 132, 24, 2, 2, 'FD');
+
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(9);
+            doc.setTextColor(100, 116, 139);
+            doc.text('EMPLOYEE DETAILS', 18, 37);
+            doc.text('PAYROLL SETTINGS', 155, 37);
+
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(10);
+            doc.setTextColor(...slate);
+            doc.text(`Name: ${name.toUpperCase()}`, 18, 43.5);
+            doc.text(`Period: ${startDateVal} to ${endDateVal}`, 18, 49.5);
+            doc.text('Department: Legal Operations', 18, 55.5);
+
+            doc.text(`Daily Rate: ${formatMoney(dailyRateVal)}`, 155, 43.5);
+            doc.text(`OT Multiplier: ${otMultiplierVal.toFixed(2)}x`, 155, 49.5);
+            doc.text(`Prepared By: ${name}`, 155, 55.5);
+
+            const summaryCards = [
+                { label: 'Total Payable', value: formatMoney(grandTotalNum) },
+                { label: 'Total Hours', value: `${totalHoursNum.toFixed(2)} hrs` },
+                { label: 'Days Worked', value: `${daysWorked}/${tableRows.length}` },
+                { label: 'Approved OT', value: `${approvedOvertimeHours.toFixed(2)} hrs` }
+            ];
+
+            const cardY = 61;
+            const cardGap = 4;
+            const cardWidth = (PAGE_WIDTH - 28 - (cardGap * 3)) / 4;
+
+            summaryCards.forEach((card, idx) => {
+                const x = 14 + (idx * (cardWidth + cardGap));
+                doc.setFillColor(250, 250, 252);
+                doc.roundedRect(x, cardY, cardWidth, 17, 2, 2, 'FD');
+                doc.setDrawColor(226, 232, 240);
+                doc.roundedRect(x, cardY, cardWidth, 17, 2, 2, 'S');
+
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(8.5);
+                doc.setTextColor(100, 116, 139);
+                doc.text(card.label.toUpperCase(), x + 3, cardY + 5.5);
+
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(11);
+                doc.setTextColor(...brandBlue);
+                doc.text(card.value, x + 3, cardY + 12.5);
+            });
+
+            if (pendingOvertimeEntries > 0) {
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(8.5);
+                doc.setTextColor(185, 28, 28);
+                doc.text(`Pending OT Entries: ${pendingOvertimeEntries}`, PAGE_WIDTH - 14, cardY + 21, { align: 'right' });
+            }
 
             tableRows.forEach(tr => {
                 const cols = tr.querySelectorAll('td');
                 const amt = parseFloat(tr.dataset.amount || 0);
+                const otApproval = tr.dataset.overtimeApproved === 'true' ? 'Approved' : 'Pending/NA';
                 rowsToExport.push([
                     cols[0].innerText.replace(/\n/g, ' '),
                     tr.querySelector('.t-in') ? tr.querySelector('.t-in').value : '',
@@ -1787,34 +2267,72 @@
                     tr.querySelector('.t-total-hours') ? tr.querySelector('.t-total-hours').innerText : '',
                     tr.querySelector('.t-task') ? tr.querySelector('.t-task').value : '',
                     tr.querySelector('.t-status') ? tr.querySelector('.t-status').value : '',
+                    otApproval,
                     `PHP ${amt.toLocaleString(undefined, {minimumFractionDigits: 2})}`
                 ]);
             });
 
             doc.autoTable({
-                startY: 55,
-                head: [['Date', 'In', 'Out', 'Hrs', 'Task / Case Notes', 'Status', 'Amount']],
+                startY: 86,
+                head: [['Date', 'In', 'Out', 'Hrs', 'Task / Case Notes', 'Status', 'OT Approval', 'Amount']],
                 body: rowsToExport,
-                theme: 'grid',
-                headStyles: { fillColor: [8, 48, 111], fontSize: 9 },
-                styles: { fontSize: 8, cellPadding: 3, overflow: 'linebreak' },
+                theme: 'striped',
+                headStyles: {
+                    fillColor: brandBlue,
+                    textColor: [255, 255, 255],
+                    fontSize: 8.5,
+                    fontStyle: 'bold',
+                    halign: 'center',
+                    valign: 'middle'
+                },
+                bodyStyles: {
+                    fontSize: 8,
+                    textColor: [51, 65, 85],
+                    valign: 'middle'
+                },
+                alternateRowStyles: {
+                    fillColor: [248, 250, 252]
+                },
+                styles: { cellPadding: 2.8, overflow: 'linebreak', lineColor: [226, 232, 240], lineWidth: 0.2 },
                 tableWidth: 'auto',
                 columnStyles: {
                     0: { cellWidth: 40 },
                     1: { cellWidth: 18 },
                     2: { cellWidth: 18 },
                     3: { cellWidth: 14 },
-                    4: { cellWidth: 120 },
+                    4: { cellWidth: 100 },
                     5: { cellWidth: 30 },
-                    6: { cellWidth: 30, halign: 'right' }
+                    6: { cellWidth: 26 },
+                    7: { cellWidth: 28, halign: 'right' }
                 }
             });
 
-            const finalY = (doc.lastAutoTable && doc.lastAutoTable.finalY) ? doc.lastAutoTable.finalY + 30 : 200;
-            doc.line(14, finalY, 70, finalY);
-            doc.text("Employee Signature", 14, finalY + 5);
-            doc.line(130, finalY, 190, finalY);
-            doc.text("Managing Partner", 130, finalY + 5);
+            let finalY = (doc.lastAutoTable && doc.lastAutoTable.finalY) ? doc.lastAutoTable.finalY + 16 : 200;
+            if (finalY > (PAGE_HEIGHT - 25)) {
+                doc.addPage();
+                finalY = 20;
+            }
+
+            doc.setDrawColor(203, 213, 225);
+            doc.setLineWidth(0.3);
+            doc.line(14, finalY, 78, finalY);
+            doc.setTextColor(...slate);
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(9);
+            doc.text('Prepared By (Employee)', 14, finalY + 5);
+            doc.line(112, finalY, 176, finalY);
+            doc.text('Reviewed By (HR/Admin)', 112, finalY + 5);
+            doc.line(205, finalY, 269, finalY);
+            doc.text('Approved By (Managing Partner)', 205, finalY + 5);
+
+            const pageCount = doc.getNumberOfPages();
+            for (let page = 1; page <= pageCount; page++) {
+                doc.setPage(page);
+                doc.setFontSize(8);
+                doc.setTextColor(100, 116, 139);
+                doc.text('Confidential payroll document. Unauthorized disclosure is prohibited.', 14, PAGE_HEIGHT - 8);
+                doc.text(`Page ${page} of ${pageCount}`, PAGE_WIDTH - 14, PAGE_HEIGHT - 8, { align: 'right' });
+            }
 
             return doc.output('dataurlstring');
         } catch (error) {
@@ -1891,6 +2409,8 @@
         });
 
         try {
+            normalizePresentRowsWithEmptyTime();
+
             // Generate PDF
             const pdfDataUrl = generatePDFBase64();
             if (!pdfDataUrl) {
