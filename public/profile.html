@@ -31,6 +31,20 @@
             font-size: 1.5rem;
             color: #d4af37;
             font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .firm-logo-image {
+            height: 38px;
+            width: auto;
+            object-fit: contain;
+            display: block;
+        }
+
+        .firm-logo-fallback-icon {
+            color: #d4af37;
         }
 
         .firm-tagline {
@@ -262,6 +276,123 @@
             color: #c19a3d;
             transform: translateX(-3px);
         }
+
+        @media (max-width: 768px) {
+            .legal-header {
+                padding: 1.25rem 0;
+            }
+
+            .legal-header .container {
+                flex-direction: column;
+                align-items: flex-start !important;
+                gap: 0.75rem;
+            }
+
+            .firm-logo {
+                font-size: 1.1rem;
+                letter-spacing: 1.2px;
+            }
+
+            .firm-logo-image {
+                height: 30px;
+            }
+
+            .firm-tagline {
+                font-size: 0.72rem;
+            }
+
+            .card.p-5 {
+                padding: 1.25rem !important;
+            }
+
+            .profile-icon {
+                width: 78px;
+                height: 78px;
+                font-size: 2.2rem;
+                margin-bottom: 1.25rem;
+            }
+
+            .section-header {
+                font-size: 1.05rem;
+            }
+
+            #profileForm .d-flex.gap-3,
+            #passwordForm .d-flex.gap-3 {
+                flex-direction: column;
+                align-items: stretch !important;
+            }
+
+            #profileForm .btn,
+            #passwordForm .btn {
+                width: 100%;
+            }
+
+            .info-value {
+                font-size: 1rem;
+                word-break: break-word;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .card.p-5 {
+                padding: 1rem !important;
+            }
+
+            .back-link {
+                font-size: 0.85rem;
+            }
+
+            .section-header {
+                font-size: 0.95rem;
+                margin-bottom: 1rem;
+            }
+
+            .form-label {
+                font-size: 0.82rem;
+            }
+
+            .form-control,
+            .form-select {
+                padding: 0.62rem;
+                font-size: 0.88rem;
+            }
+
+            .btn-primary,
+            .btn-secondary {
+                font-size: 0.78rem;
+                letter-spacing: 0.6px;
+                padding: 9px 14px;
+            }
+        }
+
+        @media (hover: none) and (pointer: coarse) {
+            .btn,
+            .btn-primary,
+            .btn-secondary,
+            button,
+            .password-toggle-icon {
+                min-height: 44px;
+            }
+
+            .form-control,
+            .form-select,
+            input[type="text"],
+            input[type="email"],
+            input[type="password"],
+            input[type="tel"],
+            input[type="date"],
+            select,
+            textarea {
+                min-height: 44px;
+            }
+
+            .password-toggle-icon {
+                min-width: 44px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
     </style>
 </head>
 <body>
@@ -269,7 +400,11 @@
 <div class="legal-header mb-5">
     <div class="container d-flex justify-content-between align-items-center">
         <div>
-            <div class="firm-logo"><i class="fas fa-gavel"></i> Repol Law Office</div>
+            <div class="firm-logo">
+                <img src="assets/logo.jpg" alt="Repol Law Office Logo" class="firm-logo-image" onerror="this.style.display='none'; if (this.nextElementSibling) this.nextElementSibling.style.display='inline-flex';">
+                <i class="fas fa-gavel firm-logo-fallback-icon" style="display:none;"></i>
+                <span>Repol Law Office</span>
+            </div>
             <div class="firm-tagline">Employee Profile</div>
         </div>
         <div class="text-end">
@@ -415,7 +550,7 @@
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
     import { getAuth, onAuthStateChanged, updatePassword, reauthenticateWithCredential, EmailAuthProvider } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
-    import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+    import { getFirestore, doc, getDoc, setDoc, collection, query, limit, getDocs } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyAmBi8tP4r4zpr3_6y-4Ncek0yk1oLokOs",
@@ -439,6 +574,22 @@
     window.EmailAuthProvider = EmailAuthProvider;
 
     let currentUser = null;
+    let currentUserRole = 'employee';
+
+    function normalizePositionByRole(position, role) {
+        const rawPosition = String(position || '').trim();
+        const normalizedRole = String(role || '').toLowerCase();
+
+        if (normalizedRole === 'manager' || normalizedRole === 'admin') {
+            return rawPosition;
+        }
+
+        if (/\bmanager\b/i.test(rawPosition)) {
+            return rawPosition.replace(/\bmanager\b/ig, 'Employee').trim();
+        }
+
+        return rawPosition;
+    }
 
     onAuthStateChanged(auth, async (user) => {
         document.getElementById('authLoading').style.display = 'none';
@@ -465,7 +616,8 @@
                 position: '',
                 department: '',
                 username: '',
-                email: currentUser.email
+                email: currentUser.email,
+                role: 'employee'
             };
             
             // FIRST: Try to load from employees collection (primary source during signup)
@@ -484,6 +636,7 @@
                         email: empData.email || currentUser.email,
                         position: empData.position || '',
                         department: empData.department || '',
+                        role: empData.role || 'employee',
                         createdAt: empData.createdAt
                     };
                     console.log('✅ Loaded user data from employees collection:', userData);
@@ -504,11 +657,27 @@
                     // Only override if the field has a value in users collection
                     if (userData2.position) userData.position = userData2.position;
                     if (userData2.department) userData.department = userData2.department;
+                    if (userData2.role) userData.role = userData2.role;
                     console.log('✅ Merged data from users collection');
                 }
             } catch (userError) {
                 console.error('Error reading from users collection:', userError);
             }
+
+            const timesheetRef = collection(db, 'employees', userId, 'timesheets');
+            const timesheetSnap = await getDocs(query(timesheetRef, limit(1)));
+            const hasTimesheetRecords = !timesheetSnap.empty;
+
+            if (hasTimesheetRecords && String(userData.role || '').toLowerCase() === 'manager') {
+                userData.role = 'employee';
+                currentUserRole = 'employee';
+                await setDoc(doc(db, 'users', userId), { role: 'employee', updatedAt: new Date() }, { merge: true });
+                await setDoc(doc(db, 'employees', userId), { role: 'employee', updatedAt: new Date() }, { merge: true });
+                showAlert('Role corrected to Employee because this account has timesheet records.', 'warning');
+            }
+
+            currentUserRole = String(userData.role || 'employee').toLowerCase();
+            userData.position = normalizePositionByRole(userData.position, currentUserRole);
             
             // Ensure email is always from currentUser
             userData.email = currentUser.email;
@@ -558,12 +727,18 @@
             const middleName = document.getElementById('middleName').value.trim();
             const lastName = document.getElementById('lastName').value.trim();
             const phoneNumber = document.getElementById('phoneNumber').value.trim();
-            const position = document.getElementById('position').value.trim();
+            const positionInput = document.getElementById('position').value.trim();
             const department = document.getElementById('department').value.trim();
 
             if (!firstName || !lastName || !phoneNumber) {
                 showAlert('Please fill in all required fields.', 'danger');
                 return;
+            }
+
+            const position = normalizePositionByRole(positionInput, currentUserRole);
+            if (position !== positionInput) {
+                document.getElementById('position').value = position;
+                showAlert('Manager title is reserved for manager/admin accounts. Saved as Employee title.', 'warning');
             }
 
             const profileData = {

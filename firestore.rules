@@ -69,12 +69,90 @@ service cloud.firestore {
              (!('userId' in data) || data.userId == request.auth.uid);
     }
 
+    function validTimesheetPayload(data, userId) {
+      return data.keys().hasAll([
+               'uid',
+               'empName',
+               'startDate',
+               'endDate',
+               'dailyRate',
+               'otMultiplier',
+               'timesheetData',
+               'totalAmount',
+               'savedAt'
+             ]) &&
+             data.keys().hasOnly([
+               'uid',
+               'empName',
+               'startDate',
+               'endDate',
+               'dailyRate',
+               'otMultiplier',
+               'timesheetData',
+               'salaryAdvances',
+               'incentives',
+               'bonuses',
+               'totalAdvances',
+               'totalIncentives',
+               'totalBonuses',
+               'totalAmount',
+               'savedAt'
+             ]) &&
+             data.uid is string &&
+             data.uid == userId &&
+             data.empName is string && data.empName.size() > 0 && data.empName.size() <= 120 &&
+             validDate(data.startDate) &&
+             validDate(data.endDate) &&
+             data.startDate <= data.endDate &&
+             data.dailyRate is number && data.dailyRate >= 0 && data.dailyRate <= 1000000 &&
+             data.otMultiplier is number && data.otMultiplier >= 1 && data.otMultiplier <= 10 &&
+             data.timesheetData is list && data.timesheetData.size() <= 62 &&
+             (!('salaryAdvances' in data) || (data.salaryAdvances is list && data.salaryAdvances.size() <= 50)) &&
+             (!('incentives' in data) || (data.incentives is list && data.incentives.size() <= 50)) &&
+             (!('bonuses' in data) || (data.bonuses is list && data.bonuses.size() <= 50)) &&
+             (!('totalAdvances' in data) || (data.totalAdvances is number && data.totalAdvances >= 0 && data.totalAdvances <= 100000000)) &&
+             (!('totalIncentives' in data) || (data.totalIncentives is number && data.totalIncentives >= 0 && data.totalIncentives <= 100000000)) &&
+             (!('totalBonuses' in data) || (data.totalBonuses is number && data.totalBonuses >= 0 && data.totalBonuses <= 100000000)) &&
+             data.totalAmount is number && data.totalAmount >= -100000000 && data.totalAmount <= 100000000 &&
+             data.savedAt is timestamp;
+    }
+
+    function hasPrivilegedTitle(data) {
+      return ('position' in data) &&
+             data.position is string &&
+             data.position.matches('.*([Mm]anager|[Aa]dmin).*');
+    }
+
+    function nonAdminEmployeeUpdateAllowed(oldData, newData) {
+      return !newData.diff(oldData).affectedKeys().hasAny(['role', 'teamId']) &&
+             (!newData.diff(oldData).affectedKeys().hasAny(['hasTimesheets']) ||
+               (('hasTimesheets' in newData) &&
+                newData.hasTimesheets is bool &&
+                newData.hasTimesheets == true &&
+                (!('hasTimesheets' in oldData) || oldData.hasTimesheets == true))) &&
+             !hasPrivilegedTitle(newData);
+    }
+
+    function hasTimesheetsFlag(userId) {
+      return exists(/databases/$(database)/documents/employees/$(userId)) &&
+             get(/databases/$(database)/documents/employees/$(userId)).data.hasTimesheets == true;
+    }
+
+    function managerRoleAssignmentAllowed(oldData, newData, userId) {
+      return !(
+        ('role' in newData) &&
+        newData.role == 'manager' &&
+        (!('role' in oldData) || oldData.role != 'manager') &&
+        hasTimesheetsFlag(userId)
+      );
+    }
+
     // Users collection - roles defined here
     match /users/{userId} {
       allow read: if isOwner(userId) || isAdmin() || isManager();
       allow create: if isAdmin();
       allow update: if isOwner(userId) && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['role', 'teamId']);
-      allow update: if isAdmin();
+      allow update: if isAdmin() && managerRoleAssignmentAllowed(resource.data, request.resource.data, userId);
       allow delete: if isAdmin();
     }
 
@@ -82,14 +160,15 @@ service cloud.firestore {
     match /employees/{userId} {
       allow read: if canManageUser(userId);
       allow create: if isAdmin();
-      allow update: if canManageUser(userId);
+      allow update: if isAdmin() && managerRoleAssignmentAllowed(resource.data, request.resource.data, userId);
+      allow update: if canManageUser(userId) && nonAdminEmployeeUpdateAllowed(resource.data, request.resource.data);
       allow delete: if isAdmin();
       
       // Timesheets subcollection
       match /timesheets/{sheetId} {
         allow read: if canManageUser(userId);
-        allow create: if canManageUser(userId);
-        allow update: if canManageUser(userId);
+        allow create: if canManageUser(userId) && validTimesheetPayload(request.resource.data, userId);
+        allow update: if canManageUser(userId) && validTimesheetPayload(request.resource.data, userId);
         allow delete: if isAdmin() || isOwner(userId);
       }
       

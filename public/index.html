@@ -31,6 +31,20 @@
             font-size: 1.5rem; 
             color: #d4af37;
             font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .firm-logo-image {
+            height: 38px;
+            width: auto;
+            object-fit: contain;
+            display: block;
+        }
+
+        .firm-logo-fallback-icon {
+            color: #d4af37;
         }
         
         .firm-tagline {
@@ -634,6 +648,370 @@
             border-color: #ddd;
             box-shadow: none;
         }
+
+        .payroll-adjustments-card {
+            background-color: #ffffff;
+            border: 1px solid #dbe3ef;
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 15px;
+        }
+
+        .payroll-adjustments-title {
+            font-weight: 700;
+            color: #1a2b4d;
+            margin-bottom: 12px;
+            letter-spacing: 0.3px;
+        }
+
+        .adjustments-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 14px;
+            align-items: start;
+        }
+
+        .adjustment-group {
+            background: #f8fafc;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 12px;
+            height: 100%;
+        }
+
+        .adjustment-group-title {
+            font-size: 0.82rem;
+            color: #334155;
+            margin-bottom: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.35px;
+        }
+
+        .adjustment-group-title i {
+            margin-right: 0.4rem;
+            font-size: 0.78rem;
+            opacity: 0.85;
+        }
+
+        .adjustment-group-title.adjustment-advance i {
+            color: #dc3545;
+        }
+
+        .adjustment-group-title.adjustment-positive i {
+            color: #198754;
+        }
+
+        .adjustment-list {
+            min-height: 8px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .adjustment-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+            align-items: center;
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 8px;
+        }
+
+        .adjustment-row .adjustment-amount {
+            width: 135px;
+            min-width: 120px;
+        }
+
+        .adjustment-row .adjustment-source {
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .adjustment-add-btn {
+            margin-top: 2px;
+            width: 100%;
+        }
+
+        .adjustment-remove-btn {
+            white-space: nowrap;
+            min-width: 86px;
+            flex-shrink: 0;
+        }
+
+        .adjustments-summary {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+            margin-top: 12px;
+            font-size: 0.85rem;
+        }
+
+        .adjustment-total-item {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 8px 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: #334155;
+        }
+
+        .adjustment-total-item strong {
+            color: #1a2b4d;
+        }
+
+        .incentive-validation-msg {
+            margin-top: 6px;
+            color: #dc3545;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        @media (max-width: 992px) {
+            .employee-list-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.75rem;
+            }
+
+            .employee-actions {
+                width: 100%;
+                flex-wrap: wrap;
+            }
+
+            #employeeActionBar {
+                flex-wrap: wrap;
+                align-items: stretch !important;
+            }
+
+            #employeeActionBar .priority-note-inline {
+                margin-left: 0;
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .legal-header {
+                padding: 1.25rem 0;
+            }
+
+            .firm-logo {
+                font-size: 1.1rem;
+                letter-spacing: 1.2px;
+            }
+
+            .firm-logo-image {
+                height: 30px;
+            }
+
+            .firm-tagline {
+                font-size: 0.72rem;
+            }
+
+            #mainApp > .legal-header .container {
+                flex-direction: column;
+                align-items: flex-start !important;
+                gap: 0.75rem;
+            }
+
+            #mainApp > .legal-header .text-end {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            #authContainer {
+                margin-top: 1rem !important;
+                padding: 0 0.5rem;
+            }
+
+            #authContainer .card {
+                padding: 1rem !important;
+            }
+
+            #employeeSection .card.p-4,
+            #employeeTimesheetSection .card {
+                padding: 1rem !important;
+            }
+
+            #employeeActionBar {
+                flex-direction: column;
+                align-items: stretch !important;
+            }
+
+            #employeeActionBar .btn,
+            #employeeActionBar .priority-note-inline {
+                width: 100%;
+                justify-content: center;
+                margin-left: 0;
+            }
+
+            #timesheetModal .modal-content {
+                width: 96% !important;
+                max-width: none !important;
+                margin: 2% auto !important;
+            }
+
+            #timesheetModal .modal-header h2 {
+                font-size: 1.2rem !important;
+            }
+
+            #timesheetModal .modal-body {
+                padding: 12px !important;
+                max-height: 58vh !important;
+                overflow: auto !important;
+            }
+
+            #timesheetModal .modal-body table {
+                min-width: 900px;
+                font-size: 0.82rem;
+            }
+
+            #timesheetModal .modal-footer {
+                padding: 12px !important;
+            }
+
+            #timesheetModal .modal-footer > .w-100 > div:first-child {
+                flex-direction: column;
+                align-items: flex-start !important;
+                gap: 12px;
+            }
+
+            #timesheetModal .timesheet-summary-metrics {
+                width: 100%;
+                justify-content: space-between;
+                gap: 12px !important;
+                flex-wrap: wrap;
+            }
+
+            #timesheetModal .adjustments-grid {
+                grid-template-columns: 1fr !important;
+            }
+
+            #timesheetModal .adjustments-summary {
+                grid-template-columns: 1fr !important;
+                gap: 10px !important;
+            }
+
+            #timesheetModal .adjustment-row {
+                flex-wrap: wrap;
+            }
+
+            #timesheetModal .adjustment-row .adjustment-amount,
+            #timesheetModal .adjustment-row .adjustment-source,
+            #timesheetModal .adjustment-remove-btn {
+                width: 100%;
+                max-width: none;
+            }
+
+            .notification-modal {
+                width: 95%;
+            }
+
+            .employee-records-content {
+                width: 98%;
+            }
+
+            .employee-records-header,
+            .employee-records-body {
+                padding: 1rem;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .firm-logo {
+                font-size: 1rem;
+                letter-spacing: 0.8px;
+            }
+
+            .firm-logo-image {
+                height: 26px;
+            }
+
+            .firm-tagline {
+                font-size: 0.65rem;
+            }
+
+            #mainApp > .legal-header .text-end {
+                gap: 0.5rem !important;
+            }
+
+            #currentDate {
+                font-size: 0.72rem !important;
+                padding: 0.35rem 0.5rem;
+            }
+
+            .profile-icon-btn {
+                font-size: 1.7rem;
+            }
+
+            #timesheetModal .modal-header,
+            #timesheetModal .modal-footer,
+            #timesheetModal .modal-body {
+                padding: 10px !important;
+            }
+
+            #timesheetModal .modal-header h2 {
+                font-size: 1.05rem !important;
+            }
+
+            #timesheetModal .pdf-button {
+                width: 100%;
+                justify-content: center;
+                padding: 10px 14px;
+                font-size: 0.75rem;
+                letter-spacing: 0.5px;
+            }
+
+            #timesheetModal [style*='font-size: 1.1rem'] {
+                font-size: 0.95rem !important;
+            }
+
+            #timesheetModal [style*='font-size: 0.85rem'] {
+                font-size: 0.75rem !important;
+            }
+
+            #timesheetModal .btn {
+                padding: 0.42rem 0.55rem;
+                font-size: 0.75rem;
+            }
+        }
+
+        @media (hover: none) and (pointer: coarse) {
+            .btn,
+            .pdf-button,
+            .notification-btn,
+            .update-role-btn,
+            .close-records-btn,
+            .password-toggle-btn,
+            button,
+            a.dropdown-item {
+                min-height: 44px;
+            }
+
+            .form-control,
+            .form-select,
+            input[type="date"],
+            input[type="time"],
+            input[type="number"],
+            input[type="text"],
+            input[type="email"],
+            input[type="password"],
+            input[type="tel"],
+            select,
+            textarea {
+                min-height: 44px;
+            }
+
+            .password-toggle-btn {
+                min-width: 44px;
+                min-height: 44px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -732,7 +1110,7 @@
         <div class="modal-content">
             <div class="modal-header" style="background: linear-gradient(90deg, #d4af37 0%, #c19a3d 100%); color: #1a2b4d; border: none;">
                 <h5 class="modal-title"><i class="fas fa-exclamation-triangle"></i> Session Timeout Warning</h5>
-                <button type="button" class="btn-close btn-close-white" onclick="document.getElementById('inactivityWarningModal').style.display='none'" style="background-color: transparent; opacity: 0.7;"></button>
+                <button type="button" class="btn-close btn-close-white" onclick="if (window.sessionTimeoutManager) { window.sessionTimeoutManager.resetTimer(); } document.getElementById('inactivityWarningModal').style.display='none'" style="background-color: transparent; opacity: 0.7;"></button>
             </div>
             <div class="modal-body" style="padding: 1.5rem;">
                 <p style="color: #2c3e50; font-size: 1rem; margin-bottom: 1rem;">
@@ -746,10 +1124,10 @@
                 </div>
             </div>
             <div class="modal-footer" style="border-top: 1px solid #e0e0e0; padding: 1rem;">
-                <button type="button" class="btn" onclick="sessionTimeoutManager.logout()" style="background-color: #dc3545; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer;">
+                <button type="button" class="btn" onclick="if (window.sessionTimeoutManager) { window.sessionTimeoutManager.logout(); } else if (typeof logout === 'function') { logout(); }" style="background-color: #dc3545; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer;">
                     <i class="fas fa-sign-out-alt"></i> Logout Now
                 </button>
-                <button type="button" class="btn btn-primary" onclick="sessionTimeoutManager.resetTimer(); document.getElementById('inactivityWarningModal').style.display='none'" style="background-color: #d4af37; color: #1a2b4d; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; font-weight: 600;">
+                <button type="button" class="btn btn-primary" onclick="if (window.sessionTimeoutManager) { window.sessionTimeoutManager.resetTimer(); } document.getElementById('inactivityWarningModal').style.display='none'" style="background-color: #d4af37; color: #1a2b4d; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; font-weight: 600;">
                     <i class="fas fa-sync-alt"></i> Continue Session
                 </button>
             </div>
@@ -762,7 +1140,11 @@
 <div class="legal-header mb-5">
     <div class="container d-flex justify-content-between align-items-center">
         <div>
-            <div class="firm-logo"><i class="fas fa-gavel"></i> Repol Law Office</div>
+            <div class="firm-logo">
+                <img src="assets/logo.jpg" alt="Repol Law Office Logo" class="firm-logo-image" onerror="this.style.display='none'; if (this.nextElementSibling) this.nextElementSibling.style.display='inline-flex';">
+                <i class="fas fa-gavel firm-logo-fallback-icon" style="display:none;"></i>
+                <span>Repol Law Office</span>
+            </div>
             <div class="firm-tagline">Employee Timesheet & Payroll System</div>
         </div>
         <div class="text-end d-flex align-items-center gap-3">
@@ -940,7 +1322,7 @@
                             <div style="color: #666; font-size: 0.9rem; margin-bottom: 5px;">Total Amount Payable</div>
                             <h3 style="color: #1a2b4d; margin: 0;" id="grandTotalDisplay">₱ 0.00</h3>
                         </div>
-                        <div style="display: flex; gap: 30px; text-align: center;">
+                        <div class="timesheet-summary-metrics" style="display: flex; gap: 30px; text-align: center;">
                             <div>
                                 <div style="color: #666; font-size: 0.85rem;">Days</div>
                                 <div style="color: #1a2b4d; font-weight: 700; font-size: 1.1rem;" id="daysCount">0/0</div>
@@ -959,6 +1341,34 @@
                     <div style="background-color: #fff3cd; border-left: 4px solid #ffc107; padding: 12px; border-radius: 4px; font-size: 0.85rem; color: #856404; margin-bottom: 15px;">
                         <strong>Status Rules:</strong> Regular Holiday = 100% if not worked, 200% if worked (first 8 hrs). Special Holiday = unpaid if not worked, 130% if worked (first 8 hrs). Sick/Vacation Leave = 100% paid. Emergency Leave = unpaid. Weekend work = 130% (first 8 hrs).
                     </div>
+                    <div class="payroll-adjustments-card">
+                        <div class="payroll-adjustments-title">Payroll Adjustments</div>
+                        <div class="adjustments-grid">
+                            <div class="adjustment-group">
+                                <div class="adjustment-group-title adjustment-advance"><i class="fas fa-minus-circle"></i>Salary Advances (deducted)</div>
+                                <div id="salaryAdvancesList" class="adjustment-list"></div>
+                                <button type="button" class="btn btn-sm btn-outline-secondary fw-bold adjustment-add-btn" onclick="addSalaryAdvanceRow()">+ Add Advance</button>
+                            </div>
+                            <div class="adjustment-group">
+                                <div class="adjustment-group-title adjustment-positive"><i class="fas fa-plus-circle"></i>Incentives (added)</div>
+                                <div id="incentivesList" class="adjustment-list"></div>
+                                <button type="button" class="btn btn-sm btn-outline-secondary fw-bold adjustment-add-btn" onclick="addIncentiveRow()">+ Add Incentive</button>
+                                <div id="incentiveValidationMsg" class="incentive-validation-msg" style="display: none;">
+                                    Incentive entries with amount must include project/client.
+                                </div>
+                            </div>
+                            <div class="adjustment-group">
+                                <div class="adjustment-group-title adjustment-positive"><i class="fas fa-plus-circle"></i>Bonus (added)</div>
+                                <div id="bonusesList" class="adjustment-list"></div>
+                                <button type="button" class="btn btn-sm btn-outline-secondary fw-bold adjustment-add-btn" onclick="addBonusRow()">+ Add Bonus</button>
+                            </div>
+                        </div>
+                        <div class="adjustments-summary">
+                            <div class="adjustment-total-item"><span>Advances</span><strong id="totalAdvancesDisplay">₱ 0.00</strong></div>
+                            <div class="adjustment-total-item"><span>Incentives</span><strong id="totalIncentivesDisplay">₱ 0.00</strong></div>
+                            <div class="adjustment-total-item"><span>Bonus</span><strong id="totalBonusesDisplay">₱ 0.00</strong></div>
+                        </div>
+                    </div>
                 </div>
                 <div style="text-align: right;">
                     <button onclick="closeTimesheetModal()" class="btn btn-secondary fw-bold">Close</button>
@@ -976,7 +1386,37 @@
 
 <script>
     // Professional Notification System
+    const BRAND_LOGO_SRC = 'assets/logo.jpg';
+    let pdfLogoDataUrl = null;
+    let isEmailSending = false;
+
     let notificationCallback = null;
+    let notificationAutoCloseTimer = null;
+
+    function preloadLogoForPdf() {
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = function () {
+            try {
+                const canvas = document.createElement('canvas');
+                const maxDimension = 320;
+                const scale = Math.min(1, maxDimension / Math.max(img.naturalWidth, img.naturalHeight));
+                canvas.width = Math.max(1, Math.round(img.naturalWidth * scale));
+                canvas.height = Math.max(1, Math.round(img.naturalHeight * scale));
+                const context = canvas.getContext('2d');
+                context.drawImage(img, 0, 0, canvas.width, canvas.height);
+                pdfLogoDataUrl = canvas.toDataURL('image/png');
+            } catch (error) {
+                pdfLogoDataUrl = null;
+            }
+        };
+        img.onerror = function () {
+            pdfLogoDataUrl = null;
+        };
+        img.src = `${BRAND_LOGO_SRC}?v=${Date.now()}`;
+    }
+
+    preloadLogoForPdf();
 
     /**
      * Show professional notification modal
@@ -995,6 +1435,11 @@
         const title = document.getElementById('notificationTitle');
         const body = document.getElementById('notificationBody');
         const actionBtn = document.getElementById('notificationActionBtn');
+
+        if (notificationAutoCloseTimer) {
+            clearTimeout(notificationAutoCloseTimer);
+            notificationAutoCloseTimer = null;
+        }
 
         // Set type-specific styling
         const types = ['success', 'error', 'warning', 'info'];
@@ -1028,11 +1473,22 @@
 
         // Show overlay
         overlay.classList.add('show');
+
+        const autoCloseMs = Number(options.autoCloseMs);
+        if (!Number.isNaN(autoCloseMs) && autoCloseMs > 0) {
+            notificationAutoCloseTimer = setTimeout(() => {
+                closeNotification();
+            }, autoCloseMs);
+        }
     }
 
     function closeNotification() {
         const overlay = document.getElementById('notificationOverlay');
         overlay.classList.remove('show');
+        if (notificationAutoCloseTimer) {
+            clearTimeout(notificationAutoCloseTimer);
+            notificationAutoCloseTimer = null;
+        }
         notificationCallback = null;
     }
 
@@ -1261,6 +1717,7 @@
                 email: email,
                 username: username,
                 role: 'employee',  // Default role for new signups
+                hasTimesheets: false,
                 createdAt: new Date()
             });
             console.log('Employee data saved');
@@ -1385,7 +1842,7 @@
                 document.getElementById('otMultiplier').value = data.otMultiplier;
 
                 // Generate the sheet first
-                generateSheet();
+                await generateSheet();
 
                 // Then populate the data
                 const rows = document.querySelectorAll('#timesheetBody tr');
@@ -1397,6 +1854,8 @@
                         rows[index].querySelector('.t-status').value = entry.status;
                     }
                 });
+
+                setPayrollAdjustments(data.salaryAdvances || [], data.incentives || [], data.bonuses || []);
 
                 calculate();
                 alert('Timesheet loaded successfully!');
@@ -1424,12 +1883,26 @@
             date: row.dataset.date,
             timeIn: row.querySelector('.t-in').value,
             timeOut: row.querySelector('.t-out').value,
-            task: row.querySelector('.t-task').value,
+            task: sanitizePlainText(row.querySelector('.t-task').value, 250),
             status: row.querySelector('.t-status').value,
             amount: parseFloat(row.dataset.amount) || 0
         }));
+        const adjustments = getPayrollAdjustments();
+
+        if (adjustments.invalidIncentives > 0) {
+            showNotification({
+                type: 'warning',
+                title: 'Incomplete Incentive Details',
+                message: 'Please provide project/client for every incentive amount before saving.'
+            });
+            return;
+        }
 
         try {
+            await setDoc(doc(db, 'employees', user.uid), {
+                hasTimesheets: true
+            }, { merge: true });
+
             const docRef = doc(db, 'employees', user.uid, 'timesheets', `${startDate}_${endDate}`);
             await setDoc(docRef, {
                 uid: user.uid,
@@ -1439,6 +1912,12 @@
                 dailyRate: parseFloat(dailyRate),
                 otMultiplier: parseFloat(otMultiplier),
                 timesheetData,
+                salaryAdvances: adjustments.salaryAdvances,
+                incentives: adjustments.incentives,
+                bonuses: adjustments.bonuses,
+                totalAdvances: adjustments.totalAdvances,
+                totalIncentives: adjustments.totalIncentives,
+                totalBonuses: adjustments.totalBonuses,
                 totalAmount: parseFloat(document.getElementById('grandTotalDisplay').innerText.replace('₱ ', '').replace(/,/g, '')),
                 savedAt: new Date()
             });
@@ -1587,6 +2066,211 @@
         calculate();
     }
 
+    function createAdjustmentRowBase() {
+        const row = document.createElement('div');
+        row.className = 'adjustment-row';
+        return row;
+    }
+
+    function toAmount(value) {
+        const parsed = parseFloat(value);
+        return Number.isFinite(parsed) && parsed > 0 ? parsed : 0;
+    }
+
+    function sanitizePlainText(value, maxLength = 250) {
+        return (value == null ? '' : String(value))
+            .replace(/[<>`"']/g, '')
+            .replace(/[\u0000-\u001F\u007F]/g, ' ')
+            .replace(/\s+/g, ' ')
+            .trim()
+            .slice(0, maxLength);
+    }
+
+    function addSalaryAdvanceRow(amount = '') {
+        addAdjustmentRow({
+            listId: 'salaryAdvancesList',
+            rowClassName: 'salary-advance-row',
+            amountClassName: 'salary-advance-amount adjustment-amount',
+            amount,
+            amountPlaceholder: 'Amount'
+        });
+    }
+
+    function addIncentiveRow(amount = '', source = '') {
+        addAdjustmentRow({
+            listId: 'incentivesList',
+            rowClassName: 'incentive-row',
+            amountClassName: 'incentive-amount adjustment-amount',
+            amount,
+            amountPlaceholder: 'Amount',
+            includeSource: true,
+            sourceClassName: 'incentive-source adjustment-source',
+            source,
+            sourcePlaceholder: 'Project / Client'
+        });
+    }
+
+    function addBonusRow(amount = '') {
+        addAdjustmentRow({
+            listId: 'bonusesList',
+            rowClassName: 'bonus-row',
+            amountClassName: 'bonus-amount adjustment-amount',
+            amount,
+            amountPlaceholder: 'Amount'
+        });
+    }
+
+    function addAdjustmentRow(options) {
+        const {
+            listId,
+            rowClassName,
+            amountClassName,
+            amount,
+            amountPlaceholder,
+            includeSource = false,
+            sourceClassName = '',
+            source = '',
+            sourcePlaceholder = ''
+        } = options;
+
+        const list = document.getElementById(listId);
+        if (!list) return;
+
+        const row = createAdjustmentRowBase();
+        row.classList.add(rowClassName);
+
+        const amountInput = document.createElement('input');
+        amountInput.type = 'number';
+        amountInput.min = '0';
+        amountInput.step = '0.01';
+        amountInput.placeholder = amountPlaceholder;
+        amountInput.value = amount;
+        amountInput.className = `form-control form-control-sm ${amountClassName}`;
+        amountInput.addEventListener('input', calculate);
+        row.appendChild(amountInput);
+
+        if (includeSource) {
+            const sourceInput = document.createElement('input');
+            sourceInput.type = 'text';
+            sourceInput.placeholder = sourcePlaceholder;
+            sourceInput.value = source;
+            sourceInput.className = `form-control form-control-sm ${sourceClassName}`;
+            sourceInput.addEventListener('input', calculate);
+            row.appendChild(sourceInput);
+        }
+
+        const removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.className = 'btn btn-sm btn-outline-danger fw-bold adjustment-remove-btn';
+        removeBtn.textContent = 'Remove';
+        removeBtn.onclick = () => {
+            row.remove();
+            calculate();
+        };
+
+        row.appendChild(removeBtn);
+        list.appendChild(row);
+    }
+
+    function setPayrollAdjustments(salaryAdvances = [], incentives = [], bonuses = []) {
+        const advancesList = document.getElementById('salaryAdvancesList');
+        const incentivesList = document.getElementById('incentivesList');
+        const bonusesList = document.getElementById('bonusesList');
+        if (!advancesList || !incentivesList || !bonusesList) return;
+
+        advancesList.innerHTML = '';
+        incentivesList.innerHTML = '';
+        bonusesList.innerHTML = '';
+
+        if (Array.isArray(salaryAdvances) && salaryAdvances.length > 0) {
+            salaryAdvances.forEach(entry => addSalaryAdvanceRow(entry.amount || ''));
+        } else {
+            addSalaryAdvanceRow();
+        }
+
+        if (Array.isArray(incentives) && incentives.length > 0) {
+            incentives.forEach(entry => addIncentiveRow(entry.amount || '', entry.source || ''));
+        } else {
+            addIncentiveRow();
+        }
+
+        if (Array.isArray(bonuses) && bonuses.length > 0) {
+            bonuses.forEach(entry => addBonusRow(entry.amount || ''));
+        } else {
+            addBonusRow();
+        }
+    }
+
+    function resetPayrollAdjustments() {
+        setPayrollAdjustments([], []);
+    }
+
+    function getPayrollAdjustments() {
+        const advances = [];
+        const incentives = [];
+        const bonuses = [];
+        let totalAdvances = 0;
+        let totalIncentives = 0;
+        let totalBonuses = 0;
+        let invalidIncentives = 0;
+
+        document.querySelectorAll('.salary-advance-row').forEach(row => {
+            const amount = toAmount(row.querySelector('.salary-advance-amount')?.value || '');
+            if (amount > 0) {
+                advances.push({ amount });
+                totalAdvances += amount;
+            }
+        });
+
+        document.querySelectorAll('.incentive-row').forEach(row => {
+            const amountInput = row.querySelector('.incentive-amount');
+            const sourceInput = row.querySelector('.incentive-source');
+            const amount = toAmount(amountInput?.value || '');
+            const source = sanitizePlainText(sourceInput?.value || '', 120);
+
+            if (amount > 0 && !source) {
+                invalidIncentives += 1;
+                if (sourceInput) sourceInput.style.borderColor = '#dc3545';
+                return;
+            }
+
+            if (sourceInput) sourceInput.style.borderColor = '';
+
+            if (amount > 0 && source) {
+                incentives.push({ amount, source });
+                totalIncentives += amount;
+            }
+        });
+
+        document.querySelectorAll('.bonus-row').forEach(row => {
+            const amount = toAmount(row.querySelector('.bonus-amount')?.value || '');
+            if (amount > 0) {
+                bonuses.push({ amount });
+                totalBonuses += amount;
+            }
+        });
+
+        const advancesDisplay = document.getElementById('totalAdvancesDisplay');
+        const incentivesDisplay = document.getElementById('totalIncentivesDisplay');
+        const bonusesDisplay = document.getElementById('totalBonusesDisplay');
+        const incentiveValidationMsg = document.getElementById('incentiveValidationMsg');
+
+        if (advancesDisplay) {
+            advancesDisplay.innerText = `₱ ${totalAdvances.toLocaleString(undefined, { minimumFractionDigits: 2 })}`;
+        }
+        if (incentivesDisplay) {
+            incentivesDisplay.innerText = `₱ ${totalIncentives.toLocaleString(undefined, { minimumFractionDigits: 2 })}`;
+        }
+        if (bonusesDisplay) {
+            bonusesDisplay.innerText = `₱ ${totalBonuses.toLocaleString(undefined, { minimumFractionDigits: 2 })}`;
+        }
+        if (incentiveValidationMsg) {
+            incentiveValidationMsg.style.display = invalidIncentives > 0 ? 'block' : 'none';
+        }
+
+        return { salaryAdvances: advances, incentives, bonuses, totalAdvances, totalIncentives, totalBonuses, invalidIncentives };
+    }
+
     window.computeWorkedHoursWithStandards = computeWorkedHoursWithStandards;
 
     async function generateSheet() {
@@ -1627,6 +2311,7 @@
 
         const tbody = document.getElementById('timesheetBody');
         tbody.innerHTML = '';
+    resetPayrollAdjustments();
         
         let curr = moment(start);
         let last = moment(end);
@@ -1636,13 +2321,24 @@
         try {
             const user = auth.currentUser;
             if (user) {
-                // Fetch from daily_logs collection without where clause
                 const logsRef = collection(db, 'daily_logs');
-                const snapshot = await getDocs(logsRef);
+                let snapshot;
+
+                try {
+                    const logsQuery = query(
+                        logsRef,
+                        where('uid', '==', user.uid)
+                    );
+                    snapshot = await getDocs(logsQuery);
+                } catch (queryError) {
+                    console.warn('Optimized daily_logs query failed, using fallback scan:', queryError);
+                    snapshot = await getDocs(logsRef);
+                }
+
                 snapshot.forEach(doc => {
                     const data = doc.data();
-                    // Filter client-side to only user's records
-                    if (data.uid === user.uid) {
+                    const isWithinRange = data.date >= start && data.date <= end;
+                    if (data.uid === user.uid && isWithinRange) {
                         const date = data.date; // Format: YYYY-MM-DD
                         if (!timeInsMap[date]) {
                             timeInsMap[date] = { timeIn: null, timeOut: null };
@@ -1674,8 +2370,15 @@
             // Get time-in and time-out values from Firestore or defaults
             const timesForDay = timeInsMap[dateStr] || {};
             const hasLogEntry = dateStr in timeInsMap;
-            const timeInVal = timesForDay.timeIn || '';
-            const timeOutVal = timesForDay.timeOut || '';
+            const normalizeTimeToHourMinute = (value) => {
+                if (typeof value !== 'string') return '';
+                const match = value.match(/^([01]\d|2[0-3]):([0-5]\d)/);
+                if (!match) return value;
+                return `${match[1]}:${match[2]}`;
+            };
+
+            const timeInVal = normalizeTimeToHourMinute(timesForDay.timeIn || '');
+            const timeOutVal = normalizeTimeToHourMinute(timesForDay.timeOut || '');
             
             // Detect if it's a weekend and set default status
             const dayOfWeek = curr.day(); // 0 = Sunday, 6 = Saturday
@@ -1704,9 +2407,7 @@
                     </select>
                 </td>
                 <td>
-                    ${dateStr === latestLogDate ?
-                      `<button class="btn btn-sm btn-outline-primary fw-bold" onclick="editTimesheetDailyLog('${dateStr}')">Edit</button>` :
-                      `<span class="text-muted" style="font-size:0.75rem;">—</span>`}
+                    <span class="text-muted" style="font-size:0.75rem;">—</span>
                 </td>
                 <td class="text-end pe-4 fw-bold row-total">₱ ${isWeekend ? (dailyRate * 1.30).toFixed(2) : rate}.00</td>
             `;
@@ -1758,7 +2459,7 @@
 
         const newTaskRaw = prompt(`Edit note/task for ${dateStr} (optional)`, currentTask);
         if (newTaskRaw === null) return;
-        const newTask = newTaskRaw.trim().slice(0, 250);
+        const newTask = sanitizePlainText(newTaskRaw, 250);
 
         const timeRegex = /^([01]\d|2[0-3]):([0-5]\d)$/;
         if (!newTimeIn || !timeRegex.test(newTimeIn)) {
@@ -1849,7 +2550,7 @@
         const dailyRate = parseFloat(document.getElementById('dailyRate').value) || 0;
         const weekendRate = dailyRate * 1.30;
         const otMultiplier = parseFloat(document.getElementById('otMultiplier').value) || 1.25;
-        let grandTotal = 0;
+        let grossTotal = 0;
         let totalHours = 0;
         let daysPresent = 0;
 
@@ -2057,10 +2758,13 @@
             row.querySelector('.row-total').innerText = `₱ ${amount.toFixed(2)}`;
             row.querySelector('.t-total-hours').innerText = `${netHours.toFixed(2)}`;
             row.dataset.amount = amount;
-            grandTotal += amount;
+            grossTotal += amount;
             totalHours += netHours;
             if (status !== 'Absent' && status !== 'Emergency Leave') daysPresent++;
         });
+
+        const adjustments = getPayrollAdjustments();
+        const grandTotal = grossTotal + adjustments.totalIncentives + adjustments.totalBonuses - adjustments.totalAdvances;
 
         const totalDays = rows.length;
         document.getElementById('grandTotalDisplay').innerText = `₱ ${grandTotal.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
@@ -2114,7 +2818,13 @@
             }
 
             const { jsPDF } = window.jspdf;
-            const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
+            const doc = new jsPDF({
+                orientation: 'landscape',
+                unit: 'mm',
+                format: 'a4',
+                compress: true,
+                putOnlyUsedFonts: true
+            });
 
             const PAGE_WIDTH = doc.internal.pageSize.getWidth();
             const PAGE_HEIGHT = doc.internal.pageSize.getHeight();
@@ -2129,7 +2839,17 @@
             const endDateVal = document.getElementById('endDate').value || '';
             const dailyRateVal = parseFloat(document.getElementById('dailyRate').value) || 0;
             const otMultiplierVal = parseFloat(document.getElementById('otMultiplier').value) || 1.25;
-            const grandTotalNum = Array.from(tableRows).reduce((sum, tr) => sum + (parseFloat(tr.dataset.amount) || 0), 0);
+            const grossTotalNum = Array.from(tableRows).reduce((sum, tr) => sum + (parseFloat(tr.dataset.amount) || 0), 0);
+            const adjustments = getPayrollAdjustments();
+            if (adjustments.invalidIncentives > 0) {
+                showNotification({
+                    type: 'warning',
+                    title: 'Incomplete Incentive Details',
+                    message: 'Please provide project/client for every incentive amount before generating the PDF.'
+                });
+                return null;
+            }
+            const grandTotalNum = grossTotalNum + adjustments.totalIncentives + adjustments.totalBonuses - adjustments.totalAdvances;
             const total = `PHP ${grandTotalNum.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
 
             const totalHoursNum = Array.from(tableRows).reduce((sum, tr) => {
@@ -2170,6 +2890,14 @@
             const generatedStamp = moment().format('YYYYMMDD-HHmm');
             const documentNo = `TS-${generatedStamp}`;
             const formatMoney = (value) => `PHP ${value.toLocaleString(undefined, { minimumFractionDigits: 2 })}`;
+            const clampPdfLines = (text, maxWidth, maxLines = 2) => {
+                const lines = doc.splitTextToSize(String(text || ''), maxWidth);
+                if (lines.length <= maxLines) return lines;
+                const result = lines.slice(0, maxLines);
+                const lastLine = String(result[maxLines - 1] || '');
+                result[maxLines - 1] = `${lastLine.replace(/\s+$/g, '')}...`;
+                return result;
+            };
 
             doc.setFillColor(...brandBlue);
             doc.rect(0, 0, PAGE_WIDTH, 24, 'F');
@@ -2178,10 +2906,14 @@
 
             doc.setFillColor(255, 255, 255);
             doc.roundedRect(14, 5.2, 14, 14, 2, 2, 'F');
-            doc.setTextColor(...brandBlue);
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(10.5);
-            doc.text('RL', 21, 14, { align: 'center' });
+            if (pdfLogoDataUrl) {
+                doc.addImage(pdfLogoDataUrl, 'PNG', 14.8, 6, 12.4, 12.4);
+            } else {
+                doc.setTextColor(...brandBlue);
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(10.5);
+                doc.text('RL', 21, 14, { align: 'center' });
+            }
 
             doc.setTextColor(255, 255, 255);
             doc.setFont('helvetica', 'bold');
@@ -2197,63 +2929,177 @@
             doc.text(`Generated: ${generatedAt}`, PAGE_WIDTH - 14, 11, { align: 'right' });
             doc.text(`Document No: ${documentNo}`, PAGE_WIDTH - 14, 17, { align: 'right' });
 
+            const infoCardY = 31;
+            const infoCardWidth = 132;
+            const infoPadding = 4;
+            const infoBodyFontSize = 9.5;
+            const infoLineHeight = 4;
+            const infoRowGap = 1.4;
+            const infoTextWidth = infoCardWidth - (infoPadding * 2);
+
+            const employeeLines = [
+                clampPdfLines(`Name: ${name.toUpperCase()}`, infoTextWidth, 2),
+                clampPdfLines(`Period: ${startDateVal} to ${endDateVal}`, infoTextWidth, 2),
+                clampPdfLines('Department: Legal Operations', infoTextWidth, 1)
+            ];
+            const payrollLines = [
+                clampPdfLines(`Daily Rate: ${formatMoney(dailyRateVal)}`, infoTextWidth, 1),
+                clampPdfLines(`OT Multiplier: ${otMultiplierVal.toFixed(2)}x`, infoTextWidth, 1),
+                clampPdfLines(`Prepared By: ${name}`, infoTextWidth, 2)
+            ];
+
+            const getBlockHeight = (blocks) => blocks.reduce(
+                (height, lines) => height + (lines.length * infoLineHeight) + infoRowGap,
+                0
+            );
+            const infoContentHeight = Math.max(getBlockHeight(employeeLines), getBlockHeight(payrollLines));
+            const infoCardHeight = Math.max(24, 9 + infoContentHeight);
+
             doc.setDrawColor(226, 232, 240);
             doc.setLineWidth(0.3);
             doc.setFillColor(...lightGray);
-            doc.roundedRect(14, 31, 132, 24, 2, 2, 'FD');
-            doc.roundedRect(151, 31, 132, 24, 2, 2, 'FD');
+            doc.roundedRect(14, infoCardY, infoCardWidth, infoCardHeight, 2, 2, 'FD');
+            doc.roundedRect(151, infoCardY, infoCardWidth, infoCardHeight, 2, 2, 'FD');
 
             doc.setFont('helvetica', 'bold');
             doc.setFontSize(9);
             doc.setTextColor(100, 116, 139);
-            doc.text('EMPLOYEE DETAILS', 18, 37);
-            doc.text('PAYROLL SETTINGS', 155, 37);
+            doc.text('EMPLOYEE DETAILS', 18, infoCardY + 6);
+            doc.text('PAYROLL SETTINGS', 155, infoCardY + 6);
 
-            doc.setFont('helvetica', 'normal');
-            doc.setFontSize(10);
-            doc.setTextColor(...slate);
-            doc.text(`Name: ${name.toUpperCase()}`, 18, 43.5);
-            doc.text(`Period: ${startDateVal} to ${endDateVal}`, 18, 49.5);
-            doc.text('Department: Legal Operations', 18, 55.5);
+            const drawInfoLines = (x, blocks) => {
+                let y = infoCardY + 11;
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(infoBodyFontSize);
+                doc.setTextColor(...slate);
+                blocks.forEach((lines) => {
+                    doc.text(lines, x + infoPadding, y);
+                    y += (lines.length * infoLineHeight) + infoRowGap;
+                });
+            };
 
-            doc.text(`Daily Rate: ${formatMoney(dailyRateVal)}`, 155, 43.5);
-            doc.text(`OT Multiplier: ${otMultiplierVal.toFixed(2)}x`, 155, 49.5);
-            doc.text(`Prepared By: ${name}`, 155, 55.5);
+            drawInfoLines(14, employeeLines);
+            drawInfoLines(151, payrollLines);
 
             const summaryCards = [
                 { label: 'Total Payable', value: formatMoney(grandTotalNum) },
                 { label: 'Total Hours', value: `${totalHoursNum.toFixed(2)} hrs` },
                 { label: 'Days Worked', value: `${daysWorked}/${tableRows.length}` },
-                { label: 'Approved OT', value: `${approvedOvertimeHours.toFixed(2)} hrs` }
+                { label: 'Approved OT', value: `${approvedOvertimeHours.toFixed(2)} hrs` },
+                { label: 'Incentives', value: formatMoney(adjustments.totalIncentives) },
+                { label: 'Bonus', value: formatMoney(adjustments.totalBonuses) }
             ];
 
-            const cardY = 61;
+            const cardY = infoCardY + infoCardHeight + 6;
             const cardGap = 4;
-            const cardWidth = (PAGE_WIDTH - 28 - (cardGap * 3)) / 4;
+            const cardRows = 2;
+            const cardsPerRow = 3;
+            const cardHeight = 17;
+            const cardWidth = (PAGE_WIDTH - 28 - (cardGap * (cardsPerRow - 1))) / cardsPerRow;
 
             summaryCards.forEach((card, idx) => {
-                const x = 14 + (idx * (cardWidth + cardGap));
+                const rowIndex = Math.floor(idx / cardsPerRow);
+                const colIndex = idx % cardsPerRow;
+                const x = 14 + (colIndex * (cardWidth + cardGap));
+                const y = cardY + (rowIndex * (cardHeight + cardGap));
                 doc.setFillColor(250, 250, 252);
-                doc.roundedRect(x, cardY, cardWidth, 17, 2, 2, 'FD');
+                doc.roundedRect(x, y, cardWidth, cardHeight, 2, 2, 'FD');
                 doc.setDrawColor(226, 232, 240);
-                doc.roundedRect(x, cardY, cardWidth, 17, 2, 2, 'S');
+                doc.roundedRect(x, y, cardWidth, cardHeight, 2, 2, 'S');
 
                 doc.setFont('helvetica', 'bold');
                 doc.setFontSize(8.5);
                 doc.setTextColor(100, 116, 139);
-                doc.text(card.label.toUpperCase(), x + 3, cardY + 5.5);
+                doc.text(card.label.toUpperCase(), x + 3, y + 5.5);
 
                 doc.setFont('helvetica', 'bold');
                 doc.setFontSize(11);
                 doc.setTextColor(...brandBlue);
-                doc.text(card.value, x + 3, cardY + 12.5);
+                doc.text(card.value, x + 3, y + 12.5);
             });
+
+            const cardsBottomY = cardY + (cardRows * cardHeight) + ((cardRows - 1) * cardGap);
 
             if (pendingOvertimeEntries > 0) {
                 doc.setFont('helvetica', 'bold');
                 doc.setFontSize(8.5);
                 doc.setTextColor(185, 28, 28);
-                doc.text(`Pending OT Entries: ${pendingOvertimeEntries}`, PAGE_WIDTH - 14, cardY + 21, { align: 'right' });
+                doc.text(`Pending OT Entries: ${pendingOvertimeEntries}`, PAGE_WIDTH - 14, cardsBottomY + 6, { align: 'right' });
+            }
+
+            const adjustmentRows = [];
+            adjustments.incentives.forEach((entry, idx) => {
+                adjustmentRows.push([
+                    'Incentive',
+                    entry.source || `Incentive ${idx + 1}`,
+                    `+ ${formatMoney(entry.amount || 0)}`
+                ]);
+            });
+
+            adjustments.bonuses.forEach((entry, idx) => {
+                adjustmentRows.push([
+                    'Bonus',
+                    `Bonus ${idx + 1}`,
+                    `+ ${formatMoney(entry.amount || 0)}`
+                ]);
+            });
+
+            adjustments.salaryAdvances.forEach((entry, idx) => {
+                adjustmentRows.push([
+                    'Salary Advance',
+                    `Advance ${idx + 1}`,
+                    `- ${formatMoney(entry.amount || 0)}`
+                ]);
+            });
+
+            let mainTableStartY = cardsBottomY + 10;
+            if (adjustmentRows.length > 0) {
+                doc.autoTable({
+                    startY: cardsBottomY + 10,
+                    head: [['Adjustment Breakdown', 'Project/Client / Details', 'Amount']],
+                    body: adjustmentRows,
+                    margin: { left: 14, right: 14 },
+                    tableWidth: 'auto',
+                    theme: 'grid',
+                    headStyles: {
+                        fillColor: [233, 238, 248],
+                        textColor: [19, 37, 74],
+                        fontSize: 7.6,
+                        fontStyle: 'bold',
+                        halign: 'left'
+                    },
+                    bodyStyles: {
+                        fontSize: 7.4,
+                        textColor: [51, 65, 85],
+                        valign: 'middle'
+                    },
+                    styles: { cellPadding: 1.2, overflow: 'ellipsize', lineColor: [226, 232, 240], lineWidth: 0.2 },
+                    columnStyles: {
+                        0: { cellWidth: 30 },
+                        1: { cellWidth: 150, overflow: 'ellipsize' },
+                        2: { cellWidth: 20, halign: 'right' }
+                    },
+                    didParseCell: function(data) {
+                        if (data.section !== 'body') return;
+                        const rowType = (data.row.raw && data.row.raw[0]) ? String(data.row.raw[0]) : '';
+
+                        if (data.column.index === 2) {
+                            data.cell.styles.fontStyle = 'bold';
+                        }
+
+                        if (rowType === 'Salary Advance') {
+                            data.cell.styles.fillColor = [254, 242, 242];
+                            data.cell.styles.textColor = [185, 28, 28];
+                        } else if (rowType === 'Incentive' || rowType === 'Bonus') {
+                            data.cell.styles.fillColor = [240, 253, 244];
+                            data.cell.styles.textColor = [22, 101, 52];
+                        }
+                    }
+                });
+
+                mainTableStartY = (doc.lastAutoTable && doc.lastAutoTable.finalY)
+                    ? doc.lastAutoTable.finalY + 8
+                    : (cardsBottomY + 10);
             }
 
             tableRows.forEach(tr => {
@@ -2273,37 +3119,38 @@
             });
 
             doc.autoTable({
-                startY: 86,
+                startY: mainTableStartY,
                 head: [['Date', 'In', 'Out', 'Hrs', 'Task / Case Notes', 'Status', 'OT Approval', 'Amount']],
                 body: rowsToExport,
+                margin: { left: 14, right: 14 },
+                tableWidth: 'auto',
                 theme: 'striped',
                 headStyles: {
                     fillColor: brandBlue,
                     textColor: [255, 255, 255],
-                    fontSize: 8.5,
+                    fontSize: 7.8,
                     fontStyle: 'bold',
                     halign: 'center',
                     valign: 'middle'
                 },
                 bodyStyles: {
-                    fontSize: 8,
+                    fontSize: 7.2,
                     textColor: [51, 65, 85],
                     valign: 'middle'
                 },
                 alternateRowStyles: {
                     fillColor: [248, 250, 252]
                 },
-                styles: { cellPadding: 2.8, overflow: 'linebreak', lineColor: [226, 232, 240], lineWidth: 0.2 },
-                tableWidth: 'auto',
+                styles: { cellPadding: 1.2, overflow: 'ellipsize', lineColor: [226, 232, 240], lineWidth: 0.2 },
                 columnStyles: {
-                    0: { cellWidth: 40 },
-                    1: { cellWidth: 18 },
-                    2: { cellWidth: 18 },
-                    3: { cellWidth: 14 },
-                    4: { cellWidth: 100 },
-                    5: { cellWidth: 30 },
-                    6: { cellWidth: 26 },
-                    7: { cellWidth: 28, halign: 'right' }
+                    0: { cellWidth: 31 },
+                    1: { cellWidth: 12 },
+                    2: { cellWidth: 12 },
+                    3: { cellWidth: 10 },
+                    4: { cellWidth: 82, overflow: 'ellipsize' },
+                    5: { cellWidth: 24, overflow: 'ellipsize' },
+                    6: { cellWidth: 20, overflow: 'ellipsize' },
+                    7: { cellWidth: 18, halign: 'right' }
                 }
             });
 
@@ -2360,12 +3207,57 @@
         document.getElementById('emailModal').style.display = 'block';
     }
 
-    function closeEmailModal() {
+    function closeEmailModal(forceClose = false) {
+        if (isEmailSending && !forceClose) {
+            return;
+        }
         document.getElementById('emailModal').style.display = 'none';
+    }
+
+    async function waitForUiPaint() {
+        await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+    }
+
+    function setEmailSendingState(isSending, message = 'Preparing PDF...') {
+        isEmailSending = isSending;
+
+        const overlay = document.getElementById('emailSendingOverlay');
+        const messageEl = document.getElementById('emailSendingMessage');
+        const sendBtn = document.getElementById('sendEmailButton');
+
+        if (overlay) {
+            overlay.style.display = isSending ? 'flex' : 'none';
+        }
+        if (messageEl) {
+            messageEl.textContent = message;
+        }
+
+        if (sendBtn) {
+            if (!sendBtn.dataset.defaultText) {
+                sendBtn.dataset.defaultText = sendBtn.innerHTML;
+            }
+            sendBtn.disabled = isSending;
+            sendBtn.style.opacity = isSending ? '0.7' : '1';
+            sendBtn.style.cursor = isSending ? 'not-allowed' : 'pointer';
+            sendBtn.innerHTML = isSending
+                ? '<i class="fas fa-spinner fa-spin"></i> Sending...'
+                : sendBtn.dataset.defaultText;
+        }
+    }
+
+    function updateEmailSendingMessage(message) {
+        const messageEl = document.getElementById('emailSendingMessage');
+        if (messageEl) {
+            messageEl.textContent = message;
+        }
     }
 
     // Send PDF via email using Google Apps Script
     async function sendPDFViaEmail() {
+        if (isEmailSending) {
+            return;
+        }
+
         // Get your Google Apps Script deployment URL from:
         // https://script.google.com → Deploy → New Deployment → Select Type: Web App
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx5_1WlJSYOZh5nllXP3nPgl0qkqdeZSRvb9T00d_jvkisKGz9U4MFzuUXMhsDqj_inHA/exec';
@@ -2402,16 +3294,15 @@
             return;
         }
 
-        showNotification({
-            type: 'info',
-            title: 'Sending Email',
-            message: 'Generating PDF and sending email...'
-        });
+        setEmailSendingState(true, 'Preparing PDF...');
+        await waitForUiPaint();
 
         try {
             normalizePresentRowsWithEmptyTime();
 
             // Generate PDF
+            updateEmailSendingMessage('Generating PDF...');
+            await waitForUiPaint();
             const pdfDataUrl = generatePDFBase64();
             if (!pdfDataUrl) {
                 throw new Error('Failed to generate PDF');
@@ -2426,6 +3317,8 @@
             const endVal = document.getElementById('endDate').value || '';
 
             // Send to Google Apps Script with proper headers
+            updateEmailSendingMessage('Uploading and sending email...');
+            await waitForUiPaint();
             const response = await fetch(SCRIPT_URL, {
                 method: 'POST',
                 headers: {
@@ -2455,7 +3348,7 @@
             }
 
             if (result.success) {
-                closeEmailModal();
+                closeEmailModal(true);
                 document.getElementById('recipientEmail').value = '';
                 document.getElementById('emailSubject').value = '';
                 document.getElementById('emailMessage').value = '';
@@ -2463,7 +3356,8 @@
                 showNotification({
                     type: 'success',
                     title: 'Email Sent Successfully',
-                    message: `Timesheet PDF sent to ${recipientEmail} with attachment!`
+                    message: `Timesheet PDF sent to ${recipientEmail} with attachment!`,
+                    autoCloseMs: 3000
                 });
             } else {
                 throw new Error(result.error || 'Failed to send email');
@@ -2475,6 +3369,8 @@
                 title: 'Email Send Failed',
                 message: error.message || 'Failed to send email. Check console.'
             });
+        } finally {
+            setEmailSendingState(false);
         }
     }
 
@@ -2568,9 +3464,16 @@
         try {
             console.log('Loading monthly records for user:', user.uid);
             
-            // Fetch ALL monthly records without where clause to avoid permission issues
             const recordsRef = collection(db, 'monthly_records');
-            const snap = await getDocs(recordsRef);
+            let snap;
+
+            try {
+                const recordsQuery = query(recordsRef, where('uid', '==', user.uid));
+                snap = await getDocs(recordsQuery);
+            } catch (queryError) {
+                console.warn('Optimized monthly_records query failed, using fallback scan:', queryError);
+                snap = await getDocs(recordsRef);
+            }
             
             console.log('Total records in collection:', snap.size);
             
@@ -2898,6 +3801,18 @@
                 message: 'Please wait while we update the user role...'
             });
 
+            if (newRole === 'manager') {
+                const targetEmployeeDoc = await getDoc(doc(db, 'employees', targetUserId));
+                if (targetEmployeeDoc.exists() && targetEmployeeDoc.data()?.hasTimesheets === true) {
+                    showNotification({
+                        type: 'warning',
+                        title: 'Role Blocked',
+                        message: 'This user has recorded timesheets and cannot be assigned the manager role.'
+                    });
+                    return;
+                }
+            }
+
             // Update in employees collection
             await setDoc(doc(db, 'employees', targetUserId), {
                 role: newRole
@@ -2954,16 +3869,74 @@
                         timeIn: data.timeIn,
                         timeOut: data.timeOut,
                         breakDuration: data.breakDuration || 0,
-                        notes: data.notes || ''
+                        notes: data.notes || data.note || ''
+                    });
+                }
+            });
+
+            // Fetch employee timesheets from subcollection
+            const timesheetRef = collection(db, 'employees', employeeUid, 'timesheets');
+            const timesheetSnap = await getDocs(timesheetRef);
+            const employeeTimesheets = [];
+            timesheetSnap.forEach(doc => {
+                const data = doc.data();
+                employeeTimesheets.push({
+                    id: doc.id,
+                    startDate: data.startDate || '',
+                    endDate: data.endDate || '',
+                    empName: data.empName || employeeName,
+                    dailyRate: Number(data.dailyRate) || 0,
+                    otMultiplier: Number(data.otMultiplier) || 0,
+                    totalAmount: Number(data.totalAmount) || 0,
+                    totalAdvances: Number(data.totalAdvances) || 0,
+                    totalIncentives: Number(data.totalIncentives) || 0,
+                    totalBonuses: Number(data.totalBonuses) || 0,
+                    savedAt: data.savedAt || null,
+                    timesheetData: Array.isArray(data.timesheetData) ? data.timesheetData : []
+                });
+            });
+
+            // Fetch employee monthly records
+            const monthlyRef = collection(db, 'monthly_records');
+            let monthlySnap;
+            try {
+                monthlySnap = await getDocs(query(monthlyRef, where('uid', '==', employeeUid)));
+            } catch (queryError) {
+                console.warn('Optimized employee monthly_records query failed, using fallback scan:', queryError);
+                monthlySnap = await getDocs(monthlyRef);
+            }
+
+            const employeeMonthlyRecords = [];
+            monthlySnap.forEach(doc => {
+                const data = doc.data();
+                if (data.uid === employeeUid) {
+                    employeeMonthlyRecords.push({
+                        id: doc.id,
+                        month: data.month,
+                        year: data.year,
+                        totalHours: Number(data.totalHours) || 0,
+                        daysWorked: Number(data.daysWorked) || 0,
+                        totalSalary: Number(data.totalSalary) || 0,
+                        updatedAt: data.updatedAt || data.recalculatedAt || null
                     });
                 }
             });
 
             // Sort by date
             employeeLogs.sort((a, b) => a.date.localeCompare(b.date));
+            employeeTimesheets.sort((a, b) => {
+                const keyA = `${a.startDate || ''}_${a.endDate || ''}`;
+                const keyB = `${b.startDate || ''}_${b.endDate || ''}`;
+                return keyB.localeCompare(keyA);
+            });
+            employeeMonthlyRecords.sort((a, b) => {
+                const keyA = `${a.year || 0}-${String(a.month || '').padStart(2, '0')}`;
+                const keyB = `${b.year || 0}-${String(b.month || '').padStart(2, '0')}`;
+                return keyB.localeCompare(keyA);
+            });
 
             closeNotification();
-            displayEmployeeRecordsModal(employeeName, employeeLogs);
+            displayEmployeeRecordsModal(employeeName, employeeLogs, employeeTimesheets, employeeMonthlyRecords);
         } catch (error) {
             console.error('Error loading employee records:', error);
             showNotification({
@@ -2974,7 +3947,7 @@
         }
     };
 
-    window.displayEmployeeRecordsModal = (employeeName, logs) => {
+    window.displayEmployeeRecordsModal = (employeeName, logs, timesheets = [], monthlyRecords = []) => {
         const modal = document.getElementById('employeeRecordsModal');
         const body = document.getElementById('employeeRecordsBody');
 
@@ -3020,6 +3993,18 @@
             const totalHours = calculateTotalHours(timeIn, timeOut);
             const breakTime = calculateBreakTime(totalHours);
             return breakTime;
+        };
+
+        const formatTimestamp = (value) => {
+            if (!value) return 'N/A';
+            if (value.seconds) {
+                return new Date(value.seconds * 1000).toLocaleString();
+            }
+            if (typeof value === 'string' || value instanceof Date) {
+                const parsed = new Date(value);
+                return Number.isNaN(parsed.getTime()) ? 'N/A' : parsed.toLocaleString();
+            }
+            return 'N/A';
         };
 
         // Create records HTML
@@ -3079,13 +4064,171 @@
             </div>
         `;
 
+        recordsHTML += `
+            <div class="card p-4 mt-3">
+                <h5 class="section-header mb-4"><i class="fas fa-file-invoice-dollar"></i> Timesheet Records</h5>
+                <div class="row g-2 mb-3 align-items-end">
+                    <div class="col-md-3">
+                        <label for="employeePeriodStart" class="form-label fw-bold">Start Date</label>
+                        <input type="date" id="employeePeriodStart" class="form-control">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="employeePeriodEnd" class="form-label fw-bold">End Date</label>
+                        <input type="date" id="employeePeriodEnd" class="form-control">
+                    </div>
+                    <div class="col-md-6 d-flex gap-2">
+                        <button class="btn btn-primary" onclick="generateTimesheetRecordsByPeriod()">
+                            <i class="fas fa-filter"></i> Generate Records
+                        </button>
+                        <button class="btn btn-outline-secondary" onclick="resetEmployeeTimesheetRecords()">
+                            <i class="fas fa-rotate-left"></i> Reset
+                        </button>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped">
+                        <thead style="background: linear-gradient(90deg, #1a2b4d 0%, #2a3f5f 100%); color: #fff;">
+                            <tr>
+                                <th>Period</th>
+                                <th>Daily Rate</th>
+                                <th>OT Multiplier</th>
+                                <th>Total Amount</th>
+                                <th>Adv/Incentive/Bonus</th>
+                                <th>Saved At</th>
+                            </tr>
+                        </thead>
+                        <tbody id="employeeTimesheetRecordsTableBody">
+        `;
+
+        recordsHTML += `
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        `;
+
+        recordsHTML += `
+            <div class="card p-4 mt-3">
+                <h5 class="section-header mb-4"><i class="fas fa-chart-line"></i> Monthly Records</h5>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped">
+                        <thead style="background: linear-gradient(90deg, #244a2f 0%, #2f6b41 100%); color: #fff;">
+                            <tr>
+                                <th>Month</th>
+                                <th>Total Hours</th>
+                                <th>Days Worked</th>
+                                <th>Total Salary</th>
+                                <th>Updated At</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+        `;
+
+        if (monthlyRecords.length === 0) {
+            recordsHTML += '<tr><td colspan="5" class="text-center text-muted">No monthly records found</td></tr>';
+        } else {
+            monthlyRecords.forEach(record => {
+                const monthLabel = `${record.year || 'N/A'}-${String(record.month || '').padStart(2, '0')}`;
+                recordsHTML += `
+                    <tr>
+                        <td><strong>${monthLabel}</strong></td>
+                        <td>${record.totalHours.toFixed(2)}</td>
+                        <td>${record.daysWorked}</td>
+                        <td>₱ ${record.totalSalary.toFixed(2)}</td>
+                        <td>${formatTimestamp(record.updatedAt)}</td>
+                    </tr>
+                `;
+            });
+        }
+
+        recordsHTML += `
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        `;
+
         body.innerHTML = recordsHTML;
+        window.employeeTimesheetRecordsCache = Array.isArray(timesheets) ? [...timesheets] : [];
+        renderEmployeeTimesheetRecords(window.employeeTimesheetRecordsCache);
         modal.classList.add('show');
     };
 
     window.closeEmployeeRecordsModal = () => {
         const modal = document.getElementById('employeeRecordsModal');
         modal.classList.remove('show');
+    };
+
+    window.renderEmployeeTimesheetRecords = (timesheets = []) => {
+        const tableBody = document.getElementById('employeeTimesheetRecordsTableBody');
+        if (!tableBody) return;
+
+        if (!Array.isArray(timesheets) || timesheets.length === 0) {
+            tableBody.innerHTML = '<tr><td colspan="6" class="text-center text-muted">No timesheet records found for the selected period.</td></tr>';
+            return;
+        }
+
+        tableBody.innerHTML = timesheets.map(sheet => `
+            <tr>
+                <td><strong>${sheet.startDate || 'N/A'}</strong> to <strong>${sheet.endDate || 'N/A'}</strong></td>
+                <td>₱ ${sheet.dailyRate.toFixed(2)}</td>
+                <td>${sheet.otMultiplier.toFixed(2)}</td>
+                <td><strong>₱ ${sheet.totalAmount.toFixed(2)}</strong></td>
+                <td>₱ ${sheet.totalAdvances.toFixed(2)} / ₱ ${sheet.totalIncentives.toFixed(2)} / ₱ ${sheet.totalBonuses.toFixed(2)}</td>
+                <td>${sheet.savedAt ? (sheet.savedAt.seconds ? new Date(sheet.savedAt.seconds * 1000).toLocaleString() : new Date(sheet.savedAt).toLocaleString()) : 'N/A'}</td>
+            </tr>
+        `).join('');
+    };
+
+    window.generateTimesheetRecordsByPeriod = () => {
+        const startInput = document.getElementById('employeePeriodStart');
+        const endInput = document.getElementById('employeePeriodEnd');
+        const start = startInput?.value || '';
+        const end = endInput?.value || '';
+
+        if (!start || !end) {
+            showNotification({
+                type: 'warning',
+                title: 'Missing Date Period',
+                message: 'Please select both start and end dates to generate records.'
+            });
+            return;
+        }
+
+        if (start > end) {
+            showNotification({
+                type: 'warning',
+                title: 'Invalid Date Period',
+                message: 'Start date must be earlier than or equal to end date.'
+            });
+            return;
+        }
+
+        const source = Array.isArray(window.employeeTimesheetRecordsCache) ? window.employeeTimesheetRecordsCache : [];
+        const filtered = source.filter(sheet => {
+            const sheetStart = sheet.startDate || '';
+            const sheetEnd = sheet.endDate || '';
+            if (!sheetStart || !sheetEnd) return false;
+            return sheetStart <= end && sheetEnd >= start;
+        });
+
+        renderEmployeeTimesheetRecords(filtered);
+
+        showNotification({
+            type: 'success',
+            title: 'Records Generated',
+            message: `${filtered.length} timesheet record(s) found for ${start} to ${end}.`
+        });
+    };
+
+    window.resetEmployeeTimesheetRecords = () => {
+        const startInput = document.getElementById('employeePeriodStart');
+        const endInput = document.getElementById('employeePeriodEnd');
+        if (startInput) startInput.value = '';
+        if (endInput) endInput.value = '';
+
+        const source = Array.isArray(window.employeeTimesheetRecordsCache) ? window.employeeTimesheetRecordsCache : [];
+        renderEmployeeTimesheetRecords(source);
     };
 
     // Employee Records Modal Close on Outside Click
@@ -3171,8 +4314,16 @@
             </div>
             <div style="padding: 16px 25px; background-color: #f8f9fa; border-top: 1px solid #e0e0e0; display: flex; gap: 10px; justify-content: flex-end;">
                 <button onclick="closeEmailModal()" style="padding: 10px 20px; background-color: #e5e7eb; color: #374151; border: none; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; transition: all 0.2s ease;">Cancel</button>
-                <button onclick="sendPDFViaEmail()" style="padding: 10px 20px; background: linear-gradient(90deg, #10b981 0%, #059669 100%); color: white; border: none; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; transition: all 0.2s ease;">Send Email</button>
+                <button id="sendEmailButton" onclick="sendPDFViaEmail()" style="padding: 10px 20px; background: linear-gradient(90deg, #10b981 0%, #059669 100%); color: white; border: none; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; transition: all 0.2s ease;">Send Email</button>
             </div>
+        </div>
+    </div>
+
+    <div id="emailSendingOverlay" style="display: none; position: fixed; z-index: 3000; inset: 0; background: rgba(15, 23, 42, 0.45); align-items: center; justify-content: center;">
+        <div style="background: #fff; border-radius: 12px; min-width: 280px; max-width: 92vw; padding: 20px 22px; box-shadow: 0 10px 32px rgba(0,0,0,0.25); text-align: center;">
+            <div class="spinner-border text-success" role="status" style="width: 2.2rem; height: 2.2rem;"></div>
+            <div style="margin-top: 12px; font-weight: 700; color: #1a2b4d;">Sending Timesheet</div>
+            <div id="emailSendingMessage" style="margin-top: 6px; color: #475569; font-size: 0.9rem;">Preparing PDF...</div>
         </div>
     </div>
 
@@ -3246,12 +4397,27 @@
             logout();
           },
           () => {
-            // Warning callback - show modal
-            document.getElementById('inactivityWarningModal').style.display = 'flex';
+                        // Warning callback - show modal only for authenticated users in main app view
+                        const isLoggedIn = !!auth.currentUser;
+                        const isMainAppVisible = document.getElementById('mainApp')?.style.display !== 'none';
+                        if (isLoggedIn && isMainAppVisible) {
+                            document.getElementById('inactivityWarningModal').style.display = 'flex';
+                        }
           }
         );
       }
     } else {
+            // Ensure session timeout is inactive on login screen
+            if (window.sessionTimeoutManager) {
+                window.sessionTimeoutManager.destroy();
+                window.sessionTimeoutManager = null;
+            }
+
+            const warningModal = document.getElementById('inactivityWarningModal');
+            if (warningModal) {
+                warningModal.style.display = 'none';
+            }
+
       // No authenticated user - show login
       document.getElementById('authContainer').style.display = 'block';
       document.getElementById('mainApp').style.display = 'none';
@@ -3348,6 +4514,13 @@
         return totalMinutes / 60;
       };
 
+            const normalizeTimeToHourMinute = (value) => {
+                if (typeof value !== 'string') return '';
+                const match = value.match(/^([01]\d|2[0-3]):([0-5]\d)/);
+                if (!match) return value;
+                return `${match[1]}:${match[2]}`;
+            };
+
       const calculateBreakTime = (totalHours) => {
         if (totalHours > 5) {
           return 1; // 1 hour break
@@ -3367,14 +4540,16 @@
         const dateStr = dateObj.toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' });
         
         // Calculate total hours, break time, and hours rendered
-        const totalHours = calculateTotalHours(record.timeIn, record.timeOut);
+                const displayTimeIn = normalizeTimeToHourMinute(record.timeIn || '');
+                const displayTimeOut = normalizeTimeToHourMinute(record.timeOut || '');
+                const totalHours = calculateTotalHours(displayTimeIn, displayTimeOut);
         const breakTime = calculateBreakTime(totalHours);
         const hoursRendered = calculateHoursRendered(totalHours, breakTime);
         
         row.innerHTML = `
           <td>${dateStr}</td>
-          <td>${record.timeIn || '-'}</td>
-          <td>${record.timeOut || '-'}</td>
+                    <td>${displayTimeIn || '-'}</td>
+                    <td>${displayTimeOut || '-'}</td>
           <td><strong>${totalHours.toFixed(2)}</strong></td>
           <td style="background-color: #fff3cd;"><strong>${breakTime}</strong></td>
           <td style="background-color: #d4f1d4;"><strong>${hoursRendered.toFixed(2)}</strong></td>

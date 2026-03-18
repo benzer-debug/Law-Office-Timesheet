@@ -4,13 +4,15 @@ name: Build and Deploy
 
 on:
   push:
-    branches: [main, develop]
+    branches: [develop]
   pull_request:
-    branches: [main, develop]
+    branches: [develop]
 
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      QA_ENFORCE: 'false'
     
     strategy:
       matrix:
@@ -23,6 +25,12 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
+
+    - name: Setup Java for Firestore Emulator
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
     
     - name: Install dependencies
       run: npm ci
@@ -32,9 +40,26 @@ jobs:
     
     - name: Run tests
       run: npm test --if-present
+
+    - name: Run Firestore rules tests
+      id: rules_tests
+      continue-on-error: ${{ env.QA_ENFORCE != 'true' }}
+      run: npm run test:rules --if-present
+
+    - name: Warn on rules test failure (staged mode)
+      if: ${{ steps.rules_tests.outcome == 'failure' && env.QA_ENFORCE != 'true' }}
+      run: |
+        echo "::warning::Firestore rules tests failed, but QA_ENFORCE=false so workflow continues."
+        echo "Set QA_ENFORCE='true' in this workflow to make this blocking."
+
+    - name: Fail on rules test failure (strict mode)
+      if: ${{ steps.rules_tests.outcome == 'failure' && env.QA_ENFORCE == 'true' }}
+      run: |
+        echo "::error::Firestore rules tests failed and QA_ENFORCE=true."
+        exit 1
     
     - name: Run security audit (production only)
-      run: npm audit --production --audit-level=high --if-present
+      run: npm audit --omit=dev --audit-level=high --if-present
 
 
   # Note: Deployment is handled by Vercel integration with GitHub

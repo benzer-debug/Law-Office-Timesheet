@@ -44,11 +44,11 @@ runIfEmulator('Firestore Security Rules', () => {
     await testEnv.clearFirestore();
   });
 
-  async function seedUser(userId, role = 'employee', teamId = 'team-a') {
+  async function seedUser(userId, role = 'employee', teamId = 'team-a', hasTimesheets = false) {
     await testEnv.withSecurityRulesDisabled(async (context) => {
       const db = context.firestore();
       await setDoc(doc(db, 'users', userId), { role, teamId });
-      await setDoc(doc(db, 'employees', userId), { role, teamId });
+      await setDoc(doc(db, 'employees', userId), { role, teamId, hasTimesheets });
     });
   }
 
@@ -125,6 +125,146 @@ runIfEmulator('Firestore Security Rules', () => {
 
     await assertSucceeds(getDoc(doc(emp1Db, 'monthly_records', 'emp-1_2026-03')));
     await assertFails(getDoc(doc(emp1Db, 'monthly_records', 'emp-2_2026-03')));
+  });
+
+  test('employee can create own valid timesheet payload', async () => {
+    await seedUser('emp-1', 'employee', 'team-a');
+
+    const db = testEnv.authenticatedContext('emp-1').firestore();
+
+    await assertSucceeds(setDoc(doc(db, 'employees', 'emp-1', 'timesheets', '2026-03-01_2026-03-31'), {
+      uid: 'emp-1',
+      empName: 'Employee One',
+      startDate: '2026-03-01',
+      endDate: '2026-03-31',
+      dailyRate: 800,
+      otMultiplier: 1.25,
+      timesheetData: [
+        {
+          date: '2026-03-01',
+          timeIn: '09:00',
+          timeOut: '18:00',
+          task: 'Drafting',
+          status: 'Present',
+          amount: 800
+        }
+      ],
+      salaryAdvances: [{ amount: 500 }],
+      incentives: [{ amount: 300, source: 'Client A' }],
+      bonuses: [{ amount: 200 }],
+      totalAdvances: 500,
+      totalIncentives: 300,
+      totalBonuses: 200,
+      totalAmount: 800,
+      savedAt: new Date()
+    }));
+  });
+
+  test('employee cannot create timesheet with uid mismatch in own path', async () => {
+    await seedUser('emp-1', 'employee', 'team-a');
+
+    const db = testEnv.authenticatedContext('emp-1').firestore();
+
+    await assertFails(setDoc(doc(db, 'employees', 'emp-1', 'timesheets', '2026-03-01_2026-03-31'), {
+      uid: 'emp-2',
+      empName: 'Employee One',
+      startDate: '2026-03-01',
+      endDate: '2026-03-31',
+      dailyRate: 800,
+      otMultiplier: 1.25,
+      timesheetData: [],
+      totalAmount: 0,
+      savedAt: new Date()
+    }));
+  });
+
+  test('employee cannot create timesheet with invalid date format', async () => {
+    await seedUser('emp-1', 'employee', 'team-a');
+
+    const db = testEnv.authenticatedContext('emp-1').firestore();
+
+    await assertFails(setDoc(doc(db, 'employees', 'emp-1', 'timesheets', 'invalid'), {
+      uid: 'emp-1',
+      empName: 'Employee One',
+      startDate: '03-01-2026',
+      endDate: '2026-03-31',
+      dailyRate: 800,
+      otMultiplier: 1.25,
+      timesheetData: [],
+      totalAmount: 0,
+      savedAt: new Date()
+    }));
+  });
+
+  test('employee cannot elevate own role in employees document', async () => {
+    await seedUser('emp-1', 'employee', 'team-a');
+
+    const db = testEnv.authenticatedContext('emp-1').firestore();
+
+    await assertFails(setDoc(doc(db, 'employees', 'emp-1'), {
+      role: 'manager'
+    }, { merge: true }));
+  });
+
+  test('employee cannot save manager/admin title in position', async () => {
+    await seedUser('emp-1', 'employee', 'team-a');
+
+    const db = testEnv.authenticatedContext('emp-1').firestore();
+
+    await assertFails(setDoc(doc(db, 'employees', 'emp-1'), {
+      position: 'Manager'
+    }, { merge: true }));
+  });
+
+  test('admin can assign manager role in employees document', async () => {
+    await seedUser('admin-1', 'admin', 'hq');
+    await seedUser('emp-1', 'employee', 'team-a');
+
+    const db = testEnv.authenticatedContext('admin-1').firestore();
+
+    await assertSucceeds(setDoc(doc(db, 'employees', 'emp-1'), {
+      role: 'manager'
+    }, { merge: true }));
+  });
+
+  test('employee cannot unset hasTimesheets flag once true', async () => {
+    await seedUser('emp-1', 'employee', 'team-a', true);
+
+    const db = testEnv.authenticatedContext('emp-1').firestore();
+
+    await assertFails(setDoc(doc(db, 'employees', 'emp-1'), {
+      hasTimesheets: false
+    }, { merge: true }));
+  });
+
+  test('admin cannot assign manager role when user has timesheets flag', async () => {
+    await seedUser('admin-1', 'admin', 'hq');
+    await seedUser('emp-1', 'employee', 'team-a', true);
+
+    const db = testEnv.authenticatedContext('admin-1').firestore();
+
+    await assertFails(setDoc(doc(db, 'employees', 'emp-1'), {
+      role: 'manager'
+    }, { merge: true }));
+
+    await assertFails(setDoc(doc(db, 'users', 'emp-1'), {
+      role: 'manager'
+    }, { merge: true }));
+  });
+
+  test('admin can assign manager role when user has no timesheets flag', async () => {
+    await seedUser('admin-1', 'admin', 'hq');
+    await seedUser('emp-1', 'employee', 'team-a', false);
+
+    const db = testEnv.authenticatedContext('admin-1').firestore();
+
+    await assertSucceeds(setDoc(doc(db, 'employees', 'emp-1'), {
+      role: 'manager'
+    }, { merge: true }));
+
+    await assertSucceeds(setDoc(doc(db, 'users', 'emp-1'), {
+      role: 'manager'
+    }, { merge: true }));
   });
 });
 

@@ -11,6 +11,31 @@ class SessionTimeoutManager {
     this.warningShownAt = null;
     this.isActive = true;
     this.events = ['mousedown', 'keydown', 'scroll', 'touchstart', 'click'];
+    this.boundActivityHandler = this.handleUserActivity.bind(this);
+  }
+
+  /**
+   * Handle user activity events
+   * Ignore interactions inside warning modal so button actions are not interrupted
+   */
+  handleUserActivity(event) {
+    if (this.shouldIgnoreActivity(event)) {
+      return;
+    }
+    this.resetTimer();
+  }
+
+  /**
+   * Check if activity should be ignored
+   */
+  shouldIgnoreActivity(event) {
+    const warningEl = document.getElementById('inactivityWarningModal');
+    if (!warningEl || warningEl.style.display === 'none') {
+      return false;
+    }
+
+    const target = event && event.target;
+    return !!(target && warningEl.contains(target));
   }
 
   /**
@@ -24,7 +49,7 @@ class SessionTimeoutManager {
 
     // Add event listeners for user activity
     this.events.forEach(event => {
-      document.addEventListener(event, () => this.resetTimer(), true);
+      document.addEventListener(event, this.boundActivityHandler, true);
     });
 
     // Start the initial timer
@@ -105,7 +130,7 @@ class SessionTimeoutManager {
       clearTimeout(this.warningTimeout);
     }
     this.events.forEach(event => {
-      document.removeEventListener(event, () => this.resetTimer(), true);
+      document.removeEventListener(event, this.boundActivityHandler, true);
     });
   }
 }

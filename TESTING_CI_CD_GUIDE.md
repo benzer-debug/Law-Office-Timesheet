@@ -161,6 +161,22 @@ The project includes automated GitHub Actions workflow that:
 
 2. Push to main branch to trigger deployment
 
+### Staged QA Enforcement (Safe Rollout)
+
+The CI setup now has two workflows:
+
+- **Staged QA** in [build-deploy.yml](.github/workflows/build-deploy.yml) for `develop`
+- **Strict QA** in [strict-qa.yml](.github/workflows/strict-qa.yml) for `main`
+
+Staged mode won't disrupt your current workflow:
+
+- Default (`QA_ENFORCE=false`): Firestore rules tests run, but failures show warnings and do not block pipeline.
+- Strict workflow (`main`): Firestore rules test failures are blocking by default.
+
+If you want strict enforcement on `develop` too, edit [.github/workflows/build-deploy.yml](.github/workflows/build-deploy.yml) and set:
+
+- `QA_ENFORCE: 'true'`
+
 ### Workflow File
 
 The workflow is configured in `.github/workflows/build-deploy.yml`

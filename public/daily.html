@@ -16,81 +16,93 @@
 
     body {
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #0f1419 0%, #1a1f2e 100%);
+      background: linear-gradient(160deg, #edf1f7 0%, #e2e8f0 45%, #dbe3ee 100%);
       min-height: 100vh;
       color: #2c3e50;
     }
 
     .navbar {
       background: linear-gradient(90deg, #1a2b4d 0%, #0f1419 100%);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.28);
       border-bottom: 3px solid #d4af37;
-      padding: 1rem 0;
+      padding: 0.9rem 0;
     }
 
     .navbar-brand {
       font-family: 'Playfair Display', serif;
       font-weight: 700;
       color: #d4af37 !important;
-      font-size: 1.8rem;
-      letter-spacing: 2px;
+      font-size: 1.55rem;
+      letter-spacing: 1.3px;
       text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .navbar-meta {
+      color: #cbd5e1;
+      font-size: 0.78rem;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      font-weight: 600;
     }
 
     .container {
-      max-width: 900px;
+      max-width: 940px;
     }
 
     .main-container {
-      margin-top: 3rem;
-      margin-bottom: 3rem;
+      margin-top: 2.3rem;
+      margin-bottom: 2.3rem;
     }
 
     .card {
-      background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+      background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
       border: none;
-      border-radius: 20px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+      border-radius: 16px;
+      box-shadow: 0 18px 42px rgba(15, 23, 42, 0.16);
       overflow: hidden;
-      border-top: 6px solid #d4af37;
+      border-top: 5px solid #d4af37;
     }
 
     .card-body {
-      padding: 3.5rem;
+      padding: 2.8rem;
     }
 
     .card-title {
       font-family: 'Playfair Display', serif;
-      font-size: 2.2rem;
+      font-size: 1.95rem;
       font-weight: 700;
       color: #1a2b4d;
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
       text-align: center;
-      letter-spacing: 1px;
+      letter-spacing: 0.8px;
     }
 
     .time-display {
       text-align: center;
-      margin-bottom: 2.5rem;
-      padding: 2.5rem;
+      margin-bottom: 2rem;
+      padding: 2rem;
       background: linear-gradient(135deg, #1a2b4d 0%, #2a3f5f 100%);
-      border-radius: 16px;
-      border: 2px solid #d4af37;
+      border-radius: 14px;
+      border: 1px solid rgba(212, 175, 55, 0.65);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
     }
 
     .current-time {
-      font-size: 4rem;
+      font-size: 3.5rem;
       font-weight: 700;
       color: #d4af37;
       font-family: 'Courier New', monospace;
-      letter-spacing: 3px;
+      letter-spacing: 2px;
       margin: 0;
     }
 
     .current-date {
-      font-size: 1.1rem;
-      color: #ffffff;
-      margin-top: 1rem;
+      font-size: 1rem;
+      color: #e2e8f0;
+      margin-top: 0.8rem;
       font-weight: 500;
     }
 
@@ -102,27 +114,35 @@
     }
 
     .time-btn {
-      padding: 1.8rem;
-      font-size: 1.2rem;
+      padding: 1.25rem;
+      font-size: 1.02rem;
       font-weight: 700;
       border: none;
-      border-radius: 14px;
+      border-radius: 12px;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
       color: white;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
+      text-transform: none;
+      letter-spacing: 0.4px;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 0.8rem;
+      gap: 0.65rem;
       font-family: 'Poppins', sans-serif;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 8px 22px rgba(15, 23, 42, 0.2);
+    }
+
+    .time-btn.is-busy {
+      opacity: 0.85;
+    }
+
+    .time-btn .btn-spinner {
+      font-size: 0.95rem;
     }
 
     .time-btn:hover:not(:disabled) {
-      transform: translateY(-4px);
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 26px rgba(15, 23, 42, 0.28);
     }
 
     .time-btn:disabled {
@@ -146,6 +166,10 @@
       font-size: 1rem;
     }
 
+    .note-section {
+      margin-bottom: 1.6rem;
+    }
+
     #note {
       border: 2px solid #d4af37;
       border-radius: 10px;
@@ -162,35 +186,40 @@
     }
 
     .records-section {
+      margin-top: 0.5rem;
       margin-bottom: 2rem;
     }
 
     .records-title {
       font-family: 'Playfair Display', serif;
-      font-size: 1.5rem;
+      font-size: 1.3rem;
       font-weight: 700;
       color: #1a2b4d;
-      margin-bottom: 1.5rem;
-      padding-bottom: 1rem;
-      border-bottom: 3px solid #d4af37;
+      margin-bottom: 1rem;
+      padding-bottom: 0.8rem;
+      border-bottom: 2px solid #d4af37;
     }
 
     .record-item {
       background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
       border-left: 5px solid #d4af37;
-      padding: 1.5rem;
-      margin-bottom: 1rem;
+      padding: 1.15rem 1.2rem;
+      margin-bottom: 0.85rem;
       border-radius: 10px;
       display: flex;
       align-items: center;
-      gap: 1.5rem;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      gap: 0.95rem;
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
     }
 
     .record-item:hover {
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-      transform: translateX(5px);
+      box-shadow: 0 8px 22px rgba(15, 23, 42, 0.12);
+      transform: translateY(-1px);
+    }
+
+    .record-item.success-flash {
+      animation: record-success-pulse 0.75s ease;
     }
 
     .record-badge {
@@ -222,11 +251,11 @@
     }
 
     .record-time {
-      font-size: 1.4rem;
+      font-size: 1.18rem;
       font-weight: 700;
       color: #1a2b4d;
       font-family: 'Courier New', monospace;
-      min-width: 160px;
+      min-width: 145px;
     }
 
     .record-note {
@@ -246,23 +275,23 @@
 
     .button-footer {
       display: flex;
-      gap: 1rem;
-      margin-top: 2rem;
-      padding-top: 2rem;
+      gap: 0.8rem;
+      margin-top: 1.6rem;
+      padding-top: 1.4rem;
       border-top: 2px solid #e5e7eb;
     }
 
     .btn-footer {
       flex: 1;
-      padding: 1rem 1.5rem;
+      padding: 0.9rem 1rem;
       font-weight: 700;
       border: none;
       border-radius: 10px;
       cursor: pointer;
-      transition: all 0.3s ease;
-      text-transform: uppercase;
-      font-size: 0.9rem;
-      letter-spacing: 1px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      text-transform: none;
+      font-size: 0.88rem;
+      letter-spacing: 0.35px;
       font-family: 'Poppins', sans-serif;
     }
 
@@ -298,26 +327,142 @@
     .priority-note {
       background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
       border-left: 5px solid #f59e0b;
-      padding: 1rem;
+      padding: 0.85rem 1rem;
       border-radius: 8px;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.3rem;
       display: flex;
       align-items: center;
-      gap: 1rem;
-      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+      gap: 0.75rem;
+      box-shadow: 0 4px 10px rgba(245, 158, 11, 0.18);
     }
 
     .priority-note i {
       color: #d97706;
-      font-size: 1.5rem;
+      font-size: 1.2rem;
     }
 
     .priority-note-text {
       color: #92400e;
       font-weight: 700;
-      font-size: 0.95rem;
+      font-size: 0.85rem;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.45px;
+    }
+
+    .toast-container-custom {
+      position: fixed;
+      top: 1.1rem;
+      right: 1rem;
+      z-index: 99999;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      max-width: 360px;
+      width: calc(100% - 2rem);
+      pointer-events: none;
+    }
+
+    .toast-custom {
+      pointer-events: auto;
+      border-radius: 10px;
+      padding: 0.8rem 0.9rem;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.2);
+      color: #0f172a;
+      background: #ffffff;
+      border-left: 4px solid #1a2b4d;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+      animation: toast-slide-in 0.2s ease;
+    }
+
+    .toast-custom.success {
+      border-left-color: #059669;
+      background: #f0fdf4;
+    }
+
+    .toast-custom.error {
+      border-left-color: #dc2626;
+      background: #fef2f2;
+    }
+
+    .toast-custom.info {
+      border-left-color: #2563eb;
+      background: #eff6ff;
+    }
+
+    .toast-custom.warning {
+      border-left-color: #d97706;
+      background: #fffbeb;
+    }
+
+    .toast-custom i {
+      margin-top: 0.1rem;
+      font-size: 0.95rem;
+    }
+
+    .toast-message {
+      font-size: 0.88rem;
+      line-height: 1.35;
+      color: #1e293b;
+      font-weight: 600;
+    }
+
+    @keyframes toast-slide-in {
+      from {
+        transform: translateX(14px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes record-success-pulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(5, 150, 105, 0.32);
+        background: linear-gradient(135deg, #ecfdf5 0%, #f8fafc 100%);
+      }
+      70% {
+        box-shadow: 0 0 0 8px rgba(5, 150, 105, 0);
+      }
+      100% {
+        box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
+        background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .record-item.success-flash {
+        animation: none;
+      }
+    }
+
+    .time-btn:focus-visible,
+    .btn-footer:focus-visible,
+    #note:focus-visible {
+      outline: 3px solid rgba(212, 175, 55, 0.4);
+      outline-offset: 2px;
+    }
+
+    @media (max-width: 992px) {
+      .card-body {
+        padding: 2rem;
+      }
+
+      .current-time {
+        font-size: 3.2rem;
+      }
+
+      .navbar-brand {
+        font-size: 1.35rem;
+        letter-spacing: 1px;
+      }
+
+      .navbar-meta {
+        display: none;
+      }
     }
 
     @media (max-width: 576px) {
@@ -343,6 +488,81 @@
 
       .record-item {
         flex-wrap: wrap;
+        gap: 0.8rem;
+      }
+
+      .record-time {
+        min-width: 100%;
+        font-size: 1.2rem;
+      }
+
+      .time-btn,
+      .btn-footer {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .main-container {
+        margin-top: 1.25rem;
+        margin-bottom: 1.25rem;
+      }
+
+      .card-body {
+        padding: 1rem;
+      }
+
+      .navbar-brand {
+        font-size: 1.05rem;
+        letter-spacing: 0.5px;
+      }
+
+      .current-time {
+        font-size: 2rem;
+        letter-spacing: 1px;
+      }
+
+      .current-date {
+        font-size: 0.9rem;
+      }
+
+      .time-display {
+        padding: 1.25rem;
+      }
+
+      .time-btn {
+        padding: 1rem;
+        font-size: 0.92rem;
+      }
+
+      .record-badge {
+        font-size: 0.72rem;
+        padding: 0.45rem 0.75rem;
+      }
+
+      .record-note {
+        font-size: 0.85rem;
+      }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .time-btn,
+      .btn-footer,
+      button,
+      .btn,
+      a {
+        min-height: 44px;
+      }
+
+      #note,
+      .form-control,
+      input[type="text"],
+      input[type="time"],
+      input[type="date"],
+      input[type="number"],
+      select,
+      textarea {
+        min-height: 44px;
       }
     }
   </style>
@@ -351,6 +571,7 @@
   <nav class="navbar navbar-dark">
     <div class="container-fluid">
       <span class="navbar-brand"><i class="fas fa-gavel"></i> Time Tracking</span>
+      <span class="navbar-meta">Philippine Standard Time</span>
     </div>
   </nav>
 
@@ -359,25 +580,25 @@
       <div class="col-lg-8 mx-auto">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">📋 Record Your Time</h5>
+            <h5 class="card-title"><i class="fas fa-clipboard-check me-2"></i>Record Your Time</h5>
 
             <div class="time-display">
-              <p class="current-time" id="currentTime">--:--:--</p>
+              <p class="current-time" id="currentTime">--:--</p>
               <p class="current-date" id="currentDate"></p>
             </div>
 
             <div class="button-group">
               <button id="timeInButton" class="time-btn">
-                <span>🟢</span> Time In
+                <i class="fas fa-circle-check"></i> Time In
               </button>
               <button id="timeOutButton" class="time-btn">
-                <span>🔴</span> Time Out
+                <i class="fas fa-right-from-bracket"></i> Time Out
               </button>
             </div>
 
             <div class="priority-note">
               <i class="fas fa-exclamation-circle"></i>
-              <span class="priority-note-text">⚠️ Must Time In and Time Out Today</span>
+              <span class="priority-note-text">Complete both time in and time out today</span>
             </div>
 
             <div class="note-section">
@@ -386,20 +607,22 @@
             </div>
 
             <div class="records-section">
-              <h6 class="records-title"><i class="fas fa-history"></i> Today's Record</h6>
+              <h6 class="records-title"><i class="fas fa-history me-1"></i>Today's Record</h6>
               <div id="timeRecordsList"></div>
             </div>
 
             <div class="button-footer">
-              <button id="backButton" class="btn-footer">← Back to Timesheet</button>
-              <button id="logoutButton" class="btn-footer">🚪 Logout</button>
-              <button id="clearRecordsButton" class="btn-footer">🗑️ Clear</button>
+              <button id="backButton" class="btn-footer"><i class="fas fa-arrow-left me-1"></i>Back to Timesheet</button>
+              <button id="logoutButton" class="btn-footer"><i class="fas fa-sign-out-alt me-1"></i>Logout</button>
+              <button id="clearRecordsButton" class="btn-footer"><i class="fas fa-trash-alt me-1"></i>Clear Records</button>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+
+  <div id="toastContainer" class="toast-container-custom" aria-live="polite" aria-atomic="true"></div>
 
   <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
@@ -460,6 +683,33 @@ function sanitizeNote(note) {
   return String(note || '').trim().slice(0, 250);
 }
 
+function showToast(message, type = 'info', duration = 2600) {
+  const container = document.getElementById('toastContainer');
+  if (!container) return;
+
+  const iconMap = {
+    success: 'fa-circle-check',
+    error: 'fa-circle-xmark',
+    warning: 'fa-triangle-exclamation',
+    info: 'fa-circle-info'
+  };
+
+  const toast = document.createElement('div');
+  toast.className = `toast-custom ${type}`;
+  toast.innerHTML = `
+    <i class="fas ${iconMap[type] || iconMap.info}"></i>
+    <span class="toast-message">${escapeHtml(message)}</span>
+  `;
+
+  container.appendChild(toast);
+  window.setTimeout(() => {
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateX(12px)';
+    toast.style.transition = 'opacity 0.18s ease, transform 0.18s ease';
+    window.setTimeout(() => toast.remove(), 180);
+  }, duration);
+}
+
 function parseTimeToMinutes(timeValue) {
   if (typeof timeValue !== 'string' || !/^([01]\d|2[0-3]):([0-5]\d)(:[0-5]\d)?$/.test(timeValue)) {
     return null;
@@ -469,13 +719,54 @@ function parseTimeToMinutes(timeValue) {
   return hours * 60 + minutes;
 }
 
+function formatToHourMinute(timeValue) {
+  if (typeof timeValue !== 'string') {
+    return '';
+  }
+
+  const match = timeValue.match(/^([01]\d|2[0-3]):([0-5]\d)/);
+  if (!match) {
+    return timeValue;
+  }
+
+  return `${match[1]}:${match[2]}`;
+}
+
+function setButtonBusy(button, isBusy, busyLabel = 'Processing...') {
+  if (!button) return;
+
+  if (!button.dataset.defaultHtml) {
+    button.dataset.defaultHtml = button.innerHTML;
+  }
+
+  if (isBusy) {
+    button.classList.add('is-busy');
+    button.disabled = true;
+    button.innerHTML = `<i class="fas fa-spinner fa-spin btn-spinner"></i> ${escapeHtml(busyLabel)}`;
+    return;
+  }
+
+  button.classList.remove('is-busy');
+  button.innerHTML = button.dataset.defaultHtml;
+}
+
+function flashLatestRecord() {
+  const latestRecord = document.querySelector('#timeRecordsList .record-item');
+  if (!latestRecord) return;
+
+  latestRecord.classList.remove('success-flash');
+  void latestRecord.offsetWidth;
+  latestRecord.classList.add('success-flash');
+  window.setTimeout(() => latestRecord.classList.remove('success-flash'), 800);
+}
+
 function updateClock() {
   const now = new Date();
   const utcTime = now.getTime() + now.getTimezoneOffset() * 60000;
   const phTime = new Date(utcTime + 8 * 60 * 60 * 1000);
   
   const timeStr = phTime.toLocaleTimeString('en-US', {
-    hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+    hour: '2-digit', minute: '2-digit', hour12: false
   });
   const dateStr = phTime.toLocaleDateString('en-US', {
     weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
@@ -539,6 +830,8 @@ async function loadTodayLogs() {
     const record = records.find((entry) => entry.timeIn && !entry.timeOut) || records[0];
     const badgeClass = record.timeOut ? 'badge-complete' : 'badge-in';
     const badgeText = record.timeOut ? '✅ COMPLETED' : '🟢 IN PROGRESS';
+    const timeInDisplay = formatToHourMinute(record.timeIn);
+    const timeOutDisplay = formatToHourMinute(record.timeOut);
     const safeNote = sanitizeNote(record.note);
     const noteHtml = safeNote ? `<span class="record-note">${escapeHtml(safeNote)}</span>` : '';
     
@@ -546,7 +839,7 @@ async function loadTodayLogs() {
     div.className = 'record-item';
     div.innerHTML = `
       <span class="record-badge ${badgeClass}">${badgeText}</span>
-      <span class="record-time">${record.timeIn}${record.timeOut ? ' → ' + record.timeOut : ' (Waiting for Time Out)'}</span>
+      <span class="record-time">${timeInDisplay}${timeOutDisplay ? ' → ' + timeOutDisplay : ' (Waiting for Time Out)'}</span>
       ${noteHtml}
     `;
     listDiv.appendChild(div);
@@ -636,7 +929,7 @@ document.getElementById('logoutButton').addEventListener('click', async () => {
     await signOut(auth);
     window.location.href = 'index.html';
   } catch (e) {
-    alert('Error logging out: ' + e.message);
+    showToast('Error logging out: ' + e.message, 'error', 3200);
   }
 });
 
@@ -647,7 +940,7 @@ document.getElementById('clearRecordsButton').addEventListener('click', async ()
   try {
     const user = auth.currentUser;
     if (!user) {
-      alert('User not authenticated');
+      showToast('User not authenticated', 'error');
       return;
     }
     const logsRef = collection(db, 'daily_logs');
@@ -660,27 +953,32 @@ document.getElementById('clearRecordsButton').addEventListener('click', async ()
       deletedCount++;
     }
     
-    alert(`✅ Deleted ${deletedCount} record(s)`);
+    showToast(`Deleted ${deletedCount} record(s)`, 'success');
     await loadTodayLogs();
   } catch (e) {
-    alert('Error deleting records: ' + e.message);
+    showToast('Error deleting records: ' + e.message, 'error', 3200);
   }
 });
 
 document.getElementById('timeInButton').addEventListener('click', async () => {
   const btn = document.getElementById('timeInButton');
-  btn.disabled = true;
+  setButtonBusy(btn, true, 'Recording Time In...');
   try {
     const user = auth.currentUser;
     if (!user) {
-      alert('User not authenticated');
+      showToast('User not authenticated', 'error');
+      setButtonBusy(btn, false);
       btn.disabled = false;
       return;
     }
     const now = new Date();
     const utcTime = now.getTime() + now.getTimezoneOffset() * 60000;
     const phTime = new Date(utcTime + 8 * 60 * 60 * 1000);
-    const timeStr = phTime.toTimeString().split(' ')[0];
+    const timeStr = phTime.toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false
+    });
     const dateStr = getPHDate();
     const note = sanitizeNote(document.getElementById('note').value);
 
@@ -699,33 +997,42 @@ document.getElementById('timeInButton').addEventListener('click', async () => {
     });
     document.getElementById('note').value = '';
     await loadTodayLogs();
-    alert('✅ Time in recorded at ' + timeStr.substring(0, 5));
+    flashLatestRecord();
+    setButtonBusy(btn, false);
+    showToast('Time in recorded at ' + timeStr.substring(0, 5), 'success');
   } catch (e) {
-    alert('Error recording time in: ' + e.message);
+    showToast('Error recording time in: ' + e.message, 'error', 3200);
+    setButtonBusy(btn, false);
     btn.disabled = false;
   }
 });
 
 document.getElementById('timeOutButton').addEventListener('click', async () => {
   const btn = document.getElementById('timeOutButton');
-  btn.disabled = true;
+  setButtonBusy(btn, true, 'Recording Time Out...');
   try {
     const user = auth.currentUser;
     if (!user) {
-      alert('User not authenticated');
+      showToast('User not authenticated', 'error');
+      setButtonBusy(btn, false);
       btn.disabled = false;
       return;
     }
     const now = new Date();
     const utcTime = now.getTime() + now.getTimezoneOffset() * 60000;
     const phTime = new Date(utcTime + 8 * 60 * 60 * 1000);
-    const timeStr = phTime.toTimeString().split(' ')[0];
+    const timeStr = phTime.toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false
+    });
     const dateStr = getPHDate();
     const logsRef = collection(db, 'daily_logs');
     const q = query(logsRef, where('uid', '==', user.uid), where('date', '==', dateStr));
     const snap = await getDocs(q);
     if (snap.empty) {
-      alert('No time in record found for today. Please time in first.');
+      showToast('No time in record found for today. Please time in first.', 'warning', 3200);
+      setButtonBusy(btn, false);
       btn.disabled = false;
       return;
     }
@@ -736,7 +1043,8 @@ document.getElementById('timeOutButton').addEventListener('click', async () => {
     });
 
     if (!openLog) {
-      alert('No active time in record found for today.');
+      showToast('No active time in record found for today.', 'warning', 3200);
+      setButtonBusy(btn, false);
       btn.disabled = false;
       return;
     }
@@ -750,9 +1058,12 @@ document.getElementById('timeOutButton').addEventListener('click', async () => {
     await updateDoc(logDoc, { timeOut: timeStr });
     await loadTodayLogs();
     await saveMonthlyRecord(); // Auto-save monthly record
-    alert('✅ Time out recorded at ' + timeStr.substring(0, 5));
+    flashLatestRecord();
+    setButtonBusy(btn, false);
+    showToast('Time out recorded at ' + timeStr.substring(0, 5), 'success');
   } catch (e) {
-    alert('Error recording time out: ' + e.message);
+    showToast('Error recording time out: ' + e.message, 'error', 3200);
+    setButtonBusy(btn, false);
     btn.disabled = false;
   }
 });
