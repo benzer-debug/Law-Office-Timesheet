@@ -434,48 +434,179 @@
         /* Manager Dashboard Styles */
         .manager-section {
             background: linear-gradient(135deg, #1a2b4d 0%, #2a3f5f 100%);
-            border-radius: 12px;
-            padding: 2rem;
+            border-radius: 14px;
+            padding: 1.5rem;
             margin-bottom: 2rem;
             color: #ffffff;
-            box-shadow: 0 8px 24px rgba(26, 43, 77, 0.2);
+            box-shadow: 0 10px 26px rgba(26, 43, 77, 0.22);
         }
 
         .manager-header {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
+            justify-content: space-between;
             gap: 1rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             border-bottom: 2px solid #d4af37;
             padding-bottom: 1rem;
         }
 
+        .manager-header-main {
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+        }
+
         .manager-header i {
-            font-size: 2rem;
+            font-size: 1.7rem;
             color: #d4af37;
         }
 
         .manager-header h2 {
-            font-size: 1.8rem;
+            font-size: 1.45rem;
             margin: 0;
             font-family: 'Playfair Display', serif;
         }
 
-        .employee-list-item {
-            background: rgba(255, 255, 255, 0.05);
-            border-left: 3px solid #d4af37;
-            padding: 1rem;
+        .manager-header p {
+            margin: 0.2rem 0 0;
+            font-size: 0.9rem;
+            color: #d5deeb;
+        }
+
+        .manager-toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
             margin-bottom: 1rem;
+            align-items: center;
+        }
+
+        .manager-toolbar .pdf-button {
+            margin: 0;
+        }
+
+        .manager-search {
+            min-width: 250px;
+            max-width: 360px;
+            background: rgba(255, 255, 255, 0.14);
+            border: 1px solid rgba(212, 175, 55, 0.6);
+            color: #ffffff;
+        }
+
+        .manager-search::placeholder {
+            color: #d1d5db;
+        }
+
+        .manager-kpis {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .manager-kpi {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            border-radius: 10px;
+            padding: 0.8rem 0.9rem;
+        }
+
+        .manager-kpi-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #cbd5e1;
+            margin-bottom: 0.35rem;
+            font-weight: 600;
+        }
+
+        .manager-kpi-value {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: #f8fafc;
+            line-height: 1;
+        }
+
+        .team-list-shell {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            border-radius: 10px;
+            padding: 0.8rem;
+        }
+
+        .team-list-header {
+            display: grid;
+            grid-template-columns: 1.6fr 1fr;
+            gap: 0.8rem;
+            padding: 0.55rem 0.75rem;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.35);
+            margin-bottom: 0.7rem;
+            font-size: 0.78rem;
+            color: #d1d5db;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 700;
+        }
+
+        .team-list-header > div:last-child {
+            text-align: right;
+        }
+
+        .employee-list-item {
+            background: rgba(255, 255, 255, 0.08);
+            border-left: 3px solid #d4af37;
+            padding: 0.85rem;
+            margin-bottom: 0.65rem;
             border-radius: 8px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: all 0.3s ease;
+            transition: background-color 0.2s ease, border-color 0.2s ease;
         }
 
         .employee-list-item:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateX(5px);
+            background: rgba(255, 255, 255, 0.14);
+            border-left-color: #f3cc58;
+        }
+
+        .current-account-section {
+            background: rgba(34, 211, 238, 0.08);
+            border: 1px solid rgba(34, 211, 238, 0.45);
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .current-account-label {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            color: #22d3ee;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .current-account-card {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .current-account-info .ca-name {
+            font-weight: 700;
+            font-size: 1rem;
+            color: #f8fafc;
+        }
+
+        .current-account-info .ca-email {
+            font-size: 0.84rem;
+            color: #94a3b8;
+            margin-top: 0.1rem;
+        }
+
+        .current-account-info .ca-role {
+            margin-top: 0.35rem;
         }
 
         .employee-info {
@@ -489,8 +620,8 @@
         }
 
         .employee-email {
-            font-size: 0.9rem;
-            color: #b8aaa0;
+            font-size: 0.86rem;
+            color: #d8e1ec;
             margin-bottom: 0.25rem;
         }
 
@@ -523,17 +654,20 @@
             display: flex;
             gap: 0.5rem;
             align-items: center;
+            justify-content: flex-end;
+            flex-wrap: wrap;
         }
 
         .role-select {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.14);
             border: 1px solid #d4af37;
             color: #ffffff;
-            padding: 0.5rem 0.75rem;
+            padding: 0.42rem 0.7rem;
             border-radius: 6px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s ease;
+            min-width: 130px;
         }
 
         .role-select:hover {
@@ -549,13 +683,14 @@
             background: #d4af37;
             color: #1a2b4d;
             border: none;
-            padding: 0.5rem 1rem;
+            padding: 0.45rem 0.75rem;
             border-radius: 6px;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.2s ease;
-            font-size: 0.85rem;
+            font-size: 0.76rem;
             text-transform: uppercase;
+            letter-spacing: 0.4px;
         }
 
         .update-role-btn:hover {
@@ -564,11 +699,20 @@
             box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
         }
 
+        .danger-action-btn {
+            background-color: #dc3545 !important;
+            border-color: #dc3545 !important;
+            color: #ffffff;
+        }
+
         .no-employees {
             text-align: center;
             padding: 2rem;
-            color: #b8aaa0;
-            font-style: italic;
+            color: #d8e1ec;
+            font-style: normal;
+            border: 1px dashed rgba(212, 175, 55, 0.4);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
         }
 
         /* Employee Records Modal */
@@ -772,6 +916,28 @@
         }
 
         @media (max-width: 992px) {
+            .manager-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .manager-toolbar {
+                width: 100%;
+            }
+
+            .manager-search {
+                max-width: 100%;
+                width: 100%;
+            }
+
+            .manager-kpis {
+                grid-template-columns: 1fr;
+            }
+
+            .team-list-header {
+                display: none;
+            }
+
             .employee-list-item {
                 flex-direction: column;
                 align-items: flex-start;
@@ -1174,21 +1340,54 @@
     <div id="managerDashboard" style="display: none;">
         <div class="manager-section">
             <div class="manager-header">
-                <i class="fas fa-users-cog"></i>
-                <div>
-                    <h2>Team Management</h2>
-                    <p style="margin: 0; font-size: 0.9rem; color: #b8aaa0;">View and manage your team members</p>
+                <div class="manager-header-main">
+                    <i class="fas fa-users-cog"></i>
+                    <div>
+                        <h2>Team Administration Console</h2>
+                        <p>Review team accounts, inspect records, and manage role access in one place.</p>
+                    </div>
                 </div>
             </div>
-            
-            <div style="margin-bottom: 1.5rem;">
+
+            <div class="manager-toolbar">
                 <button class="pdf-button" onclick="loadTeamMembers()" style="background: #d4af37; color: #1a2b4d;">
                     <i class="fas fa-sync-alt"></i> Refresh Team Members
                 </button>
+                <input type="text" id="teamSearchInput" class="form-control manager-search" placeholder="Search by name or email..." oninput="loadTeamMembers()">
             </div>
 
-            <div id="teamMembersContainer">
-                <div class="no-employees">Loading team members...</div>
+            <div class="manager-kpis">
+                <div class="manager-kpi">
+                    <div class="manager-kpi-label">Total Team Members</div>
+                    <div id="managerTotalMembers" class="manager-kpi-value">0</div>
+                </div>
+                <div class="manager-kpi">
+                    <div class="manager-kpi-label">Employees</div>
+                    <div id="managerEmployeeCount" class="manager-kpi-value">0</div>
+                </div>
+                <div class="manager-kpi">
+                    <div class="manager-kpi-label">Managers/Admins</div>
+                    <div id="managerPrivilegedCount" class="manager-kpi-value">0</div>
+                </div>
+            </div>
+
+            <div class="current-account-section">
+                <div class="current-account-label"><i class="fas fa-user-circle" style="margin-right: 0.4rem;"></i>Logged-in Account</div>
+                <div id="currentAccountCard" class="current-account-card">
+                    <div class="current-account-info">
+                        <div class="ca-name">Loading...</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="team-list-shell">
+                <div class="team-list-header">
+                    <div>Member Details</div>
+                    <div>Actions</div>
+                </div>
+                <div id="teamMembersContainer">
+                    <div class="no-employees">Loading team members...</div>
+                </div>
             </div>
         </div>
     </div>
@@ -1247,7 +1446,7 @@
     <!-- Daily Logs Table Section -->
     <div class="card p-4 mb-4" style="margin-bottom: 2rem;">
         <h5 class="section-header mb-4"><i class="fas fa-calendar-check"></i> Daily Logs</h5>
-        
+
         <div style="background-color: #f8f9fa; border-left: 4px solid #d4af37; padding: 1rem; border-radius: 6px; margin-bottom: 1.5rem;">
             <h6 style="color: #1a2b4d; font-weight: 700; margin-bottom: 0.5rem;">Break Time Calculation Rule:</h6>
             <p style="color: #666; margin: 0; font-size: 0.9rem;">
@@ -3596,37 +3795,89 @@
             let teamMembers = [];
             snapshot.forEach(doc => {
                 const data = doc.data();
-                if (doc.id !== user.uid) { // Don't show yourself
-                    teamMembers.push({
-                        uid: doc.id,
-                        ...data
-                    });
-                }
+                teamMembers.push({
+                    uid: doc.id,
+                    ...data
+                });
             });
 
-            // Sort by name
-            teamMembers.sort((a, b) => (a.fullName || '').localeCompare(b.fullName || ''));
+            // Sort with current logged-in account pinned on top, then by role, then by name
+            // Extract current logged-in user and render their dedicated card
+            const currentUserData = teamMembers.find(m => m.uid === user.uid);
+            teamMembers = teamMembers.filter(m => m.uid !== user.uid);
+
+            const currentAccountCard = document.getElementById('currentAccountCard');
+            if (currentAccountCard && currentUserData) {
+                const curRole = currentUserData.role || 'employee';
+                const curRoleLabel = curRole.replace(/(^\w|\s\w)/g, c => c.toUpperCase());
+                const curAccessBadge = curRole === 'admin'
+                    ? '<span class="badge bg-danger text-light fw-bold" style="margin-left: 8px;">Admin Access</span>'
+                    : (curRole === 'manager'
+                        ? '<span class="badge bg-warning text-dark fw-bold" style="margin-left: 8px;">Manager Access</span>'
+                        : '');
+                currentAccountCard.innerHTML = `
+                    <div class="current-account-info">
+                        <div class="ca-name">${currentUserData.fullName || 'N/A'}${curAccessBadge}</div>
+                        <div class="ca-email">${currentUserData.email || 'N/A'}</div>
+                        <div class="ca-role"><span class="employee-role role-${curRole}">${curRoleLabel}</span></div>
+                    </div>
+                `;
+            }
+
+            const rolePriority = { admin: 0, manager: 1, employee: 2 };
+            teamMembers.sort((a, b) => {
+                const aRole = a.role || 'employee';
+                const bRole = b.role || 'employee';
+                const roleCompare = (rolePriority[aRole] ?? 99) - (rolePriority[bRole] ?? 99);
+                if (roleCompare !== 0) return roleCompare;
+                return (a.fullName || '').localeCompare(b.fullName || '');
+            });
+
+            const searchValue = (document.getElementById('teamSearchInput')?.value || '').trim().toLowerCase();
+            if (searchValue) {
+                teamMembers = teamMembers.filter(member => {
+                    const fullName = (member.fullName || '').toLowerCase();
+                    const email = (member.email || '').toLowerCase();
+                    return fullName.includes(searchValue) || email.includes(searchValue);
+                });
+            }
+
+            const totalMembers = teamMembers.length;
+            const employeeCount = teamMembers.filter(member => (member.role || 'employee') === 'employee').length;
+            const privilegedCount = totalMembers - employeeCount;
+
+            const totalMembersEl = document.getElementById('managerTotalMembers');
+            const employeeCountEl = document.getElementById('managerEmployeeCount');
+            const privilegedCountEl = document.getElementById('managerPrivilegedCount');
+            if (totalMembersEl) totalMembersEl.textContent = String(totalMembers);
+            if (employeeCountEl) employeeCountEl.textContent = String(employeeCount);
+            if (privilegedCountEl) privilegedCountEl.textContent = String(privilegedCount);
 
             const container = document.getElementById('teamMembersContainer');
             if (teamMembers.length === 0) {
-                container.innerHTML = '<div class="no-employees">No team members found</div>';
+                container.innerHTML = '<div class="no-employees">No matching team members found.</div>';
                 return;
             }
 
             container.innerHTML = '';
             teamMembers.forEach(member => {
                 const roleClass = `role-${member.role || 'employee'}`;
-                const managerBadge = member.role === 'manager' || member.role === 'admin' ? '<span class="badge bg-warning text-dark fw-bold" style="margin-left: 8px;"><i class="fas fa-star" style="margin-right: 4px;"></i>Manager</span>' : '';
+                const roleLabel = (member.role || 'employee').replace(/(^\w|\s\w)/g, (char) => char.toUpperCase());
+                const accessBadge = member.role === 'admin'
+                    ? '<span class="badge bg-danger text-light fw-bold" style="margin-left: 8px;">Admin Access</span>'
+                    : (member.role === 'manager'
+                        ? '<span class="badge bg-warning text-dark fw-bold" style="margin-left: 8px;">Manager Access</span>'
+                        : '');
                 const html = `
                     <div class="employee-list-item">
                         <div class="employee-info">
-                            <div class="employee-name">${member.fullName || 'N/A'}${managerBadge}</div>
+                            <div class="employee-name">${member.fullName || 'N/A'}${accessBadge}</div>
                             <div class="employee-email">${member.email || 'N/A'}</div>
-                            <span class="employee-role ${roleClass}">${member.role || 'employee'}</span>
+                            <span class="employee-role ${roleClass}">${roleLabel}</span>
                         </div>
                         <div class="employee-actions">
                             <button class="update-role-btn" onclick="viewEmployeeRecords('${member.uid}', '${member.fullName || 'N/A'}')">
-                                <i class="fas fa-eye"></i> View Records
+                                <i class="fas fa-eye"></i> Records
                             </button>
                             <select class="role-select" id="role-${member.uid}" onchange="this.dataset.changed = true">
                                 <option value="employee" ${(member.role || 'employee') === 'employee' ? 'selected' : ''}>Employee</option>
@@ -3636,7 +3887,7 @@
                             <button class="update-role-btn" onclick="updateUserRole('${member.uid}', document.getElementById('role-${member.uid}').value)">
                                 <i class="fas fa-save"></i> Update
                             </button>
-                            <button class="update-role-btn" style="background-color: #dc3545; border-color: #dc3545;" onclick="deleteEmployeeAccount('${member.uid}', '${member.fullName || 'N/A'}')">
+                            <button class="update-role-btn danger-action-btn" onclick="deleteEmployeeAccount('${member.uid}', '${member.fullName || 'N/A'}')">
                                 <i class="fas fa-trash"></i> Delete
                             </button>
                         </div>
@@ -3849,6 +4100,8 @@
                 message: 'Please wait while we fetch the employee records...'
             });
 
+            await syncMonthlyRecordsForUser(employeeUid);
+
             // Fetch employee's daily logs
             const logsRef = collection(db, 'daily_logs');
             const snapshot = await getDocs(logsRef);
@@ -4012,6 +4265,24 @@
                 </div>
 
                 <h5 class="section-header mb-4"><i class="fas fa-calendar-check"></i> Daily Time Records</h5>
+                <div class="row g-2 mb-3 align-items-end">
+                    <div class="col-md-3">
+                        <label for="empDailyLogsStart" class="form-label fw-bold">Start Date</label>
+                        <input type="date" id="empDailyLogsStart" class="form-control">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="empDailyLogsEnd" class="form-label fw-bold">End Date</label>
+                        <input type="date" id="empDailyLogsEnd" class="form-control">
+                    </div>
+                    <div class="col-md-6 d-flex gap-2">
+                        <button class="btn btn-primary" onclick="applyEmployeeDailyLogsFilter()">
+                            <i class="fas fa-filter"></i> Apply Filter
+                        </button>
+                        <button class="btn btn-outline-secondary" onclick="clearEmployeeDailyLogsFilter()">
+                            <i class="fas fa-rotate-left"></i> Clear
+                        </button>
+                    </div>
+                </div>
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped">
                         <thead style="background: linear-gradient(90deg, #0b3d91 0%, #ffcc00 100%); color: #fff;">
@@ -4025,32 +4296,7 @@
                                 <th>Notes</th>
                             </tr>
                         </thead>
-                        <tbody>
-        `;
-
-        if (logs.length === 0) {
-            recordsHTML += '<tr><td colspan="7" class="text-center text-muted">No time records found</td></tr>';
-        } else {
-            logs.forEach(log => {
-                const totalHours = calculateTotalHours(log.timeIn, log.timeOut);
-                const breakTime = getBreakTimeDisplay(log.timeIn, log.timeOut);
-                const hoursRendered = calculateHoursRendered(log.timeIn, log.timeOut);
-                
-                recordsHTML += `
-                    <tr>
-                        <td>${log.date}</td>
-                        <td>${log.timeIn || 'N/A'}</td>
-                        <td>${log.timeOut || 'N/A'}</td>
-                        <td><strong>${totalHours.toFixed(2)}</strong></td>
-                        <td style="background-color: #fff3cd;"><strong>${breakTime}</strong></td>
-                        <td style="background-color: #d4f1d4;"><strong>${hoursRendered}</strong></td>
-                        <td>${log.notes || '-'}</td>
-                    </tr>
-                `;
-            });
-        }
-
-        recordsHTML += `
+                        <tbody id="employeeDailyLogsTableBody">
                         </tbody>
                     </table>
                 </div>
@@ -4142,6 +4388,8 @@
         `;
 
         body.innerHTML = recordsHTML;
+        window.employeeDailyLogsCache = Array.isArray(logs) ? [...logs] : [];
+        renderEmployeeDailyLogs(window.employeeDailyLogsCache);
         window.employeeTimesheetRecordsCache = Array.isArray(timesheets) ? [...timesheets] : [];
         renderEmployeeTimesheetRecords(window.employeeTimesheetRecordsCache);
         modal.classList.add('show');
@@ -4150,6 +4398,56 @@
     window.closeEmployeeRecordsModal = () => {
         const modal = document.getElementById('employeeRecordsModal');
         modal.classList.remove('show');
+    };
+
+    window.renderEmployeeDailyLogs = (logsToRender = []) => {
+        const tableBody = document.getElementById('employeeDailyLogsTableBody');
+        if (!tableBody) return;
+        if (logsToRender.length === 0) {
+            tableBody.innerHTML = '<tr><td colspan="7" class="text-center text-muted">No time records found for the selected period.</td></tr>';
+            return;
+        }
+        const calcTotal = (timeIn, timeOut) => {
+            if (!timeIn || !timeOut) return 0;
+            const [ih, im] = timeIn.split(':').map(Number);
+            const [oh, om] = timeOut.split(':').map(Number);
+            return Math.max(0, ((oh * 60 + om) - (ih * 60 + im)) / 60);
+        };
+        tableBody.innerHTML = logsToRender.map(log => {
+            const totalHours = calcTotal(log.timeIn, log.timeOut);
+            const breakTime = totalHours > 5 ? 1 : 0;
+            const hoursRendered = Math.max(0, totalHours - breakTime).toFixed(2);
+            return `
+                <tr>
+                    <td>${log.date}</td>
+                    <td>${log.timeIn || 'N/A'}</td>
+                    <td>${log.timeOut || 'N/A'}</td>
+                    <td><strong>${totalHours.toFixed(2)}</strong></td>
+                    <td style="background-color: #fff3cd;"><strong>${breakTime}</strong></td>
+                    <td style="background-color: #d4f1d4;"><strong>${hoursRendered}</strong></td>
+                    <td>${log.notes || '-'}</td>
+                </tr>`;
+        }).join('');
+    };
+
+    window.applyEmployeeDailyLogsFilter = () => {
+        const start = document.getElementById('empDailyLogsStart')?.value || '';
+        const end = document.getElementById('empDailyLogsEnd')?.value || '';
+        const all = window.employeeDailyLogsCache || [];
+        const filtered = all.filter(log => {
+            if (start && log.date < start) return false;
+            if (end && log.date > end) return false;
+            return true;
+        });
+        renderEmployeeDailyLogs(filtered);
+    };
+
+    window.clearEmployeeDailyLogsFilter = () => {
+        const s = document.getElementById('empDailyLogsStart');
+        const e = document.getElementById('empDailyLogsEnd');
+        if (s) s.value = '';
+        if (e) e.value = '';
+        renderEmployeeDailyLogs(window.employeeDailyLogsCache || []);
     };
 
     window.renderEmployeeTimesheetRecords = (timesheets = []) => {
@@ -4328,7 +4626,7 @@
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
   import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-analytics.js";
   import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
-  import { getFirestore, doc, setDoc, getDoc, collection, query, where, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, getDoc, collection, query, where, getDocs, deleteDoc, addDoc } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
   // TODO: Add SDKs for Firebase products that you want to use
   // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -4366,8 +4664,125 @@
   window.where = where;
   window.getDocs = getDocs;
   window.deleteDoc = deleteDoc;
+  window.addDoc = addDoc;
 
   window.userLoggedInThisSession = false;
+
+  // Silently create missing weekday daily_logs (08:00–17:00) for Jan 1 – Mar 15
+  // of the current year every time an employee logs in.
+  async function autoBackfillHistoricalLogs(uid) {
+    try {
+      const currentYear = String(new Date().getFullYear());
+      const startDate = `${currentYear}-01-01`;
+      const endDate   = `${currentYear}-03-15`;
+
+      const logsRef = collection(db, 'daily_logs');
+      // Use a single-field query (no composite index required) and filter dates client-side
+      const uidQuery = query(logsRef, where('uid', '==', uid));
+      const snap = await getDocs(uidQuery);
+
+      const existingDates = new Set();
+      snap.forEach((d) => {
+        const date = d.data().date;
+        if (date >= startDate && date <= endDate) existingDates.add(date);
+      });
+
+      const weekdays = [];
+      const cursor = new Date(`${startDate}T00:00:00Z`);
+      const last   = new Date(`${endDate}T00:00:00Z`);
+      while (cursor <= last) {
+        const day = cursor.getUTCDay();
+        if (day >= 1 && day <= 5) {
+          weekdays.push(cursor.toISOString().split('T')[0]);
+        }
+        cursor.setUTCDate(cursor.getUTCDate() + 1);
+      }
+
+      for (const dateStr of weekdays) {
+        if (existingDates.has(dateStr)) continue;
+        await addDoc(logsRef, {
+          uid,
+          userId: uid,
+          date:   dateStr,
+          timeIn: '08:00',
+          timeOut: '17:00',
+          note:   '',
+          createdAt: new Date(),
+          updatedAt: new Date()
+        });
+      }
+    } catch (err) {
+      // Silent – never disrupt the normal login flow
+      console.warn('autoBackfillHistoricalLogs:', err);
+    }
+  }
+
+    async function syncMonthlyRecordsForUser(uid) {
+        try {
+            const logsRef = collection(db, 'daily_logs');
+            const uidQuery = query(logsRef, where('uid', '==', uid));
+            const snap = await getDocs(uidQuery);
+            const monthlyBuckets = new Map();
+
+            const parseTimeValueToMinutes = (value) => {
+                if (typeof value !== 'string') return null;
+                const match = value.match(/^([01]\d|2[0-3]):([0-5]\d)/);
+                if (!match) return null;
+                return Number(match[1]) * 60 + Number(match[2]);
+            };
+
+            snap.forEach((docSnap) => {
+                const data = docSnap.data();
+                if (typeof data.date !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(data.date)) return;
+                if (!data.timeIn || !data.timeOut) return;
+
+                const inMinutes = parseTimeValueToMinutes(data.timeIn);
+                const outMinutes = parseTimeValueToMinutes(data.timeOut);
+                if (inMinutes === null || outMinutes === null || outMinutes <= inMinutes) return;
+
+                const durationHours = (outMinutes - inMinutes) / 60;
+                const netHours = Math.max(0, durationHours > 5 ? durationHours - 1 : durationHours);
+                const year = Number(data.date.slice(0, 4));
+                const month = data.date.slice(5, 7);
+                const monthKey = `${year}-${month}`;
+
+                if (!monthlyBuckets.has(monthKey)) {
+                    monthlyBuckets.set(monthKey, {
+                        year,
+                        month,
+                        totalHours: 0,
+                        daysWorked: 0
+                    });
+                }
+
+                const bucket = monthlyBuckets.get(monthKey);
+                bucket.totalHours += netHours;
+                bucket.daysWorked += 1;
+            });
+
+            if (monthlyBuckets.size === 0) return;
+
+            await Promise.all(
+                Array.from(monthlyBuckets.entries()).map(([monthKey, bucket]) => {
+                    const monthlyDocId = `${uid}_${monthKey}`;
+                    return setDoc(doc(db, 'monthly_records', monthlyDocId), {
+                        uid,
+                        userId: uid,
+                        month: bucket.month,
+                        year: bucket.year,
+                        monthKey,
+                        totalHours: parseFloat(bucket.totalHours.toFixed(2)),
+                        totalSalary: 0,
+                        daysWorked: bucket.daysWorked,
+                        updatedAt: new Date(),
+                        lastAutoSave: new Date()
+                    }, { merge: true });
+                })
+            );
+        } catch (err) {
+            console.warn('syncMonthlyRecordsForUser:', err);
+        }
+    }
 
   // Auth state listener
   onAuthStateChanged(auth, (user) => {
@@ -4444,6 +4859,9 @@
         document.getElementById('employeeTimesheetSection').style.display = 'block';
         document.getElementById('employeeInfoNote').style.display = 'block';
         document.getElementById('employeeActionBar').style.display = 'flex';
+        // Auto-create missing historical records silently on every login
+        await autoBackfillHistoricalLogs(uid);
+                await syncMonthlyRecordsForUser(uid);
       }
     }
     // Load daily logs when employee data is loaded
@@ -4456,8 +4874,10 @@
     if (!user) return;
     
     try {
-      const startDateInput = document.getElementById('startDate').value;
-      const endDateInput = document.getElementById('endDate').value;
+            const now = new Date();
+            const utcTime = now.getTime() + now.getTimezoneOffset() * 60000;
+            const phTime = new Date(utcTime + 8 * 60 * 60 * 1000);
+            const currentMonthKey = `${phTime.getFullYear()}-${String(phTime.getMonth() + 1).padStart(2, '0')}`;
       
       // Fetch all daily_logs without where clause to avoid permission issues
       const logsRef = collection(db, 'daily_logs');
@@ -4466,23 +4886,14 @@
       let records = [];
       snap.forEach(doc => {
         const data = doc.data();
-        // Filter client-side to only user's records
-        if (data.uid === user.uid) {
+                                if (data.uid !== user.uid || typeof data.date !== 'string') {
+                                        return;
+                                }
+
+                                if (data.date.startsWith(currentMonthKey)) {
           records.push(data);
         }
       });
-      
-      // Filter by date range if provided
-      if (startDateInput || endDateInput) {
-        records = records.filter(record => {
-          const recordDate = record.date; // Format: YYYY-MM-DD in PH timezone
-          
-          if (startDateInput && recordDate < startDateInput) return false;
-          if (endDateInput && recordDate > endDateInput) return false;
-          
-          return true;
-        });
-      }
       
       // Sort by date ascending
       records.sort((a, b) => a.date.localeCompare(b.date));
@@ -4557,13 +4968,7 @@
     }
   };
 
-  // Add event listeners to refresh table when dates change
-  document.getElementById('startDate').addEventListener('change', () => {
-    loadDailyLogs();
-  });
-  document.getElementById('endDate').addEventListener('change', () => {
-    loadDailyLogs();
-  });
+
 </script>
 </body>
 </html>
